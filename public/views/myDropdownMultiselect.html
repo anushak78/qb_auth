@@ -1,0 +1,25 @@
+<div class="btn-group" style="padding:5px;">
+  <button type="button" id="multiselectOptions" class="btn btn-default dropdown-toggle " data-toggle="dropdown">
+    <b>{{name}}</b>
+    <span class="caret"></span>
+  </button>
+  <div class="dropdown-menu">
+    <div style="padding-left:10px;">
+      <span><input type="button" class="btn btn-primary btn-xs" value="Select All" ng-click="checkAll()"></span>
+    </div>
+    <div style="padding-top:5px; padding-left:10px;">
+      <input type="button" class="btn btn-primary btn-xs" value="Remove All" ng-click="removeAll()">
+    </div>
+    <div class="divider"></div>
+    <li ng-repeat="column in options" style="padding-left:10px;">
+      <input class="checkboxInput" ng-model="column.checked" type="checkbox"> {{column.module_name}}
+    </li>
+  </div>
+</div>
+
+<style type="text/css">
+  .checkboxInput {
+    background: red !important;
+
+  }
+</style>

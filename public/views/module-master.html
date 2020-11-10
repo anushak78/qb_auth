@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QB Authoring Tool</title>
+
+  <script src="/js/select2.min.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <div class="logo">
+            <a class=""><img src="/assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a ng-if="role == 'SUADM'" ui-sref="SuperAdminDashboard">Dashboard</a></li>
+              <li><a ng-if="role == 'ADM'" ui-sref="adminDashboard">Dashboard</a></li>
+              <li><a ui-sref="qp_repository">Question Bank</a></li>
+              <li><a ui-sref="publishedExams">Published Exam</a></li>
+              <li class="dropdown">
+                <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Exam Management <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="active" style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Masters <span class="caret"></span></a>
+
+
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="courseMaster">Course Master</a></li>
+                  <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                  <li><a ui-sref="moduleMaster">Module Master</a></li>
+                  <li><a ui-sref="topicMaster">Unit Master</a></li>
+                  <li><a ui-sref="examMaster">Exam Master</a></li>
+                  <li><a ui-sref="userMaster">User Master</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <div class="container">
+      <h3 class="common_heading">Module Master</h3>
+      <div class="topmargin" style="min-height: 450px;">
+        <div class="well">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label>Subject Name</label><span style="color: red">*</span>
+                <select ng-model="selectedSubject" class="form-control selectpicker"
+                  ng-options="subject.qba_subject_code + ' - ' + subject.subject_name for subject in subjectList track by subject.qba_subject_pk">
+                  <option value="">Select Subject</option>
+
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label>Module Name</label>
+                <input type="text" class="form-control" ng-model="moduleName">
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row addUpadateRow">
+            <div class="col-md-6" style="margin-top: 10px;">
+              <input type="submit" value="Search" ng-model="topicName" class="btn btn-success"
+                ng-click="searchModule()">
+              <button class="btn btn-success" data-toggle="modal" ng-click="resetModule()"
+                data-target="#addModule">Add</button>
+              <input type="submit" value="Reset" class="btn btn-success" ng-click="resetModule()">
+
+            </div>
+          </div>
+        </div>
+
+
+        <div ng-show="moudleList.length > 0">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Sr.No</th>
+                <th>Module Name</th>
+                <th>Subject Name</th>
+                <th>Is Active</th>
+                <th>Created By</th>
+                <th>Created Date</th>
+                <th>Updated By</th>
+                <th>Updated Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="module in moudleList">
+                <td>{{$index+1}}</td>
+                <td>{{module.module_name}}</td>
+                <td>{{module.qba_subject_code}} - {{module.subject_name}}</td>
+                <td>{{module.is_active}}</td>
+                <td>{{module.audit_by}}</td>
+                <td>{{module.audit_dt | date : "dd.MM.y h:mm:ss a"}} </td>
+                <td>{{module.updated_by}}</td>
+                <td>{{module.updated_dt | date : "dd.MM.y h:mm:ss a"}} </td>
+                <td><button type="button" data-toggle="modal" data-target="#updateModule" class="btn btn-default"
+                    ng-click="editModule(module)" aria-label="Left Align">
+                    <a class="glyphicon glyphicon-pencil" aria-hidden="true" href="" style="color: #666 !important"></a>
+                  </button>
+                  <button type="button" data-toggle="modal" data-target="#deleteModule" class="btn btn-default"
+                    ng-click="deleteModule(module)" aria-label="Left Align">
+                    <a class="glyphicon glyphicon-trash" aria-hidden="true" href="" style="color: #666 !important"></a>
+                  </button>
+                </td>
+              </tr>
+              <tr ng-if="topicList.length == 0">
+                <td colspan="5">No records found.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="updateModule" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content popUpbox">
+            <div class="modal-header">
+              <button type="button" class="close" ng-click="resetFields()" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Edit Module</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <ul ng-show="updateModuleError_msg.length > 0" class="errormesg errorMessage">
+                  <li ng-repeat="error in updateModuleError_msg">{{error}}</li>
+                </ul>
+              </div>
+              <div class="form-group">
+                <label>Subject Name</label><span style="color: red">*</span>
+                <select ng-model="selectedSubject" class="form-control selectpicker"
+                  ng-options="subject.subject_name for subject in subjectList track by subject.qba_subject_pk">
+                  <option value="">Select Subject</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Module Name</label><span style="color: red">*</span>
+                <input type="text" class="form-control" ng-model="moduleName">
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btnGreen" id="updatebtn" ng-click="updateModule()">Update</button>
+                <button type="button" class="btn btn-default" ng-click="resetFields()"
+                  data-dismiss="modal">Cancel</button>
+                <ul class="errmsg redcolor" ng-show="error_msg.length > 0">
+                  <li ng-repeat="err in error_msg">{{err}}</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+      <div id="deleteModule" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content popUpbox">
+            <div class="modal-header">
+              <button type="button" class="close" ng-click="resetModule()" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Delete Module</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Do you want to Delete the selected Module?</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btnGreen" ng-click="removeModule()" data-dismiss="modal">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="addModule" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content popUpbox">
+            <div class="modal-header">
+              <button type="button" class="close" ng-click="resetModule()" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add Module</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Subject Name</label><span style="color: red">*</span>
+                <select ng-model="selectedSubject" class="form-control selectpicker"
+                  ng-options="subject.subject_name for subject in subjectList">
+                  <option value="">Select Subject</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Module Name</label><span style="color: red">*</span>
+                <input type="text" class="form-control" ng-model="moduleName">
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btnGreen" id="savebtn" ng-click="saveModule()">Save</button>
+                <button type="button" class="btn btn-default" ng-click="resetModule()">Reset</button>
+                <ul class="errmsg redcolor" ng-show="error_msg.length > 0">
+                  <li ng-repeat="err in error_msg">{{err}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Body section -->
+
+      <div class="cd-popup" role="alert">
+        <div class="cd-popup-container">
+          <div style="height: 50px; background: #40403d; "> </div>
+          <p ng-bind="successMsg"></p>
+          <div style="padding: 10px;">
+            <button type="button" class="btn btn-success" style="width: 100px;" ng-click="closeFunction()">Ok</button>
+          </div>
+          <a style="cursor: pointer" ng-click="closeFunction()" class="cd-popup-close img-replace">Close</a>
+
+        </div>
+      </div>
+
+      <div class="footer">
+        <footer>
+          <div class="container ">
+            <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+        </footer>
+      </div>
+
+</body>
+
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>QB Authoring Tool</title>
+  <script type="text/javascript">
+    //FOR USER NAME IS LOWER CASE  
+    function lowercaseUsername(e) {
+      e.target.value = e.target.value.toLowerCase();
+    } 
+  </script>
+</head>
+
+<body>
+
+
+  <div class="wrapper">
+    <!-- header section -->
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <!-- Logo -->
+          <div class="logo">
+            <a class=""><img src="/assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <!-- #logo end -->
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <!-- <li><a href="#">Another action</a></li> -->
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a ng-if="role == 'SUADM'" ui-sref="SuperAdminDashboard">Dashboard</a></li>
+              <li><a ng-if="role == 'ADM'" ui-sref="adminDashboard">Dashboard</a></li>
+              <li><a ui-sref="qp_repository">Question Bank</a></li>
+              <li><a ui-sref="publishedExams">Published Exam</a></li>
+              <li class="dropdown"> <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown"
+                  role="button" aria-expanded="false">Exam Management <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a style="cursor: pointer;" class="active dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Masters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="courseMaster">Course Master</a></li>
+                  <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                  <li><a ui-sref="moduleMaster">Module Master</a></li>
+                  <li><a ui-sref="topicMaster">Unit Master</a></li>
+                  <li><a ui-sref="examMaster">Exam Master</a></li>
+                  <li><a ui-sref="userMaster">User Master</a></li>
+
+                </ul>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+
+    </header>
+
+    <div class="container">
+      <div class="row">
+
+
+        <div class="container">
+          <div class="col-md-12">
+            <h3 class="common_heading">User Master</h3>
+          </div>
+
+          <div class="col-sm-12">
+            <div class="well">
+              <div class="row">
+                <form>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Username</label>
+                      <input type="text" class="form-control" ng-model="userName" />
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>First Name</label>
+                      <input type="text" class="form-control" ng-model="firstName" onpaste="return false;" />
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Last Name</label>
+                      <input type="text" class="form-control" ng-model="lastName" />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Address</label>
+                      <input type="text" class="form-control" ng-model="userAddress" />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Email Address</label>
+                      <input type="text" class="form-control" ng-model="userEmailaddress" />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Mobile No.</label>
+                      <input type="text" class="form-control" ng-model="userMobileno" />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>User Role</label>
+                      <select ng-options="user.role_name for user in userRoleList track by user.role_pk"
+                        ng-model="selectedUserrole" class="form-control selectpicker">
+                        <option value="">Select Role</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label>&nbsp;&nbsp;</label>
+                    <div class="form-group">
+                      <button class="btn btn-success" ng-click="loadUsers()">Search</button>
+                      <button ng-click="resetFields()" class="btn btn-default">Reset</button>
+                      <button class="btn btn-success" data-toggle="modal" ng-click="resetFields()"
+                        data-target="#AddExamMaster">Add</button>
+                    </div>
+                  </div>
+
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+          <div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="col-sm-12">
+        <div ng-show="userList.length > 0">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Sr.No</th>
+                <th>Username</th>
+                <th>First name</th>
+                <th class="width80">Middle Name</th>
+                <th>Last Name</th>
+                <th class="width70">User Status</th>
+                <th>Address</th>
+                <th>Email Address</th>
+                <th>Mobile No.</th>
+                <th>User role</th>
+                <th class="width70">Created by</th>
+                <th>Created date</th>
+                <th>Updated By</th>
+                <th>Updated Date</th>
+                <th class="width70">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="user in userList">
+                <td>{{$index+1}}</td>
+                <td>{{user.user_id}}</td>
+                <td>{{user.first_name}}</td>
+                <td>{{user.middle_name}}</td>
+                <td>{{user.last_name}}</td>
+                <td ng-if="user.user_status=='A'">Active</td>
+                <td>{{user.address}}</td>
+                <td>{{user.email_id}}</td>
+                <td>{{user.mobile_no}}</td>
+                <td>{{user.role_name}}</td>
+                <td>{{user.audit_by}}</td>
+                <td>{{user.audit_dt | date:"dd/MM/yyyy h:mm:ss a" }}</td>
+                <td>{{user.updated_by}}</td>
+                <td>{{user.updated_dt | date : "dd.MM.y h:mm:ss a"}} </td>
+                <td class="actionbtn"><button title="Edit User" class="btn btn-default btn-sm"
+                    ng-click="selectedUser(user)" data-toggle="modal" data-target="#updateUserMaster"><span
+                      class="glyphicon glyphicon-pencil"></span></button>
+                  <button title="Delete Exam" class="btn btn-default btn-sm" ng-click="selectedUser(user)"
+                    data-toggle="modal" data-target="#deleteUser">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button></td>
+              </tr>
+              <tr ng-if="userList.length == 0">
+                <td colspan="13">No records found.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div id="updateUserMaster" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" ng-click="resetFields()" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Update User</h4>
+          </div>
+          <div class="modal-body overflowhidden">
+            <form name="form2">
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Username</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="userName" disabled="disabled" />
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Password</label><span style="color: red">*</span>
+                  <input type="password" class="form-control" ng-model="userPassword" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Confirm Password</label><span style="color: red">*</span>
+                  <input type="password" class="form-control" ng-model="confirmuserPassword" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>User Role</label><span style="color: red">*</span>
+                  <select ng-options="user.role_name for user in userRoleList track by user.role_pk"
+                    ng-model="selectedUserrole" class="form-control selectpicker">
+                    <option value="">Select Role</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4 clearboth">
+                <div class="form-group">
+                  <label>First Name</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="firstName" onpaste="return false;" />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Middle Name</label>
+                  <input type="text" class="form-control" ng-model="middleName" />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Last Name</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="lastName" />
+                </div>
+              </div>
+              <div class="col-md-12 clearboth">
+                <div class="form-group">
+                  <label>Address</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="userAddress" />
+                </div>
+              </div>
+              <div class="col-md-6 clearboth">
+                <div class="form-group">
+                  <label>Email Address</label><span style="color: red">*</span>
+                  <input type="email" name="email2" class="form-control" ng-model="userEmailaddress"
+                    ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Mobile No.</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="userMobileno" />
+                </div>
+              </div>
+
+              <div class="col-md-6 clearboth">
+                <div class="form-group">
+                  <button class="btn btn-success" ng-click="updateUser()" id="updateBtn">Update</button>
+                  <!-- data-dismiss="modal"-->
+                  <button ng-click="resetFields()" class="btn btn-default">Reset</button>
+                </div>
+                <span style="color: red;" ng-if="errorMessage">
+                  <ul class="errmsg">
+                    <li ng-repeat="updateerrmsg in responseMessage track by $index">
+                      {{updateerrmsg}}
+                    </li>
+                  </ul>
+                </span>
+                <span style="color: red">
+                  <ul class="errmsg">
+                    <li ng-show="form2.email2.$error.email">Enter valid email address</li>
+                    <li ng-show="form2.email2.$error.required">Enter email address</li>
+                  </ul>
+                </span>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="AddExamMaster" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" ng-click="resetFields()" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add User</h4>
+          </div>
+          <div class="modal-body overflowhidden">
+            <form name="form1">
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Username</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" id="userName" onkeyup="lowercaseUsername(event)"
+                    ng-model="userName" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Password</label><span style="color: red">*</span>
+                  <input type="password" class="form-control" ng-model="userPassword" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Confirm Password</label><span style="color: red">*</span>
+                  <input type="password" class="form-control" ng-model="confirmuserPassword" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>User Role</label><span style="color: red">*</span>
+                  <select ng-options="user.role_name for user in userRoleList track by user.role_pk"
+                    ng-model="selectedUserrole" class="form-control selectpicker">
+                    <option value="">Select Role</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4 clearboth">
+                <div class="form-group">
+                  <label>First Name</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="firstName" onpaste="return false;" />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Middle Name</label>
+                  <input type="text" class="form-control" ng-model="middleName" />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Last Name</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="lastName" />
+                </div>
+              </div>
+              <div class="col-md-12 clearboth">
+                <div class="form-group">
+                  <label>Address</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="userAddress" />
+                </div>
+              </div>
+              <div class="col-md-6 clearboth">
+                <div class="form-group">
+                  <label>Email Address</label><span style="color: red">*</span>
+                  <input type="email" name="email1" class="form-control" ng-model="userEmailaddress"
+                    ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Mobile No.</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="userMobileno" />
+                </div>
+              </div>
+
+              <div class="col-md-6 clearboth">
+                <div class="form-group">
+                  <button class="btn btn-success" ng-click="addUser()" id="savebtn">Save</button>
+                  <!-- data-dismiss="modal"-->
+                  <button ng-click="resetFields()" class="btn btn-default">Reset</button>
+                </div>
+                <span style="color: red;" ng-if="errorMessage">
+                  <ul class="errmsg">
+                    <li ng-repeat="errmsg in responseMessage">
+                      {{errmsg}}
+                    </li>
+                  </ul>
+                </span>
+                <span style="color: green;" ng-if="successMessage">
+                  {{responseMessage}}
+                </span>
+                <span style="color: red">
+                  <ul class="errmsg">
+                    <li ng-show="form1.email1.$error.email">Enter valid email address</li>
+                    <li ng-show="form1.email1.$error.required">Enter email address</li>
+                  </ul>
+                </span>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div id="deleteUser" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content popUpbox">
+          <div class="modal-header">
+            <button type="button" class="close" ng-click="resetFields()" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delete User</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Do you want to Delete the selected user?</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btnGreen" ng-click="deleteUser(user)" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  </div>
+
+  <!-- footer section -->
+  <div class="footer">
+    <footer>
+      <div class="container ">
+        <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Right Reserve </div>
+    </footer>
+  </div>
+
+</body>
+
+</html>

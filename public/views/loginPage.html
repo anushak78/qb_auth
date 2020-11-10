@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>QB Authoring Tool</title>
+
+  <!-- Bootstrap -->
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <script src="../js/jquery/dist/jquery.min.js"></script>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+
+
+
+
+
+
+</head>
+
+<body class="loginpageBg">
+
+  <!-- login page code start here -->
+  <div class=" loginpageBg">
+    <div class="form loginform">
+      <div class="loginHeader">Login</div>
+      <div class="formcontainer">
+        <form class="register-form">
+          <input type="text" placeholder="name" />
+          <input type="password" placeholder="password" />
+          <input type="text" placeholder="email address" />
+          <input type="button" onclick="location.href='coolingPage.html';" value="create">
+          <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>
+        <form class="login-form">
+          <label>Username</label>
+          <input ng-model="uname" type="text" tabindex="1" />
+          <label>Password</label>
+          <input ng-model="upassword" type="password" tabindex="2" />
+          <div class="text-left mBottom10"><input type="checkbox" tabindex="3"
+              style="display: inline; text-align: left; width: 7%;"> Keep me logged in</div>
+          <div class="row">
+            <div class="col-sm-6">
+              <input type="button" id="login" ng-click="validateLogin()" tabindex="4" value="login"
+                class="btn btn-green">
+            </div>
+
+            <!-- <a id="route" href="" onclick="return validateLogin()">
+    <button>login</button></a> -->
+            <div class="col-sm-6 text-left"><a href="#" tabindex="5" data-toggle="modal" ng-click="resetFields()"
+                data-target="#modalforgotPassword">Forgot Password?</a></div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div style="position:fixed;bottom:10px;right:10px;">Version 4.85
+    </div>
+  </div>
+  <!-- login page end start here -->
+
+  <div id="modalforgotPassword" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="resetFields()" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Forgot Password</h4>
+        </div>
+        <div class="modal-body overflowhidden">
+          <form>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Username</label><span style="color: red">*</span>
+                <input type="text" class="form-control" id="username" ng-model="req_username" />
+              </div>
+            </div>
+
+            <div class="col-md-12 clearboth">
+              <div class="form-group">
+                <label>Password</label> <span style="color: red">*</span>
+                <input type="password" class="form-control" id="password" ng-model="req_password" />
+              </div>
+            </div>
+            <div class="col-md-12 clearboth">
+              <div class="form-group">
+                <label>Confirm password</label> <span style="color: red">*</span>
+                <input type="password" class="form-control" id="cnfpassword" ng-model="req_confirmpassword" />
+              </div>
+            </div>
+            <div class="col-md-12 clearboth">
+              <div class="form-group">
+                <button class="btn btn-success" ng-click="resetPassword()" id="savebtn">Save</button>
+                <button ng-click="resetFields()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </div>
+              <span style="color: red;" ng-if="errorMessage">
+                <ul class="errmsg">
+                  <li ng-repeat="errmsg in responseMessage">
+                    {{errmsg}}
+                  </li>
+                </ul>
+              </span>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="../scripts/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    $('.message a').click(function () {
+      $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
+    });
+  </script>
+
+</body>
+
+</html>

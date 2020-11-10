@@ -1,0 +1,2021 @@
+﻿<style>
+    .wrapper {
+
+        height: 100% !important;
+        overflow-y: scroll;
+    }
+
+    .radiochecked {
+        background-color: #ffb3b3;
+    }
+</style>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>QB Authoring Tool</title>
+
+    <!-- Bootstrap -->
+    <!-- <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
+     <link href="../../assets/css/style.css" rel="stylesheet">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script src="../../../../../bower_components/angular/angular.min.js"></script> -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="/js/select2.min.js"></script>
+
+
+    <!--   <script src="/js/bootstrap-multiselect.js"></script>  -->
+    <script src="/js/bootstrap-paginator.js"></script>
+    <style>
+        .footer {
+            position: fixed;
+            bottom: 0px;
+            z-index: 1000;
+            bottom: 0;
+            /* top: 0; */
+            width: 100%;
+            margin-top: 10px;
+            margin: 0 auto;
+            background: #fff;
+        }
+    </style>
+
+    <style>
+        .footer {
+            position: fixed;
+            bottom: 0px;
+            z-index: 1000;
+            bottom: 0;
+            /* top: 0; */
+            width: 100%;
+            margin-top: 10px;
+            margin: 0 auto;
+            background: #fff;
+        }
+    </style>
+
+    <style type="text/css">
+        @media print {
+            .noprint {
+                display: none;
+            }
+
+            .testx {
+                width: 100% !important;
+            }
+
+            header {
+                display: none !important;
+            }
+
+            .common_heading {
+                display: none;
+            }
+
+            .pagination {
+                display: none;
+            }
+
+            .hdPosition {
+                display: none;
+            }
+
+            .searchbar {
+                display: none;
+            }
+
+            .noprinttabSummery {
+                display: none !important
+            }
+
+            #noprintTab {
+                display: block !important
+            }
+
+            .editable {
+                width: 200px;
+                background: white !important;
+            }
+
+            #noprintTab table {
+                word-wrap: break-word;
+                margin-left: 10px;
+                margin-right: 20px !important;
+            }
+
+            .noprintheading {
+                margin-left: 20px;
+                margin-top: 15px;
+            }
+
+            .mediaprinticons {
+                display: none !important;
+            }
+
+            .tabSummerydetails {
+                width: 45%;
+            }
+
+            .tabSummerydetails p {
+                height: auto !important;
+            }
+
+            .footer {
+                display: none !important;
+            }
+
+            .div_qstreplaced {
+                display: block !important;
+                float: left;
+                padding: 0px 10px;
+                border-radius: 5px;
+                background: #0ea0a0 !important;
+                color: #fff !important;
+                ;
+                line-height: 20px !important;
+                text-align: center;
+                margin: 0px 0px 2px 0px;
+                font-size: 12px;
+                clear: both;
+            }
+
+            .optionvetter .cke_editable {
+                display: block;
+                width: 100%;
+                height: auto;
+                font-size: 13px !important;
+                line-height: 12px !important;
+                margin-bottom: 0px !important;
+            }
+
+            .noprintQuestions {
+                width: 100% !important;
+                background: red !important;
+                margin-top: -10px
+            }
+        }
+
+        .ice-del {
+            background-color: #ffdddd !important;
+        }
+
+        .tabSummery {
+            padding: 30px 30px 0 20px;
+        }
+
+        .vetterQueButtons {
+            display: block !important;
+        }
+
+        ul.options {
+            margin-left: 30px !important;
+        }
+
+        .optionvetter .cke_editable {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-left: 20px;
+            font-size: 14px;
+            line-height: 20px !important;
+            color: #555;
+            background-color: none !important;
+            background-image: none !important;
+            border: none !important;
+            border-radius: 0px !important;
+            -webkit-box-shadow: 0px !important;
+            box-shadow: 0px !important;
+            font-weight: normal;
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            margin-bottom: 15px;
+        }
+
+        /*   .optionvetter .cke_editable {    
+            display: block;
+            width: 100%;
+            height: 34px;
+         
+            margin-left: 20px;
+            font-size: 14px;
+            line-height: 20px !important;
+            color: #555;
+            background-color: none !important;
+            background-image: none !important;
+            border: none !important;
+            border-radius: 0px !important;
+            -webkit-box-shadow: 0px !important;
+            box-shadow: 0px !important;
+            font-weight: normal;
+            -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; margin-bottom: 15px;
+          }*/
+        /*.radiobtn{
+           margin-left: 20px;
+         }*/
+        .gif_loader_image {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0px;
+            bottom: 0px;
+            z-index: 1001;
+            background: rgba(0, 0, 0, .9);
+            text-align: center;
+        }
+
+        .gif_loader_image img {
+            width: 100px;
+            margin: 20%;
+        }
+    </style>
+</head>
+<!-- <script>
+
+var app = angular.module("myApp", []);
+app.controller("myCtrl", function($scope) {
+
+  $scope.arr_questions = [
+    {id:'Q1',question:'Generally who adopts the Comparative Method for estimating the value of abc? ',option1:'Goodwill',option2:'Valuation of specialized buildings ',option3:'Buildings erected to serve specific purpose such as bars ',option4:'Land with building because the property is generally sold as a single piece',note:'[Note: The net profit is capitalized by multiplying it by the YP for certain number of years or in perpetuity and therefore, the option  at (d) is the appropriate answer]',remarks:'',status:'Active'},
+    {id:'Q2',question:'Encumbrance factor refers to the -----  because it is the earning capacity of the building that determines the value of the land',option1:'Location - nearness to schools ',option2:'The value of land is obtained by subtracting the latter from the capitalised value  ',option3:'Restaurants etc',option4:'Useful life of the structure or in perpetuity gives the capitalized value ',note:'[Note: If invested at specified rate of interest for certain number of years and hence option (c) is correct answer to the question]',remarks:'',status:'Deleted'},
+    {id:'Q3',question:'Risks of malicious damage to computerised systems can be from disgruntled employees who wish to disrupt the services or from individuals with malafide intentions to use technology for perpetrating fraud for financial gains?',option1:'Access to the system and a particular application can be controlled through a mechanism of passwords',option2:'The accounting controls are introduced in the application software',option3:'Review of operations to establish if there is a compliance to the established policies, standards & procedures ',option4:'All this requires a proper change management policy for software',note:'[Note:  The quality of banking services and the efficiency of banking operations have become increasingly dependent upon the application of information technology]',remarks:'',status:'Replaced'},
+   {id:'Q4',question:'',option1:'',option2:'',option3:'',option4:'',note:'',remarks:'',status:''},
+  ];
+
+  $scope.getURLParameter = function(sParam)
+    {
+      var sPageURL = window.location.search.substring(1);
+      var sURLVariables = sPageURL.split('&');
+
+      for(var i=0;i<sURLVariables.length;i++)
+      {
+        var sParameterName = sURLVariables[i].split('=');
+        if(sParameterName[0] == sParam)
+        {
+          return sParameterName[1];
+        }
+      }
+
+    }
+  $scope.username = $scope.getURLParameter('username');
+  $scope.userid = $scope.getURLParameter('userid');
+
+
+  angular.element(document).ready(function () {
+ document.addEventListener('contextmenu', event => event.preventDefault());
+    if( localStorage.getItem('publisher')  == 'published'  )
+    {
+       $('#linkExport').removeClass('exportDisabled');
+       $('#exportSelect').removeClass('exportDisabled');
+       $('#linkPublish').removeClass('publishDisabled');
+      // $(".publishCheckbox").prop("disabled",true);
+       $(".publishContainer").show();
+
+
+    }
+    else
+    {
+       $('#linkExport').addClass('exportDisabled');
+       $('#exportSelect').addClass('exportDisabled');
+       $('#linkPublish').addClass('publishDisabled');
+
+       //$(".publishCheckbox").prop("disabled",false);
+       $(".publishContainer").hide();
+
+}
+
+
+
+
+
+
+   //$('#linkExport').removeClass('exportDisabled');
+
+
+
+
+
+   var editorId1 = 'editor1';
+   var editorId2 = 'editor2';
+   var editorId3 = 'editor3';
+   var editorId4 = 'editor4';
+   var editorId5 = 'editor5';
+
+  for(var i=0;i<$scope.arr_questions.length;i++)
+  {
+
+
+    var id = $scope.arr_questions[i].id ;
+    var cleanid1 = id +editorId1+"clean";
+    var cleanid2 = id +editorId2+"clean";
+    var cleanid3 = id +editorId3+"clean";
+    var cleanid4 = id +editorId4+"clean";
+    var cleanid5 = id +editorId5+"clean";
+    if (typeof(Storage) !== "undefined") {
+
+      if(localStorage.getItem(cleanid1) != null)
+      {
+        var question =  localStorage.getItem(cleanid1);
+        $('#'+id+editorId1).html(question);       // Retrieve
+      }
+
+      if(localStorage.getItem(cleanid2) != null)
+      {
+        var option1 =  localStorage.getItem(cleanid2);
+        $('#'+id+editorId2).html(option1);        // Retrieve
+      }
+
+      if(localStorage.getItem(cleanid1) != null)
+      {
+        var option2 =  localStorage.getItem(cleanid3);
+        $('#'+id+editorId3).html(option2);        // Retrieve
+      }
+
+      if(localStorage.getItem(cleanid1) != null)
+      {
+        var option3 =  localStorage.getItem(cleanid4);
+        $('#'+id+editorId4).html(option3);        // Retrieve
+      }
+
+      if(localStorage.getItem(cleanid1) != null)
+      {
+        var option4 =  localStorage.getItem(cleanid5);
+        $('#'+id+editorId5).html(option4);        // Retrieve
+      }
+
+
+
+    } else {
+      document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+    }
+  }
+    });
+
+  $scope.getId = function(evt)
+  {
+    alert(evt.target.id);
+  }
+
+   $scope.appliedClass = function(value) {
+
+    if (value.status == "Active")
+    {
+	return "label-success ";
+    }
+    else if (value.status == "Replaced")
+    {
+
+        return "label-replace"; // Or even "", which won't add any additional classes to the element
+    }
+    else
+    {
+      return "label-danger";
+    }
+  }
+});
+</script> -->
+
+<body>
+    <div id="board" class="gif_loader_image">
+        <img src="/assets/images/Spinner-1s-200px.gif">
+    </div>
+    <!-- cooling page code start here -->
+    <div class="wrapper">
+        <!-- header section -->
+
+        <header id="header">
+            <div class="container clearfix">
+                <div class="clearfix">
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a class=""><img src="/assets/images/logo.jpg" alt="Canvas Logo"></a>
+                    </div>
+                    <!-- #logo end -->
+                    <div class="col-sm-2 userDetails">
+                        <div class="dropdown">
+                            <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                {{username}}
+                                <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                <li><a ui-sref="changePassword">Change Password</a></li>
+                                <!-- <li><a href="#">Another action</a></li> -->
+                                <li role="separator" class="divider"></li>
+                                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="nav">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a ng-if="role == 'SUADM'" ui-sref="SuperAdminDashboard">Dashboard</a></li>
+                            <li><a ng-if="role == 'ADM'" ui-sref="adminDashboard">Dashboard</a></li>
+                            <li><a ng-hide="role == 'ADM'" ui-sref="qp_repository">Question Bank</a></li>
+                            <li><a ui-sref="publishedExams">Published Exam</a></li>
+                            <li class="dropdown"> <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown"
+                                    role="button" aria-expanded="false">Exam Management <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a ui-sref="culling">Culling</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" ng-hide="role == 'ADM'">
+                                <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-expanded="false">Masters <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a ui-sref="courseMaster">Course Master</a></li>
+                                    <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                                    <li><a ui-sref="moduleMaster">Module Master</a></li>
+                                    <li><a ui-sref="topicMaster">Unit Master</a></li>
+                                    <li><a ui-sref="examMaster">Exam Master</a></li>
+                                    <li><a ui-sref="userMaster">User Master</a></li>
+                                </ul>
+                            </li>
+                            <!-- <li><a >Exam Paper</a></li>
+                        <li class="dropdown"> <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports <span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                            <li><a >Action</a></li>
+                            <li><a >Another action</a></li>
+                            <li><a >Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a >Separated link</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a >One more separated link</a></li>
+                          </ul>
+                        </li> -->
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- header section -->
+
+                <!-- Main Body section -->
+
+
+            </div>
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2 class="common_heading bold_font16">Question Paper ID: <span>{{currentQstnPaperId}}</span> </h2>
+                    <h2 class="common_heading bold_font16">Exam Period: <span>{{currentExamname}}</span> </h2>
+                </div>
+                <div class="col-md-8 pull-right smmargin-topbottom">
+                    <div class="toplist">
+                        <ul>
+
+                            <li> <button class="btn btn-darkgreen" ng-click="exportInSifyFormat()">ExportInSify</button>
+                            </li>
+
+                            <li> <button class="btn btn-darkgreen" ng-if="flag" data-toggle="modal" data-target="#addUserModal2"
+                                    data-backdrop="false" ng-click="getFilteredData()" class="btnBordered" ng-hide="examStatus == 'A'">Add
+                                    MCQ</button></li>
+
+                            <li> <button class="btn btn-darkgreen" ng-if="!flag" ui-sref="addmcq" ng-click="setExamDetails()"
+                                    class="btnBordered" disabled>Add MCQ</button></li>
+
+                            <li> <button class="btn btn-darkgreen" ng-if="flag" data-toggle="modal" data-target="#addUserModal2"
+                                    data-backdrop="false" ng-click="prepareCSQInactiveQuestions()" class="btnBordered"
+                                    ng-hide="examStatus == 'A'">Add CSQ</button></li>
+
+                            <li> <button class="btn btn-darkgreen" ng-if="!flag" style="margin-left:1px;" ui-sref="addcsq_parent"
+                                    ng-click="prepareCSQDetails()" class="btnBordered" disabled>Add CSQ</button> </li>
+
+
+                            <li> <button class="btn btn-darkgreen" target="_top" ng-click="printPage()">Print</button>
+                            </li>
+
+                            <li> <button class="btn btn-darkgreen" ng-click="showPreview()" ng-hide="true">Preview</button>
+                            </li>
+
+                            <li ng-if="publishQuestValue == 'NO'"> <button class="btn btn-darkgreen" ng-disabled="!enablePublishingButton || !enableAssignButtons"
+                                    ng-hide="examStatus == 'A'" ng-click="selectAllQuest()">Select All</button>
+
+                            </li>
+                            <li ng-if="publishQuestValue == 'YES'"> <button class="btn btn-darkgreen" ng-disabled="!enablePublishingButton || !enableAssignButtons"
+                                    ng-hide="examStatus == 'A'" ng-click="selectAllQuest()">De-Select All</button>
+                            </li>
+                            <li>
+                                <select id="exportSelect" class="form-control" ng-model="selectedLanguage" ng-options="language.lang_name for language in languageList"
+                                    ng-change="loadFinalExamPaper()">
+                                </select>
+                            </li>
+                            <li> <a id="linkExport" class="btn btn-darkgreen" ng-click="export()"> Export</a> </li>
+                            <li> <a id="linkImport" class="btn btn-darkgreen" data-toggle="modal" data-target="#uploadQuestions">Import</a>
+                            </li>
+                            <li>
+                                <!-- <a id="linkPublish" class="btn btn-darkgreen" ng-click="pubToRepo()" ng-disabled="!enablePublishButton">Publish to Repository</a> -->
+                                <button id="linkPublish" ng-if="examStatus != 'A'" class="btn btn-darkgreen" ng-click="pubToRepo()"
+                                    ng-disabled="!enablePublishingButton || !enableAssignButtons">Publish for
+                                    Exam</button>
+                            </li>
+                            <!-- <li> <button class="btn btn-darkgreen" ui-sref="adminDashboard">Back</button></li> -->
+                            <li> <button class="btn btn-darkgreen" ng-click="back();">Back</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <br clear="all">
+
+            <div class="row">
+                <div class="topmargin">
+                    <div class="col-md-3">
+                        <a class="col-sm-2 menu-btn" style="padding-left: 0px"><img src="../../assets/images/toggle_icon.jpg"
+                                alt="toggle icon" /></a>
+                        <h3 class="col-sm-4 small_title">Summary</h3>
+
+                        <div class="sidebar menushow ">
+                            <div class="steps steps-admin">
+                                <ul>
+                                    <li>
+                                        <div class="text-left">
+                                            Step 1
+                                            <p>Edit Exam Paper</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="text-left">
+                                            Step 2
+                                            <p>Vetting</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="text-left textGray">
+                                            Step 3
+                                            <p>Publication</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 questiontable margin-topbottom">
+                                    <h3 class="small_heading mTop15">Multiple Choice Question Summary</h3> <br>
+                                    <div style="overflow-x: auto">
+                                        <table class="table">
+                                            <thead class="tablerow">
+                                                <tr>
+                                                    <th class="text-center">Unit <br>Code</th>
+                                                    <th class="text-center" valign="middle">Module</th>
+                                                    <th class="text-center" valign="middle">Unit</th>
+                                                    <th class="text-center">Total <br>Ques.</th>
+                                                    <th class="text-center">Total <br>Replaced/Removed <br>Ques.</th>
+                                                    <th class="text-center">Total <br>Marks</th>
+                                                    <th class="text-center">Total <br>Replaced/Marks</th>
+                                                    <th class="text-center">Short <br>Fall Ques.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr ng-repeat="details in summary">
+
+                                                    <td class="text-center">{{details.qba_topic_code}}</td>
+                                                    <td class='number'>{{details.module_name}}</td>
+                                                    <!--td  class='number'>{{examMzzzaster.qba_subject_fk}}</td-->
+                                                    <td>{{details.topic_name}}</td>
+                                                    <td class='number'>{{details.summary_question}}</td>
+                                                    <td class="text-center" ng-if="!flag">
+                                                        {{details.total_replaced_quest}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class='number'>{{details.summary_marks}}</td>
+                                                    <td class="text-center" ng-if="!flag">
+                                                        {{details.total_replace_question_marks || '0'}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class='number'>{{details.short_fall_qstn}}</td>
+
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="text-right fontbold">Total</td>
+                                                    <td class="fontbold number">{{total_qstn}}</td>
+                                                    <td class="fontbold text-center" ng-if="!flag">
+                                                        {{total_replaced_quest}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="fontbold number">{{total_marks}}</td>
+                                                    <td class="fontbold text-center" ng-if="!flag">
+                                                        {{total_replace_question_marks}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="fontbold text-center">{{totalShortfall}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table> </br>
+                                    </div>
+                                    <br>
+                                    <h3 class="small_heading">Module Wise Summary</h3>
+                                    <div style="overflow-x:auto">
+                                        <table class="table" style="margin-top: 10px">
+                                            <thead class="tablerow">
+                                                <tr>
+                                                    <th>S.No.</th>
+                                                    <th>Module</th>
+                                                    <th>Total <br>Questions</th>
+                                                    <th>Total <br>Replace/Remove <br>Questions</th>
+                                                    <th>Total <br>Marks</th>
+                                                    <th>Total <br>Replace/Remove <br>Marks</th>
+                                                    <th>Total <br>ShortFall <br>Questions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr ng-repeat="module in moduleList">
+
+                                                    <td class="text-center">{{$index + 1}}</td>
+
+                                                    <td class="text-center">
+                                                        {{module.module_name}}
+                                                    </td>
+                                                    <td class='text-center'>{{module.summary_qstn}} </td>
+                                                    <td class='text-center' ng-if="!flag">
+                                                        {{module.total_replace_question}} </td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class='text-center'>{{module.summary_marks}}</td>
+                                                    <td class='text-center' ng-if="!flag">
+                                                        {{module.total_replace_question_marks || '0'}} </td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class='text-center'>{{module.short_fall_qstn}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" class="text-right fontbold">Total</td>
+                                                    <td class="text-center">{{total_qstn}}</td>
+                                                    <td class="text-center" ng-if="!flag">{{total_replaced_quest}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="text-center">{{total_marks}}</td>
+                                                    <td class="text-center" ng-if="!flag">
+                                                        {{total_replace_question_marks}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="text-center">{{totalShortfall}}</td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 questiontable margin-topbottom">
+                                    <h3 class="small_heading mTop15">Case Question Summary</h3><br>
+                                    <div style="overflow-x:auto;">
+                                        <table class="table">
+                                            <thead class="tablerow">
+                                                <tr>
+                                                    <th class="text-center">Unit<br>Code</th>
+                                                    <th class="text-center" valign="middle">Module</th>
+                                                    <th class="text-center" valign="middle">Unit</th>
+                                                    <th class="text-center">Total <br>Parent <br>Ques.</th>
+                                                    <th class="text-center">Total <br>Replace/Remove<br>Parent <br>Ques.
+                                                    </th>
+                                                    <th class="text-center">Total <br>Child <br>Ques.</th>
+                                                    <th class="text-center">Total <br>Replace/Remove<br>Child <br>Ques.
+                                                    </th>
+                                                    <th class="text-center">Total<br>Marks </th>
+                                                    <th class="text-center">Total <br>Replace/Remove<br>Marks</th>
+                                                    <th class="text-center">Total<br>ShortFall<br>Case<br>Passage</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="summary in caseSummary">
+
+                                                    <td class="text-center">{{summary.topic_code}}</td>
+                                                    <td class='text-center'>{{summary.module_name}}</td>
+                                                    <td class="text-center">{{summary.topic_name}}</td>
+                                                    <td class='text-center'>{{summary.parent_count}}</td>
+                                                    <td class='text-center' ng-if="!flag">
+                                                        {{summary.total_replace_parent_question}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class='text-center'>{{summary.child_count}}</td>
+                                                    <td class='text-center' ng-if="!flag">
+                                                        {{summary.total_replace_child_question}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class='text-center'>{{summary.summary_marks}}</td>
+                                                    <td class='text-center' ng-if="!flag">
+                                                        {{summary.total_replace_question_marks || '0'}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="text-center">{{summary.short_fall_qstn}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="text-right fontbold">Total</td>
+                                                    <td class="text-center">{{caseTotalParentQuestions}}</td>
+                                                    <td class="text-center" ng-if="!flag">
+                                                        {{caseTotalReplaceParentQuestions}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="text-center">{{caseTotalChildQuestions}}</td>
+                                                    <td class="text-center" ng-if="!flag">
+                                                        {{caseTotalReplaceChildQuestions}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="text-center">{{caseTotalMarks}}</td>
+                                                    <td class="text-center" ng-if="!flag">{{caseTotalReplaceMarks}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="text-center">{{caseTotalShortfall}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div><br>
+                                    <h3 class="small_heading">Module Wise Case Summary</h3>
+                                    <div style="overflow-x:auto;">
+                                        <table class="table">
+                                            <thead class="tablerow">
+                                                <tr>
+                                                    <th class="text-center">Sr.<br>No.</th>
+                                                    <th class="text-center" valign="middle">Mod<br>ule</th>
+
+                                                    <th class="text-center">Total <br>Parent <br>Ques.</th>
+                                                    <th class="text-center">Total <br>Replace/Remove<br>Parent <br>Ques.
+                                                    </th>
+                                                    <th class="text-center">Total <br>Child <br>Ques.</th>
+                                                    <th class="text-center">Total <br>Replace/Remove<br>Child <br>Ques.
+                                                    </th>
+                                                    <th class="text-center">Total <br>Marks </th>
+                                                    <th class="text-center">Total <br>Replace/Remove<br>Marks</th>
+                                                    <th class="text-center">Total <br>Short Fall<br>Case <br>Passage
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="module in moduleLists">
+
+
+                                                    <td class="text-center">{{$index + 1}}</td>
+                                                    <td class="text-center">
+                                                        {{module.module_name}}
+                                                    </td>
+                                                    <td class='text-center'>{{module.parent_count}} </td>
+                                                    <td class='text-center' ng-if="!flag">
+                                                        {{module.total_replace_parent_question}} </td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class='text-center'>{{module.child_count}}</td>
+                                                    <td class='text-center' ng-if="!flag">
+                                                        {{module.total_replace_child_question}} </td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class='text-center'>{{module.summary_marks}}</td>
+                                                    <td class='text-center' ng-if="!flag">
+                                                        {{module.total_replace_question_marks || '0'}} </td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class='text-center'>{{module.short_fall_qstn}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" class="text-right fontbold">Total</td>
+                                                    <td class="text-center">{{caseTotalParentQuestions}}</td>
+                                                    <td class="text-center" ng-if="!flag">
+                                                        {{caseTotalReplaceParentQuestions}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="text-center">{{caseTotalChildQuestions}}</td>
+                                                    <td class="text-center" ng-if="!flag">
+                                                        {{caseTotalReplaceChildQuestions}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="text-center">{{caseTotalMarks}}</td>
+                                                    <td class="text-center" ng-if="!flag">{{caseTotalReplaceMarks}}</td>
+                                                    <td class="text-center" ng-if="flag">0</td>
+                                                    <td class="text-center">{{caseTotalShortfall}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <h3 class="small_heading mTop15">Vetters / Publisher</h3>
+                                </div>
+                                <div class="col-md-12 tblstyle smmargin-topbottom text-left">
+                                    <table class="table table bordered">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Module Name</th>
+                                        </tr>
+
+                                        <tr ng-repeat="status in vettingStatus">
+                                            <td colspan>{{status.um_user_mstr.user_id}}</td>
+
+                                            <!-- <span class="colorgreen pull-right">{{vettingStatus.vetting_flag}}</span> -->
+                                            <td ng-class="vetterStatusColor(status.vetting_status);">
+                                                {{status.vetting_status}}</td>
+                                            <td>{{status.module_names}}</td>
+                                            <!-- <span  aria-hidden="true" ></span> -->
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-12">
+                                    <tr>
+                                        <td colspan="4"> <button class="btn btn-darkgreen" data-toggle="modal"
+                                                data-target="#addUserModal" ng-click="getUserList(vetterRoleCode)"
+                                                ng-disabled="enableAssignButtons">Assign Vetter</button>
+                                            <button class="btn btn-darkgreen" data-toggle="modal" data-target="#addPublisherModal"
+                                                ng-click="getUserList(publisherRoleCode)" ng-disabled="enablePublishingButton || enableAssignButtons">Assign
+                                                Publisher</button>
+                                        </td>
+
+                                    </tr>
+                                </div>
+                                <!--   <tbody>
+                                 <tr>
+                                   <td colspan="4">Vetter A<span class="colorgreen pull-right">Done</span></td>
+
+                                 </tr>
+
+                                 <tr>
+                                  <td colspan="4">Vetter B<span class="colorblue pull-right">Active</span></td>
+
+                                </tr>
+                                 <tr>
+                                  <td colspan="4"> <a class="btn btn-darkgreen" data-toggle="modal" data-target="#addUserModal" ng-click="getUserList(vetterRoleCode)">Assign Vetter</a>
+                                   <a class="btn btn-darkgreen"  data-toggle="modal" data-target="#addPublisherModal" ng-click="getUserList(publisherRoleCode)">Assign Publisher</a>
+                                 </td>
+
+                               </tr>
+                             </tbody>-->
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mTop15">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Change Log ({{changeLogDataCount}})<div class="down-arrow">
+                                                <a data-toggle="collapse" href="#collapse1">&nbsp;</a></div>
+                                        </div>
+                                        <div id="collapse1" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+                                                <button ng-repeat="logData in changeLogData" class="btn btn-white">
+                                                    {{logData.qb_id}}
+                                                </button>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <p class="colorred">{{changeLogDataCount}} questions modified</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mTop5">
+                                    <div class="panel-group">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                Vetter / Publisher ed
+                                                <div class="down-arrow"> <a data-toggle="collapse" href="#collapse2">&nbsp;</a></div>
+
+                                            </div>
+                                            <div id="collapse2" class="panel-collapse collapse in">
+                                                <div ng-repeat="vetterReq in getRequestList">
+
+                                                    <div class="panel-body">
+                                                        <!-- {{vetterReq}}-->
+
+                                                        <div class="admin-chkbox" ng-if="vetterReq.admin_status != 'Approved' && vetterReq.admin_status != 'Rejected'">
+
+                                                            <input type="checkbox" id="ch-{{vetterReq.vlog_qb_fk}}"
+                                                                ng-model="vetterReq.checked" />
+
+                                                            <!--<input type="checkbox" id="ch1" ng-click="approvalofVetterRequest(vetterReq);" />-->
+
+                                                        </div>
+
+
+                                                        <div class="fontbold">
+                                                            <div class="bold">
+                                                                <span>Q {{vetterReq.qb_id}}:</span><span ng-if="vetterReq.status == 'R'">Replacement</span>
+                                                                <span ng-if="vetterReq.status == 'RM'">Remove</span>
+                                                                <span ng-if="vetterReq.admin_status == 'Approved'"
+                                                                    class="greenbox">Approved by
+                                                                    {{vetterReq.approved_by}}</span>
+                                                                <span ng-if="vetterReq.admin_status == 'Rejected'"
+                                                                    class="redbox">Rejected by {{vetterReq.approved_by}}</span>
+                                                            </div>
+                                                            <p class="clearboth request_text">by: {{vetterReq.user_id}}
+                                                                | {{vetterReq.created_dt | date:'medium'}}</p>
+                                                        </div>
+                                                        <!--</label>-->
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="approverejectWrapper">
+                                                    <div class="col-sm-3">
+                                                        <button class="btn btn-darkgreen" ng-disabled="getRequestList.length==0"
+                                                            ng-click="approvalofVetterRequest(getRequestList,'Approved');">Approve</button>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <button class="btn btn-darkred" ng-disabled="getRequestList.length==0"
+                                                            ng-click="approvalofVetterRequest(getRequestList,'Rejected');">Reject</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <br clear="all">
+                                    </div>
+                                    <br clear="all">
+                                </div>
+
+                            </div>
+                            <br clear="all">
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-8 testx" style="width:65%">
+                    <h3 class="small_heading hdPosition" style=" background: #fff; margin-left: 30px;"><span class="arrowright">
+                            All Questions</span></h3>
+                    <div class="col-md-12 searchbar mTop18">
+
+                        <div class="row">
+
+                            <div class="containerPadding">
+                                <div class="col-md-12 searchbar">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <span class="records"> Total Records : <b>{{countQst1}}</b></span>
+                                        </div>
+
+                                        <div class="col-md-9">
+                                            <div class="col-md-7">
+                                                Show <select ng-model="selectNoQstn" class="form-control mBottom0"
+                                                    style="width: 70px; height: 30px; display: inline-block;" ng-change="reloadPage()"
+                                                    ng-options="page.no_Qstn for page in NoQstnList">>
+
+                                                </select> Questions per page
+
+                                            </div>
+                                            <!-- <div class=" text-right">
+                                            <div class="right-inner-addon">
+                                                <i class="fa fa-search"></i>
+                                                <input type="text" name="" ng-model="searchText" onchange="CKEdit()" ng-keypress="checkEnterKeyPressed($event)" class="form-control mBottom0 pull-right" placeholder="Search Content" >
+                                            </div>
+                                        </div> -->
+
+                                            <!--<div class="col-md-3 pull-right smmargin-topbottomright"
+                                                style="padding-right: 30px;">
+                                                <div class="right-inner-addon">
+                                                    <i class="fa fa-search"></i>
+                                                    <input type="text" name="" class="form-control mBottom0 pull-right"
+                                                        placeholder="Search Content" ng-model="searchText"
+                                                        onchange="CKEdit()">
+                                                </div>
+                                            </div>-->
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-12 row-eq-height">
+
+                        <div class="col-xs-8 col-sm-8 col-md-12 col-lg-12 rightPan noPadding">
+
+                            <!--<ul style="list-style: none; margin-left: -25px; margin-top: 10px;">
+                            <li ng-if="publishQuestValue == 'NO'"> <a class="btn btn-darkgreen" ng-click="selectAllQuest()" ng-disabled="!enablePublishButton">Select All</a>
+                            </li>
+                            <li ng-if="publishQuestValue == 'YES'"> <a class="btn btn-default" ng-click="selectAllQuest()" ng-disabled="!enablePublishButton">De-select All</a>
+                            </li>
+                          </ul>-->
+
+                            <script src="/scripts/constantMap.js"></script>
+                            <div class="col-md-12" ng-show="showfinalpaper.length > 0">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <ul class="pagination">
+                                            <li>
+                                                Showing {{(countQst)>0?showOffset + 1:0}} to
+                                                {{(showOffset + showQstn)>countQst?countQst:(showOffset + showQstn) |
+                                                number}}
+                                                of {{countQst}} entries<p style="color: #FF0000; font-size: 13px">Note:
+                                                    This count is inclusive of parent questions</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="pull-right">
+                                            <nav aria-label="Page navigation ">
+                                                <div id="pagination1">
+
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+
+                            <div ng-repeat="repoQues in showfinalpaper" class="qSummery">
+                                <div class="col-sm-12">
+                                    <div style="display:none; margin-bottom: 10px;" ng-class="{'div_qstreplaced':repoQues.qst_request_remarks !== 'null' && repoQues.qst_request_remarks !== null && repoQues.qst_request_remarks !== ''}">
+
+                                        {{repoQues.qst_request_remarks}} done by {{repoQues.qst_audit_by}}
+
+                                    </div>
+                                </div>
+                                <!-- <p ng-show="repoQues.qst_pid==0">{{repoQues.qst_body}}</p> -->
+                                <div class="checkbox" ng-if="repoQues.qst_type == 'CS' && repoQues.qst_pid == '0'"
+                                    class="qDetails">
+                                    <button class="btnSmall">QB ID {{repoQues.qb_id}}</button>
+                                    <button ng-if="repoQues.qst_type == 'M'" class="btnSmall">Multiple Choice</button>
+                                    <button ng-if="repoQues.qst_type == 'CS'" class="btnSmall">Case</button>
+                                    <button class="btnSmall">{{repoQues.qba_topic_master.qba_topic_code}} -
+                                        {{repoQues.qba_topic_master.topic_name}}</button>
+                                    <button class="btnSmall">Mod {{repoQues.qba_module_mstr.module_name}}</button>
+                                    <button class="btnSmall">No. of Child questions {{repoQues.no_of_question}}</button>
+                                    <button class="btnSmall">Marks {{repoQues.total_marks }}</button>
+
+                                    <label> </label>
+
+                                    <span class="checkbox quecheckbox">
+                                        <!-- ng-checked="publishQuestValue == 'YES'" removed by shilpa-->
+                                        <input class="checkpub" ng-disabled="(!enablePublishingButton || !enableAssignButtons)"
+                                            type="checkbox" ng-model="pubquestvalue[repoQues.qb_id]" ng-true-value="'YES'"
+                                            ng-false-value="'NO'" ng-change="checkedQuest(repoQues,pubquestvalue[repoQues.qb_id])"
+                                            ng-checked="(pubquestvalue[repoQues.qb_id] == 'YES')?true:false">
+                                        <!-- <p ng-bind-html="renderAsHtml(repoQues.qst_body)"></p>  -->
+                                        <p class="editable" id={{repoQues.qb_id}} contenteditable="true" ng-if="repoQues.qst_body != '' && repoQues.qst_lang=='ENGLISH'"
+                                            ng-model="repoQues.qst_body" ng-blur="savealldata(repoQues.qb_id, repoQues.qst_lang)"
+                                            ng-click="CKEdit(repoQues.qb_id)">
+                                            {{repoQues.qst_body}}</p>
+                                        <p class="editable" id={{repoQues.qb_id}} contenteditable="false" ng-if="repoQues.qst_body != ''  && repoQues.qst_lang!='ENGLISH'"
+                                            ng-model="repoQues.qst_body">{{repoQues.qst_body}}</p>
+
+                                        <!-- <input   data-ng-blur="Saveallchanges()" class="checkpub" ng-if="loginUser.role == 'PUB'" type="checkbox" ng-model="pubquestvalue[repoQues.qb_id]" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="checkedQuest(repoQues.qb_id,repoQues,repoQues.qb_pk,pubquestvalue[repoQues.qb_id])">
+                        <p class="editable" id="editor" contenteditable="true" ng-if="repoQues.qst_body != ''" ng-model="repoQues.qst_body" ng-blur = "savealldata(repoQues)">{{repoQues.qst_body}}</p> -->
+                                    </span>
+                                    <!-- <div class="col-sm-2 itemButtons"  style="float: right;"> -->
+
+                                    <!-- <button ng-click="editQuestionForAdmin(repoQues);" type="button" class="btn btn-default" aria-label="Left Align"> 
+        <a id="pageurl" class="glyphicon glyphicon-pencil" aria-hidden="true" href=""> </a>      
+      </button> -->
+                                    <!-- <button ng-if="repoQues.qst_type == 'CS' && pubvettingstatus.length >0" class="btnSmall"> 
+        <a id="pageurl" data-toggle="modal" data-target="#addChildQuesModel" ng-click="requestForAddChildQuestion(repoQues,'P')" class="glyphicon glyphicon-plus" title="Add Child Question" aria-hidden="true" href=""> </a>      
+      </button>	   -->
+                                    <div>
+                                        <div class="vetterQueButtons" ng-if="examStatus != 'A'">
+                                            <button ng-click="editQuestionForAdmin(repoQues);" type="button" class="btn btn-default"
+                                                aria-label="Left Align" ng-if="flag">
+                                                <a id="pageurl" class="glyphicon glyphicon-pencil" aria-hidden="true"
+                                                    href=""> </a>
+                                            </button>
+
+                                            <div class="dropdown" style="float: right;margin-left:5px;" ng-if="(repoQues.qst_request_status).indexOf('Replaced') != -1">
+                                                <button class="btn btn-default dropdown-toggle btn3" type="button" id="dropdownMenu1"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                                                    ng-if="flag">
+                                                    <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+                                                </button>
+                                                <ul ng-if="vetter_status.indexOf('Done')!= -1" class="dropdown-menu dropdown-menu-right"
+                                                    aria-labelledby="dropdownMenu1">
+
+                                                    <li>
+                                                        <a style="cursor:pointer;" data-toggle="modal" ng-if="vetter_status.indexOf('Done')!= -1"
+                                                            data-target="#addChildQuesModel" ng-click="requestForAddChildQuestion(repoQues,'P')">Add
+                                                            Child Question</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- </div> -->
+
+                                </div>
+
+                                <!-- <div ng-hide="repoQues.qst_pid=0" class="qDetails">
+                             "-->
+                                <div ng-if="(repoQues.qst_type == 'CS' && repoQues.qst_pid != '0') || repoQues.qst_type == 'M'"
+                                    class="qDetails">
+                                    <div class="row">
+                                        <button class="btnSmall">QB ID {{repoQues.qb_id}}</button>
+                                        <button ng-if="repoQues.qst_type == 'M'" class="btnSmall">Multiple
+                                            Choice</button>
+                                        <button ng-if="repoQues.qst_type == 'CS'" class="btnSmall">Case
+                                            Question</button>
+                                        <button class="btnSmall">{{repoQues.qba_topic_master.qba_topic_code}} -
+                                            {{repoQues.qba_topic_master.topic_name}}</button>
+                                        <button class="btnSmall">Mod {{repoQues.qba_module_mstr.module_name}}</button>
+                                        <button class="btnSmall">Marks {{repoQues.qst_marks | number:1}}</button>
+                                        <button ng-if="(repoQues.qst_type == 'CS' && repoQues.qst_pid != '0')" class="btnSmall">Parent
+                                            ID {{repoQues.qst_pid}}</button>
+
+                                        <label>
+                                            <!--<input ng-if="enablePublishButton" type="checkbox" ng-model="publishQuestValue" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="checkedQuest(repoQues,publishQuestValue)" ng-checked="publishQuestValue == 'YES'">
+                                   <p ng-if="repoQues.qst_type == 'CS' && repoQues.qst_pid != '0'" ng-bind-html="renderAsHtml(repoQues.qst_body)"></p>-->
+                                        </label>
+                                        <div class="col-sm-2 itemButtons" style="float: right;" ng-if="examStatus != 'A'">
+
+                                            <button ng-click="editQuestionForAdmin(repoQues);" type="button" class="btn btn-default"
+                                                aria-label="Left Align" ng-if="flag">
+                                                <a id="pageurl" class="glyphicon glyphicon-pencil" aria-hidden="true"
+                                                    href=""> </a>
+                                            </button>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <span class="checkbox" ng-if="repoQues.qst_type == 'M'">
+                                        <input ng-disabled="(!enablePublishingButton || !enableAssignButtons)" type="checkbox"
+                                            ng-model="pubquestvalue[repoQues.qb_id]" ng-true-value="'YES'"
+                                            ng-false-value="'NO'" ng-change="checkedQuest(repoQues,pubquestvalue[repoQues.qb_id])"
+                                            ng-checked="(pubquestvalue[repoQues.qb_id] == 'YES')?true:false">
+                                        <!--<p  class="editable" contenteditable="true" ng-if="repoQues.qst_body != ''" ng-bind-html="renderAsHtml(repoQues.qst_body)"></p> -->
+
+                                        <p class="editable" id={{repoQues.qb_id}} contenteditable="true" ng-if="repoQues.qst_body != '' && repoQues.qst_lang == 'ENGLISH'"
+                                            ng-model="repoQues.qst_body" ng-blur="savealldata(repoQues.qb_id, repoQues.qst_lang)"
+                                            ng-click="CKEdit(repoQues.qb_id)"></p>
+                                        <p class="editable" id={{repoQues.qb_id}} contenteditable="false" ng-if="repoQues.qst_body != '' && repoQues.qst_lang != 'ENGLISH'"
+                                            ng-model="repoQues.qst_body"></p>
+
+                                        <img ng-if="repoQues.qbank_image.qbi_image_name != null" src="static/controllers/output/{{repoQues.qbank_image.qbi_image_name}}"
+                                            class="img-responsive">
+                                    </span>
+                                    <span class="checkbox" ng-if="repoQues.qst_type == 'CS'">
+                                        <input ng-disabled="(!enablePublishingButton || !enableAssignButtons)" type="checkbox"
+                                            ng-model="pubquestvalue[repoQues.qb_id]" ng-true-value="'YES'"
+                                            ng-false-value="'NO'" ng-change="checkedQuest(repoQues,pubquestvalue[repoQues.qb_id])"
+                                            ng-checked="pubquestvalue[repoQues.qb_id] == 'YES'">
+                                        <!-- <p ng-if="repoQues.qst_body != ''  && repoQues.qst_pid != '0' && repoQues.qst_type == 'CS'" ng-bind-html="renderAsHtml(repoQues.qst_body)" ></p>  ng-checked="(publishQuestValue == 'YES')?true:false" removed by shilpa-->
+
+                                        <p class="editable" id={{repoQues.qb_id}} contenteditable="true" ng-if="repoQues.qst_body != ''  && repoQues.qst_pid != '0' && repoQues.qst_type == 'CS' && repoQues.qst_lang =='ENGLISH'"
+                                            ng-model="repoQues.qst_body" ng-blur="savealldata(repoQues.qb_id, repoQues.qst_lang)"
+                                            ng-click="CKEdit(repoQues.qb_id)"></p>
+                                        <p class="editable" id={{repoQues.qb_id}} contenteditable="false" ng-if="repoQues.qst_body != ''  && repoQues.qst_pid != '0' && repoQues.qst_type == 'CS' && repoQues.qst_lang !='ENGLISH'"
+                                            ng-model="repoQues.qst_body"></p>
+
+                                        <img ng-if="repoQues.qbank_image.qbi_image_name != null  && repoQues.qst_pid != '0' && repoQues.qst_type == 'CS'"
+                                            src="static/controllers/output/{{repoQues.qbank_image.qbi_image_name}}"
+                                            class="img-responsive">
+                                    </span>
+                                    <ul class="options">
+
+                                        <li ng-repeat="alternative in repoQues.qstn_alternatives">
+                                            <div ng-if="alternative.qta_alt_desc !=null" class="radiobtn">
+
+                                                <input type="radio" id="radio{{$parent.$parent.$index}}{{$index}}" name="radio{{$parent.$parent.$index}}"
+                                                    ng-click="changeSelectedOption($event,$index,repoQues.qstn_alternatives, $parent.$parent.$index,repoQues.qb_id)"
+                                                    ng-checked="alternative.qta_is_corr_alt=='Y'" ng-disabled="!enablePublishingButton || !enableAssignButtons"><span
+                                                    ng-if="repoQues.log_count == alternative.qta_pk" style="color: #FF0000;font-size: 15px;"><b>*</b></span>
+                                            </div>
+                                            <div class="answer">
+                                                <!-- <div ng-bind-html="renderAsHtml(alternative.qta_alt_desc)" ng-class="{'boldCorrect' : alternative.qta_is_corr_alt=='Y'}"></div> -->
+                                                <p ng-if="repoQues.qst_lang == 'ENGLISH'" class="correct editable" id="alt{{alternative.qta_pk}}"
+                                                    contenteditable="true" ng-model="alternative.qta_alt_desc" ng-class="{'boldCorrect' : alternative.qta_is_corr_alt=='Y', 'radiochecked' : repoQues.log_count !== null && alternative.qta_is_corr_alt=='Y'}"
+                                                    ng-blur="saveall(alternative.qta_pk, repoQues.qb_id)"
+                                                    ng-click="CKEdit('alt'+alternative.qta_pk)"></p>
+                                                <p ng-if="repoQues.qst_lang != 'ENGLISH'" class="correct editable" id="{{alternative.qta_pk}}"
+                                                    contenteditable="false" ng-model="alternative.qta_alt_desc"
+                                                    ng-class="{'boldCorrect' : alternative.qta_is_corr_alt=='Y', 'radiochecked' : repoQues.log_count !== null && alternative.qta_is_corr_alt=='Y'}">
+                                                </p>
+
+                                                <!--   <img ng-if="alternative.qbank_image.qbi_image_name != null" src="static/controllers/output/{{alternative.qbank_image.qbi_image_name}}"> -->
+                                            </div>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+                                <!-- <div class="updatedBy">updated {{repoQues.qst_audit_dt | date: "MMMM dd, y h:mm a"}}, by {{repoQues.qst_audit_by}}</div> -->
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <div ng-if="repoQues.qst_type == 'M' && repoQues.qst_body ==''">
+                                            <button class="btn btn-darkgreen center-block" ng-click="addShortfallQuestinon(repoQues);"
+                                                align="center" ng-disabled="loginUser.role == 'ADM'">Add Question</button>
+                                        </div>
+                                        <div ng-if="(repoQues.qst_type == 'CS' && repoQues.qst_pid == '0') && repoQues.qst_body ==''">
+                                            <button class="btn btn-darkgreen center-block" ng-click="addShortfallQuestinon(repoQues);"
+                                                align="center" ng-disabled="loginUser.role == 'ADM'">Add Case</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="updatedBy">
+                                            updated {{repoQues.qst_audit_dt | date: "MMMM dd, y h:mm a"}}, by
+                                            {{repoQues.qst_audit_by || repoQues.author_name}}
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="tabSummery">
+                                    <ul class="nav nav-tabs" id="myTab">
+                                        <li id="remarkLi{{repoQues.qb_pk}}">
+                                            <a data-target="#remark{{repoQues.qb_pk}}" ng-hide="(repoQues.qst_type == 'M' || 
+                                        (repoQues.qst_type == 'CS' && repoQues.qst_pid == '0')) && repoQues.qst_body ==''"
+                                                data-toggle="tab" ng-click="remarkTabClicked(repoQues.qb_pk, repoQues.qb_id)">Remarks</a>
+                                        </li>
+                                        <li id="referenceLi{{repoQues.qb_pk}}">
+                                            <a data-target="#reference{{repoQues.qb_pk}}" ng-hide="(repoQues.qst_type == 'M' || 
+                                        (repoQues.qst_type == 'CS' && repoQues.qst_pid == '0')) && repoQues.qst_body ==''"
+                                                ng-click="referenceTabClicked(repoQues.qb_pk, repoQues.qb_id)"
+                                                data-toggle="tab">Reference</a>
+                                        </li>
+                                        <li id="calculationLi{{repoQues.qb_pk}}">
+                                            <a data-target="#calculation{{repoQues.qb_pk}}" ng-hide="(repoQues.qst_type == 'M' || (repoQues.qst_type == 'CS' && repoQues.qst_pid == '0')) && repoQues.qst_body ==''"
+                                                ng-click="calculationTabClicked(repoQues.qb_pk, repoQues.qb_id)"
+                                                data-toggle="tab">Calculation</a>
+                                        </li>
+                                        <li id="alternativeslogLi{{repoQues.qb_pk}}" ng-hide="(repoQues.qst_type == 'M' || (repoQues.qst_type == 'CS' && repoQues.qst_pid == '0')) && repoQues.qst_body ==''"
+                                            ng-if="(repoQues.qst_type == 'M' || (repoQues.qst_type == 'CS' && repoQues.qst_pid != '0'))"
+                                            ng-click="alternativeslogTabClicked(repoQues.qb_id, repoQues.qb_pk)">
+                                            <a data-target="#alternativeslog{{repoQues.qb_id}}" data-toggle="tab">Change
+                                                Log</a></li>
+                                        <!--<li id="replaceLi{{repoQues.qb_pk}}">
+                                      <a data-target="#replace{{repoQues.qb_pk}}" ng-click="replaceTabClicked(repoQues.qb_pk,repoQues.qst_marks)" data-toggle="tab">Replace</a>
+                                    </li>
+                                    <li id="removeLi{{repoQues.qb_pk}}">
+                                      <a data-target="#remove{{repoQues.qb_pk}}" ng-click="removeTabClicked(repoQues.qb_pk)" data-toggle="tab">Remove</a>
+                                    </li> -->
+                                    </ul>
+
+                                </div>
+
+                                <div class="tab-content">
+
+                                    <div class="tab-pane tabSummerydetails" id="remark{{repoQues.qb_pk}}">
+                                        <h5>Remarks</h5>
+                                        <p ng-if="repoQues.qst_lang=='ENGLISH'" class="editable" contenteditable="true"
+                                            ng-model="repoQues.qst_remarks" ng-bind-html="renderAsHtml(repoQues.qst_remarks)"
+                                            id="remarkdata{{repoQues.qb_id}}" ng-blur="saveremarkdata (repoQues.qb_id, repoQues.qst_lang)"
+                                            ng-click="CKEdit('remarkdata'+repoQues.qb_id)">
+                                            {{repoQues.qst_remarks}}
+
+                                        </p>
+                                        <p ng-if="repoQues.qst_lang!='ENGLISH'" class="editable" contenteditable="false"
+                                            ng-model="repoQues.qst_remarks" ng-bind-html="renderAsHtml(repoQues.qst_remarks)"
+                                            id="remarkdata{{repoQues.qb_id}}">{{repoQues.qst_remarks}}</p>
+                                    </div>
+
+                                    <div class="tab-pane tabSummerydetails" id="reference{{repoQues.qb_pk}}">
+                                        <h5>Reference</h5>
+                                        <p ng-if="repoQues.qst_lang=='ENGLISH'" class="editable" contenteditable="true"
+                                            ng-model="repoQues.reference_info" ng-bind-html="renderAsHtml(repoQues.reference_info)"
+                                            id="referencedata{{repoQues.qb_id}}" ng-blur="saverefdata(repoQues.qb_id, repoQues.qst_lang)"
+                                            ng-click="CKEdit('referencedata'+repoQues.qb_id)">
+                                            {{repoQues.reference_info}}</p>
+                                        <p ng-if="repoQues.qst_lang!='ENGLISH'" class="editable" contenteditable="false"
+                                            ng-model="repoQues.reference_info" ng-bind-html="renderAsHtml(repoQues.reference_info)"
+                                            id="referencedata{{repoQues.qb_id}}">{{repoQues.reference_info}}</p>
+                                    </div>
+
+                                    <div class="tab-pane tabSummerydetails" id="calculation{{repoQues.qb_pk}}">
+                                        <h5>Calculation</h5>
+                                        <p ng-if="repoQues.qst_lang=='ENGLISH'" class="editable" contenteditable="true"
+                                            ng-model="repoQues.calculation_info" ng-bind-html="renderAsHtml(repoQues.calculation_info)"
+                                            id="calculationdata{{repoQues.qb_id}}" ng-blur="savecaldata(repoQues.qb_id, repoQues.qst_lang)"
+                                            ng-click="CKEdit('calculationdata'+repoQues.qb_id)">
+                                            {{repoQues.calculation_info}}</p>
+                                        <p ng-if="repoQues.qst_lang!='ENGLISH'" class="editable" contenteditable="false"
+                                            ng-model="repoQues.calculation_info" ng-bind-html="renderAsHtml(repoQues.calculation_info)"
+                                            id="calculationdata{{repoQues.qb_id}}">{{repoQues.calculation_info}}</p>
+                                    </div>
+                                    <div class="tab-pane tabSummerydetails logtab" id="alternativeslog{{repoQues.qb_id}}"
+                                        ng-if="(repoQues.qst_type == 'M' || (repoQues.qst_type == 'CS' && repoQues.qst_pid != '0'))">
+                                        <div id="log{{repoQues.qb_id}}">
+                                            <span ng-repeat="log in finallog">
+                                                <samp ng-if="log.status=='Answer'">Correct</samp> {{log.status}}
+                                                changed
+                                                from <samp ng-bind-html="renderAsHtml(log.old_answer)"> </samp> to
+                                                <samp ng-bind-html="renderAsHtml(log.new_answer)"> </samp> by
+                                                {{log.add_by}} on {{log.add_date | date: "MMMM dd, y h:mm a"}} <br />
+                                                <hr />
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane tabSummerydetails" id="replace{{repoQues.qb_pk}},
+  {{repoQues.qst_marks}}">
+                                        <h5>Replace</h5>
+                                    </div>
+
+                                    <div class="tab-pane tabSummerydetails" id="remove{{repoQues.qb_pk}}">
+                                        <h5>Remove</h5>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div id="addUserModal2" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-lg">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" id="close-button">&times;</button>
+                                            <h4 class="modal-title">Select any one question from below question </h4>
+                                            <div ng-if="qst_type == 'M'">
+                                                <button type="button" class="btn btn-darkgreen" ui-sref="add_mcq_admin"
+                                                    class="btnBordered">Add MCQ </button>
+                                            </div>
+
+                                            <div ng-if="qst_type == 'CS'">
+                                                <button type="button" class="btn btn-darkgreen" ui-sref="add_csq_admin"
+                                                    class="btnBordered">Add CSQ </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-body">
+
+
+                                            <div ng-if="filteredQustionList.length === 0"> No Record found!</div>
+
+                                            <div ng-repeat="repoQuesdata in filteredQustionList">
+
+
+                                                <div ng-if="qst_type == 'M'">
+                                                    <div ng-if="repoQuesdata.qst_pid == '0'">
+                                                        <input type="radio" ng-model="selectedQst_qbpk" value="repoQuesdata.qb_pk"
+                                                            name="qstSelection" ng-click="confirmAlertAdminForMCQ(repoQuesdata,repoQuesdata.qb_id)">
+                                                        QB ID {{repoQuesdata.qb_id}}
+
+                                                    </div>
+                                                </div>
+                                                <div ng-if="qst_type == 'CS'">
+                                                    <div ng-if="repoQuesdata.qst_pid == '0'">
+                                                        <input type="radio" ng-model="selectedQst_qbpk" value="repoQuesdata.qb_pk"
+                                                            name="qstSelection" ng-click="confirmAlertAdminForCSQ(repoQuesdata,repoQuesdata.qb_id)">
+                                                        QB ID {{repoQuesdata.qb_id}}
+
+                                                    </div>
+                                                </div>
+
+                                                <!--p ng-if="repoQues.qst_type == 'CS' && repoQues.qst_pid == '0'">{{repoQues.qst_body}}</p-->
+
+
+                                                <div id="myModal" class="modal fade " role="dialog">
+                                                    <div class="modal-dialog modal-sm">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+
+                                                            <!--  <button type="button" class="closeone" ng-click="closeModalPopup()">&times;</button>-->
+                                                            <div class="modal-body">
+                                                                <h4 class="modal-title">Do you want to replace QB ID
+                                                                    {{isApprovedQstId}} with selected QB ID
+                                                                    {{selectedQustID}}?</h4>
+                                                            </div>
+                                                            <button class="btnyes" ng-click="userClickYes(repoQuesdata.qb_pk,repoQuesdata.qb_id)">Yes</button><button
+                                                                class="closeone" ng-click="closeModalPopup()">No</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div ng-if="repoQuesdata.qst_type == 'CS'" class="qDetails">
+                                                    <div class="row">
+                                                        <div class="col-sm-9">
+                                                            <button class="btnSmall">QB ID
+                                                                {{repoQuesdata.qb_id}}</button>
+                                                            <button ng-if="repoQuesdata.qst_type == 'CS'" class="btnSmall">Case
+                                                                Question</button>
+                                                            <button class="btnSmall">{{repoQuesdata.qba_topic_master.qba_topic_code}}
+                                                                - {{repoQuesdata.qba_topic_master.topic_name}}</button>
+                                                            <button class="btnSmall">Mod
+                                                                {{repoQuesdata.qba_module_mstr.module_name}}</button>
+                                                            <button class="btnSmall">Marks
+                                                                {{repoQuesdata.qst_marks | number:1}}</button>
+                                                            <button ng-if="repoQuesdata.qst_pid == '0'" class="btnSmall">No.
+                                                                of Child questions
+                                                                {{repoQuesdata.no_of_question}}</button>
+                                                            <br>
+                                                            <button ng-if="repoQuesdata.qst_pid != '0'" class="btnSmall">Parent
+                                                                ID
+                                                                {{repoQuesdata.qst_pid}}</button>
+                                                            <p ng-if="repoQuesdata.qst_body != ''" ng-bind-html="renderAsHtml(repoQuesdata.qst_body)"></p>
+                                                            <img ng-if="repoQuesdata.qbank_image.qbi_image_name != null"
+                                                                src="static/controllers/output/{{repoQuesdata.qbank_image.qbi_image_name}}">
+                                                            <ul class="options">
+                                                                <li ng-repeat="alternative in repoQuesdata.qstn_alternatives">
+
+                                                                    <div class="radiobtn">
+                                                                        <input type="radio" id="radio{{$parent.$parent.$index}}{{$index}}"
+                                                                            name="radio{{$parent.$parent.$index}}"
+                                                                            ng-checked="alternative.qta_is_corr_alt=='Y'"
+                                                                            disabled>
+                                                                    </div>
+                                                                    <div class="previewanswer">
+                                                                        <div ng-bind-html="renderAsHtml(alternative.qta_alt_desc)"
+                                                                            ng-class="{'boldCorrect' : alternative.qta_is_corr_alt=='Y'}">
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div ng-if="repoQuesdata.qst_type == 'M'" class="qDetails">
+                                                    <div class="row">
+                                                        <div class="col-sm-9">
+                                                            <button class="btnSmall">QB ID
+                                                                {{repoQuesdata.qb_id}}</button>
+                                                            <button ng-if="repoQuesdata.qst_type == 'M'" class="btnSmall">Multiple
+                                                                Choice</button>
+                                                            <button class="btnSmall">{{repoQuesdata.qba_topic_master.qba_topic_code}}
+                                                                - {{repoQuesdata.qba_topic_master.topic_name}}</button>
+                                                            <button class="btnSmall">Mod
+                                                                {{repoQuesdata.qba_module_mstr.module_name}}</button>
+                                                            <button class="btnSmall">Marks
+                                                                {{repoQuesdata.qst_marks | number:1}}</button>
+
+                                                            <br><br>
+                                                            <p ng-if="repoQuesdata.qst_body != ''" ng-bind-html="renderAsHtml(repoQuesdata.qst_body)"></p>
+                                                            <img ng-if="repoQuesdata.qbank_image.qbi_image_name != null"
+                                                                src="static/controllers/output/{{repoQuesdata.qbank_image.qbi_image_name}}">
+                                                            <ul class="options">
+                                                                <li ng-repeat="alternative in repoQuesdata.qstn_alternatives">
+
+                                                                    <div class="radiobtn">
+                                                                        <input type="radio" id="radio{{$parent.$parent.$index}}{{$index}}"
+                                                                            name="radio{{$parent.$parent.$index}}"
+                                                                            ng-checked="alternative.qta_is_corr_alt=='Y'"
+                                                                            disabled>
+                                                                    </div>
+                                                                    <div class="previewanswer">
+                                                                        <div ng-bind-html="renderAsHtml(alternative.qta_alt_desc)"
+                                                                            ng-class="{'boldCorrect' : alternative.qta_is_corr_alt=='Y'}">
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="updatedBy">
+                                                    updated {{repoQuesdata.qst_audit_dt | date: "MMMM dd, y h:mm a"}},
+                                                    by {{repoQuesdata.qst_audit_by || repoQuesdata.author_name}}
+                                                </div>
+
+                                                <div class="tabSummery">
+                                                    <ul class="nav nav-tabs" id="myTab">
+                                                        <li id="remarkLi{{repoQrepoQuesdataues.qb_pk}}">
+                                                            <a data-target="#remark{{repoQuesdata.qb_pk}}" data-toggle="tab"
+                                                                ng-click="remarkTabClicked(repoQuesdata.qb_pk)">Remarks</a>
+                                                        </li>
+                                                        <li id="referenceLi{{repoQuesdata.qb_pk}}">
+                                                            <a data-target="#reference{{repoQuesdata.qb_pk}}" ng-click="referenceTabClicked(repoQuesdata.qb_pk)"
+                                                                data-toggle="tab">Reference</a></li>
+                                                        <li id="calculationLi{{repoQuesdata.qb_pk}}">
+                                                            <a data-target="#calculation{{repoQuesdata.qb_pk}}"
+                                                                ng-click="calculationTabClicked(repoQuesdata.qb_pk)"
+                                                                data-toggle="tab">Calculation</a></li>
+
+                                                    </ul>
+
+                                                </div>
+
+                                                <div class="tab-content">
+
+                                                    <div class="tab-pane tabSummerydetails" id="remark{{repoQuesdata.qb_pk}}">
+                                                        <h5>Remarks</h5>
+                                                        <p ng-bind-html="renderAsHtml(repoQuesdata.qst_remarks)">
+                                                            {{repoQuesdata.qst_remarks}}</p>
+                                                    </div>
+
+                                                    <div class="tab-pane tabSummerydetails" id="reference{{repoQuesdata.qb_pk}}">
+                                                        <h5>Reference</h5>
+                                                        <p ng-bind-html="renderAsHtml(repoQuesdata.reference_info)">
+                                                            {{repoQuesdata.reference_info}}</p>
+                                                    </div>
+
+                                                    <div class="tab-pane tabSummerydetails" id="calculation{{repoQuesdata.qb_pk}}">
+                                                        <h5>Calculation</h5>
+                                                        <p ng-bind-html="renderAsHtml(repoQuesdata.calculation_info)">
+                                                            {{repoQuesdata.calculation_info}}</p>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12 clearboth" ng-show="(showfinalpaper | filter:searchText).length == 0">
+                                No records found
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <ul class="pagination">
+                                            <li>
+                                                Showing {{(countQst)>0?showOffset + 1:0}} to
+                                                {{(showOffset + showQstn)>countQst?countQst:(showOffset + showQstn) |
+                                                number}}
+                                                of {{countQst}} entries<p style="color: #FF0000; font-size: 13px">Note:
+                                                    This count is inclusive of parent questions</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="pull-right">
+                                            <nav aria-label="Page navigation ">
+                                                <div id="pagination2">
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <!-- Main Body section -->
+        </div>
+
+
+        <!-- Main Body section -->
+    </div>
+    <div class="clearfix"></div>
+    <div class="footer navbar-fixed-bottom">
+        <footer>
+            <div class="container ">
+                <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+            </div>
+        </footer>
+    </div>
+
+    </div>
+
+
+
+
+
+
+
+    <!-- Modal -->
+    <div id="addUserModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" ng-click="closeModalpopup()" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Assign Vetter</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Exam Period</label>
+                                    <select class="form-control" disabled=true>
+                                        <!--option value="">{{examMaster.exam_name}}</option-->
+                                        <option value="">{{currentExamname}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <lable>Subject Name</lable>
+                                    <select class="form-control" disabled=true>
+                                        <option value="">{{examMaster.qba_subject_master.subject_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="col-md-6" style="margin-bottom: 10px;">
+                                <label>Module</label><span style="color: red">*</span><br>
+                                <select id="dates-field3" style="width: 100%" class="select2-select" multiple="multiple"
+                                    data-placeholder="Select module">
+                                    <option ng-repeat="a in dataset.schema" value="{{a}}">
+                                        {{a.module_name}}</option>
+                                </select>
+                                <br>
+                                <span class="redcolor" id="moduleErrorVetter">{{moduleError}}</span>
+                            </div>
+
+                            <!--  <my-dropdown-multiselect name="dataset.name" options="dataset.schema"></my-dropdown-multiselect> -->
+                            <!--
+                          <input type="button" name="checkedVal" value="ShowCheck" ng-click="getMultiChkVal()"  class="btn btn-yellowgreen" > -->
+
+                            <!--  <label>Module</label>
+                         <select ng-model="selectedModule"
+                         class="form-control selectpicker"
+                         ng-options="module.module_name for module in moduleList"
+                         >
+                       </select> -->
+
+                            <div class="col-sm-12 clearboth">
+                                <div>
+                                    <label>Select Vetter</label><span style="color: red">*</span><br>
+                                    <select id="vetter" class="form-control" ng-model="selectedUser" style="width:300px;">
+
+
+                                        <option ng-repeat="vetter in userList" value="{{vetter.user_pk}}">
+                                            {{vetter.user_id}}</option>
+                                    </select>
+
+                                </div>
+
+                                <span class="redcolor" id="vetterError">{{vError}}</span>
+                                <div class="form-group" style="margin-top: 20px;">
+                                    <input type="submit" ng-click="assignVetterOrPublisher()" class="btn btn-yellowgreen"
+                                        value="Assign" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Added by shilpa-->
+    <div id="addChildQuesModel" class="modal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="ChildModel" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Child Question</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 rightPan">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>Course name</b>
+                                    {{casePassage[0].qba_course_master.qba_course_name}}
+                                </div>
+
+                                <div class="col-md-3">
+                                    <b>Subject</b>
+                                    {{casePassage[0].qba_subject_master.subject_name}}
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>Module</b>
+                                    {{casePassage[0].qba_module_mstr.module_name}}
+                                </div>
+
+                                <div class="col-md-3">
+                                    <b>Unit</b>
+                                    {{casePassage[0].qba_topic_master.qba_topic_code}}-{{casePassage[0].qba_topic_master.topic_name}}
+                                </div>
+                                <div class="col-md-2"> <b>Marks</b><input ng-model="marks" type="number" class="form-control"
+                                        name="" min="0" step="0.5" onkeyup="limit(this,3);" max="2">
+                                </div>
+                                <div class="col-md-2"> <b>Negative Marks</b><input ng-model="negativeMarks" type="number"
+                                        class="form-control smalltb" name="" min="0" step="0.5">
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>Passage</b>
+                                    <p ng-bind-html="renderAsHtml(casePassage[0].qst_body)"></p>
+                                </div>
+                            </div><br><br>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>Question<span style="color: red">*</span></b>
+                                    <textarea class="form-control" id="editor1" name="editor"></textarea>
+                                </div>
+                            </div><br><br>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>Number of options:<span style="color: red">*</span></b>
+                                    <select id="selectOptions" ng-model="numOfOptions" class="form-control smalltb"
+                                        ng-change="addOrRemoveOptions()" ng-options="option.value for option in numOfOptionsList">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="top"></div>
+                            <div class="row">
+                                <div class="col-md-10">&nbsp;</div>
+                                <div class="col-md-2 text-right textCorrectAns">Correct Answer</div>
+                            </div>
+
+                            <div class="row" ng-repeat="alternative in newChildQuestion.alternatives">
+                                <div class="col-md-11 options">
+                                    <div style="border: 1px solid #ccc;
+                                border-radius: 4px">
+
+                                        <textarea id="editor{{$index+2}}" class="form-control" name="editor{{$index+2}}">
+                         </textarea>
+                                        <!-- <style>
+                        div[contenteditable] {
+                          outline: 1px solid black;
+                        }
+                       </style>-->
+                                    </div>
+                                </div>
+                                <div class="col-md-1 text-center">
+                                    <input type="radio" ng-model="$parent.selectedOption" name="correctAnswer" ng-value="{{$index}}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12"><br>
+                                    <b>Remark</b>
+                                    <textarea class="form-control txtHeight" id="editorRemarks" name="editorRemarks"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>Reference</b>
+                                    <textarea id="editorReference" name="editorReference" class="form-control txtHeight"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"><br>
+                                    <b>Calculations</b>
+                                    <textarea id="editorCalculations" name="editorCalculations" class="form-control txtHeight"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <button ng-click="saveCSQChild()" class="btn btnGreen">Save</button> &nbsp; <button
+                                        data-dismiss="modal" class="btn btn-default">Cancel</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End by shilpa-->
+
+    <div id="addPublisherModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" ng-click="closeModalpopup()" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Assign Publisher</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Exam Period</label>
+                                    <select class="form-control" disabled=true>
+                                        <option value="">{{currentExamname}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <lable>Subject Name</lable>
+                                    <select class="form-control" disabled=true>
+                                        <option value="">{{examMaster.qba_subject_master.subject_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                            <div class="col-md-6" style="margin-bottom: 10px;">
+                                <label>Module</label><span style="color: red">*</span><br>
+                                <select id="dates-field2" style="width: 100%" class="form-control select2-select"
+                                    multiple="multiple" data-placeholder="All modules" ng-disabled="true">
+                                    <option ng-repeat="a in dataset.schema" value="{{a}}">
+                                        {{a.module_name}}</option>
+                                </select>
+                                <span class="redcolor" id="moduleErrorpublisher">{{moduleErrorpublisher}}</span>
+                            </div>
+
+
+
+
+
+
+                            <!--  <my-dropdown-multiselect name="dataset.name" options="dataset.schema"></my-dropdown-multiselect> -->
+
+                            <!-- <select ng-model="selectedModule"
+                        class="form-control selectpicker"
+                        ng-options="module.module_name for module in moduleList"
+                        >
+                      </select> -->
+
+
+                            <div class="col-sm-12 clearboth">
+                                <div>
+                                    <label>Select Publisher</label> <span style="color: red">*</span><br>
+                                    <select id="publisher" class="form-control" ng-model="selectedPublisher" style="width:300px;">
+                                        <!--<option value="" selected>Select</option>-->
+                                        <option ng-repeat="publisher in userList" value="{{publisher.user_pk}}">
+                                            {{publisher.user_id}}</option>
+                                    </select>
+                                </div>
+                                <span class="redcolor" id="publisherError">{{publisherError}}</span>
+                                <!--   <div class="form-group">
+                               <input type="checkbox" id="checkUser" class="css-checkbox med" />
+                               <label for="checkUser" class="css-label med elegant">As Publisher</label>
+                             </div> -->
+                                <div class="form-group" style="margin-top: 20px;">
+                                    <input type="submit" ng-click="assignVetterOrPublisher()" class="btn btn-yellowgreen"
+                                        value="Assign" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="uploadQuestions" role="dialog">
+
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" id="close-modal" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Upload Questions</h4>
+                </div>
+                <div class="modal-body">
+
+
+                    <form class="ng-pristine ng-valid">
+                        <div class="input-group">
+                            <input type="file" class="btn btn-default form-control m-b" name="file" id="file">
+                            <span class="input-group-btn">
+                                <input type="submit" value="Submit" class="btn btn-success m-b" ng-click="importFile()">
+                            </span>
+                        </div>
+
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="clearfix"></div>
+    <!-- footer section -->
+
+    <!-- footer section -->
+    <!-- cooling page end start here -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- <script src="../../../../../bower_components/jquery/jquery.min.js"></script> -->
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- <script src="../../js/bootstrap.min.js"></script> -->
+    <script type="text/javascript">
+        $('.message a').click(function () {
+            $('form').animate({
+                height: "toggle",
+                opacity: "toggle"
+            }, "slow");
+        });
+        $(document).ready(function () {
+            $(".menu-btn").click(function (event) {
+                //  event.preventDefault()
+                var condition = $('.sidebar').hasClass('menushow');
+
+                $(".sidebar").toggleClass('menushow');
+                if ($(".sidebar").hasClass('menushow') == true) {
+                    $(".testx").animate({
+                        marginLeft: '410px',
+                        width: '65%',
+                        float: 'right'
+                        //left:'0px'
+                    });
+                }
+                else {
+                    $(".testx").animate({
+                        marginLeft: '15px',
+                        width: '100%'
+                    })
+                }
+                /* if($(".sidebar").hasClass('menushow') == true){
+                 $(".testx").animate({
+                 width: '100%',
+                 left:'250px'
+                 });
+                 }
+                 else
+                 {
+                 $(".testx") .animate({
+                 width: '66.66666667%',
+                 left:'-250px'
+                 }).addClass('col-sm-8');
+                 }*/
+
+
+
+            });
+
+            //prevent enter button to redirect dashboard on search textbox
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+        });
+
+
+
+        /*  function myFunction1() {
+
+         setTimeout(function(){
+         $('.multiselect-ui').multiselect({
+         includeSelectAllOption: true
+         });
+
+         }, 500);
+
+
+
+
+
+         }*/
+
+
+
+
+    </script>
+    <!--    <script src="js/script.js"></script>
+<script src="http://pivot.mediumra.re/js/scripts.js"></script>-->
+
+</body>
+
+</html>

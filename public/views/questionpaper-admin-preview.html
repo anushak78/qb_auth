@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<!-- <title>QB Authoring Tool</title> -->
+
+<!-- Bootstrap -->
+<!--  <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/css/style.css" rel="stylesheet">
+  
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+    <script src="../../../../../bower_components/angular/angular.min.js"></script> -->
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+<!-- </head> -->
+<script src="/js/bootstrap-paginator.js"></script>
+
+<head>
+  <style type="text/css">
+    @media print {
+      .noprint {
+        display: none;
+      }
+
+      .testx {
+        width: 1000px !important;
+      }
+    }
+
+    .ice-del {
+      background-color: #ffdddd !important;
+    }
+
+
+
+    .optionvetter .cke_editable {
+      display: block;
+      width: 100%;
+      height: 34px;
+      /* padding: 11px 12px;*/
+      margin-left: 20px;
+      font-size: 14px;
+      line-height: 20px !important;
+      color: #555;
+      background-color: none !important;
+      background-image: none !important;
+      border: none !important;
+      border-radius: 0px !important;
+      -webkit-box-shadow: 0px !important;
+      box-shadow: 0px !important;
+      font-weight: normal;
+      -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+      -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      margin-bottom: 15px;
+    }
+  </style>
+
+
+
+</head>
+
+<body>
+
+  <!-- cooling page code start here -->
+  <div id="userinfo" class="wrapper">
+    <!-- header section -->
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <!-- Logo -->
+          <div class="logo">
+            <a class="">
+              <img src="/assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <!-- #logo end -->
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <!-- <li><a href="#">Another action</a></li> -->
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+
+
+
+
+        </div>
+
+
+
+        <div id="menu" class="nav noprint">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active"><a ui-sref="adminDashboard">Dashboard</a></li>
+              <li class="active"><a ui-sref="qp_repository">Question Bank</a></li>
+              <li class="dropdown"> <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown"
+                  role="button" aria-expanded="false">Exam Management <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Masters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="courseMaster">Course Master</a></li>
+                  <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                  <li><a ui-sref="moduleMaster">Module Master</a></li>
+                  <li><a ui-sref="topicMaster">Unit Master</a></li>
+                  <li><a ui-sref="examMaster">Exam Master</a></li>
+                  <li><a ui-sref="userMaster">User Master</a></li>
+                </ul>
+              </li>
+              <!-- <li><a >Exam Paper</a></li>
+                <li class="dropdown"> <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a >Action</a></li>
+                    <li><a >Another action</a></li>
+                    <li><a >Something else here</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a >Separated link</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a >One more separated link</a></li>
+                  </ul>
+                </li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- header section -->
+
+    <!-- Main Body section -->
+
+
+
+    <div class="container">
+      <div class="row ">
+        <div class="col-md-6">
+          <h3 class="common_heading">Question Paper ID: <span id="edt-exam_paper_id">{{currentQstnPaperId}}</span>
+            &nbsp; | &nbsp; Exam Period: <span id="edt-exam_name">{{examName}}</span> </h3>
+        </div>
+        <div class="col-md-6">
+          <button id="back" ui-sref="examPaperAdmin" class="btnBordered preview_backbtn">Back</button>
+        </div>
+
+      </div>
+
+      <!--  <h3 class="common_heading">Examination Paper Name    </h3> -->
+
+      <div class="row">
+        <div class="topmargin">
+
+
+          <div class="col-md-12">
+
+            <div class="col-md-12 searchbar mTop18">
+              <div class="row">
+                <div class="col-md-3">
+                  <span class="records"> Total Records : <b>{{countQst}}</b>
+                  </span>
+                </div>
+                <div class="col-md-6">
+
+                  Show <select ng-model="selectNoQstn" class="form-control mBottom0"
+                    style="width: 70px; height: 30px; display: inline-block;" ng-change="reloadPage()"
+                    ng-options="page.no_Qstn for page in NoQstnList">
+                  </select> Questions per page
+
+                </div>
+                <div class="col-md-3 pull-right smmargin-topbottomright" style="padding-right: 30px;">
+                  <div class="right-inner-addon">
+                    <i class="fa fa-search"></i>
+                    <input type="text" name="" class="form-control mBottom0 pull-right" placeholder="Search Content"
+                      ng-model="searchText">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <script src="/scripts/constantMap.js"></script>
+            <div class="row-eq-height">
+              <div id="printId" class="col-xs-8 col-sm-8 col-md-12 col-lg-12 rightPan noPadding">
+                <!-- Pagination Start -->
+                <div ng-show="repoQuestions.length > 0">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <ul class="pagination">
+                        <li>
+                          Showing {{(countQst)>0?showOffset + 1:0}} to
+                          {{(showOffset + showQstn)>countQst?countQst:(showOffset + showQstn) | number}} of {{countQst}}
+                          entries
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="pull-right">
+                        <nav aria-label="Page navigation ">
+                          <div id="pagination1">
+                          </div>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- PAGINATION END -->
+
+
+                <div ng-repeat="repoQues in repoQuestions | filter:searchText" class="paper_preview">
+                  <div ng-if="repoQues.qst_type == 'CS' && repoQues.qst_pid == '0'">
+                    <span class="btnSmall">QB ID {{repoQues.qb_id}}</span>
+                    <span class="btnSmall" ng-if="repoQues.qst_type == 'CS' && repoQues.qst_pid == '0'">Case</span>
+                    <span class="btnSmall" ng-if="repoQues.qst_type == 'CS' && repoQues.qst_pid != '0'">Case
+                      Question</span>
+                    <span class="btnSmall">{{repoQues.qba_topic_master.topic_name}}</span>
+                    <span class="btnSmall">Mod {{repoQues.qba_module_mstr.module_name}}</span>
+                    <p style="margin-top:10px;" ng-bind-html="renderAsHtml(repoQues.qst_body)"></p>
+                  </div>
+                  <div ng-if="(repoQues.qst_type == 'CS' && repoQues.qst_pid != '0') || repoQues.qst_type == 'M'"
+                    class="qDetails">
+                    <span class="btnSmall">QB ID {{repoQues.qb_id}}</span>
+                    <span class="btnSmall" ng-if="repoQues.qst_type == 'M'">Multiple Choice</span>
+                    <span class="btnSmall" ng-if="repoQues.qst_type == 'CS' && repoQues.qst_pid != '0'">Case
+                      Question</span>
+                    <span class="btnSmall">{{repoQues.qba_topic_master.topic_name}}</span>
+                    <span class="btnSmall">Mod {{repoQues.qba_module_mstr.module_name}}</span>
+                    <span class="btnSmall">Marks: {{repoQues.qst_marks | number:1}}</span>
+                    <span ng-if="repoQues.qst_pid != '0'" class="btnSmall">Parent ID {{repoQues.qst_pid}}</span>
+                  </div>
+                  <p ng-if="(repoQues.qst_type == 'CS' && repoQues.qst_pid != '0') || repoQues.qst_type == 'M'"
+                    ng-bind-html="renderAsHtml(repoQues.qst_body)" style="word-wrap: break-word;"></p>
+                  <img ng-if="repoQues.qbank_image.qbi_image_name != null"
+                    src="static/controllers/output/{{repoQues.qbank_image.qbi_image_name}}">
+                  <ul class="options">
+                    <li ng-repeat="alternative in repoQues.qstn_alternatives">
+                      <div class="radiobtn">
+                        <input type="radio" name="" ng-checked="alternative.qta_is_corr_alt=='Y'" disabled>
+                      </div>
+                      <div class="previewanswer">
+                        <div ng-bind-html="renderAsHtml(alternative.qta_alt_desc)"
+                          ng-class="{'boldCorrect' : alternative.qta_is_corr_alt=='Y'}"></div>
+                        <img ng-if="alternative.qbank_image.qbi_image_name != null"
+                          src="static/controllers/output/{{alternative.qbank_image.qbi_image_name}}">
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="updatedBy">
+                    updated {{repoQues.qst_audit_dt | date: "MMMM dd, y h:mm a"}}, by {{repoQues.qst_audit_by}}</div>
+                </div>
+                <!--  <div ng-repeat="repoQues in repoQuestions | filter:searchText" class="qSummery">
+
+           
+                  <p ng-if="repoQues.qst_body != ''" ng-bind-html="renderAsHtml(repoQues.qst_body)"></p>
+                  <div ng-if="(repoQues.qst_type == 'CS' && repoQues.qst_pid != '0') || repoQues.qst_type == 'M'" class="qDetails">
+                    <div class="row">
+                      <div class="col-sm-9"> 
+                        <button class="btnSmall">QB ID {{repoQues.qb_id}}</button>
+                        <button ng-if="repoQues.qst_type == 'M'" class="btnSmall">Multiple Choice</button>
+                        <button ng-if="repoQues.qst_type == 'CS'" class="btnSmall">Case Question</button>
+                        <button class="btnSmall">{{repoQues.qba_topic_master.topic_name}}</button>
+                        <button class="btnSmall">{{repoQues.qba_module_mstr.module_name}}</button>
+                        <button class="btnSmall">Marks {{repoQues.qst_marks | number:1}}</button>
+                        <br><br>      
+                     <p ng-if="repoQues.qst_body != ''" ng-bind-html="renderAsHtml(repoQues.qst_body)"></p>  
+                        
+                        <ul class="options optionvetter" >
+                          <li ng-repeat="alternative in repoQues.qstn_alternatives">
+                            <div ng-if="alternative.qta_alt_desc !=null" class="radiobtn">
+                              <input type="radio" name="editableOption" ng-checked="alternative.qta_is_corr_alt=='Y'" >
+                            </div>
+                            <div ng-if="alternative.qta_alt_desc !=null" class="previewanswer" >
+                              <p class="correct" ng-model="alternative.qta_alt_desc" ng-class="{'boldCorrect' : alternative.qta_is_corr_alt=='Y'}"></p>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+             
+
+                    </div>
+                  </div>
+
+
+
+
+
+                  <div class="row">
+
+                    <div class="col-sm-6">
+                      <div ng-if="repoQues.qst_type == 'M' && repoQues.qst_body ==''">
+                        <button class="btn btn-darkgreen center-block" ng-click="addShortfallQuestinon(repoQues);" align="center">Add Question</button>
+                      </div> 
+
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="updatedBy">
+                       updated {{repoQues.qst_audit_dt | date: "MMMM dd, y h:mm a"}}, by {{repoQues.qst_audit_by}}
+                     </div> 
+
+                   </div>
+
+
+                 </div>
+
+
+
+            
+
+                   </div> -->
+                <!-- Pagination Start -->
+                <div ng-show="repoQuestions.length > 0">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <ul class="pagination">
+                        <li>
+                          Showing {{(countQst)>0?showOffset + 1:0}} to
+                          {{(showOffset + showQstn)>countQst?countQst:(showOffset + showQstn) | number}} of {{countQst}}
+                          entries
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="pull-right">
+                        <nav aria-label="Page navigation ">
+                          <div id="pagination2">
+                          </div>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- PAGINATION END -->
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Body section -->
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+  <!-- footer section -->
+  <div class="footer">
+    <footer>
+      <div class="container ">
+        <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+      </div>
+    </footer>
+  </div>
+  <!-- footer section -->
+  <!-- cooling page end start here -->
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <!-- <script src="../../../../../bower_components/jquery/jquery.min.js"></script> -->
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <!-- <script src="../../js/bootstrap.min.js"></script> -->
+  <script type="text/javascript">
+    $('.message a').click(function () {
+      $('form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, "slow");
+    });
+    $(document).ready(function () {
+      $(".menu-btn").click(function (event) {
+        //  event.preventDefault()
+        var condition = $('.sidebar').hasClass('menushow');
+
+        $(".sidebar").toggleClass('menushow');
+        if ($(".sidebar").hasClass('menushow') == true) {
+          $(".testx").animate({
+            marginLeft: '410px',
+            width: '67%'
+            //left:'0px'
+          });
+        }
+        else {
+          $(".testx").animate({
+            marginLeft: '15px',
+            width: '100%'
+          })
+        }
+      });
+
+    });
+
+
+
+
+
+
+
+
+  </script>
+  <script>
+
+    function getURLParameter(sParam) {
+      var sPageURL = window.location.search.substring(1);
+      var sURLVariables = sPageURL.split('&');
+
+      for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) {
+          return sParameterName[1];
+        }
+      }
+
+    }
+
+
+
+// function showPreview(){
+//       var username =  getURLParameter('username');
+//       var userid =  getURLParameter('userid');
+//       location.href="questionpaper-preview_common.html?username="+username+"&userid="+userid;
+// }
+  </script>
+
+  <!--    <script src="js/script.js"></script>
+              <script src="http://pivot.mediumra.re/js/scripts.js"></script>-->
+
+</body>
+
+</html>

@@ -1,0 +1,194 @@
+<body>
+    <!-- cooling page code start here -->
+    <div class="wrapper">
+        <!-- header section -->
+        <header id="header">
+            <div class="container clearfix">
+                <div class="clearfix">
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a class=""><img src="/assets/images/logo.jpg" alt="Canvas Logo"></a>
+                    </div>
+                    <!-- #logo end -->
+                    <div class="userDetails">
+                        <div class="btn-group">
+                            <button type="button" class="btn login-info"> <span class="glyphicon glyphicon-user"
+                                    aria-hidden="true"></span> admin@gmail.com</button>
+                            <button type="button" class="btn login-info dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a ui-sref="changePassword">Change Password</a></li>
+                                <li><a>Another action</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="nav">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a ui-sref="qp_repository">Question Bank</a></li>
+                            <li class="dropdown"> <a style="cursor: pointer;" class="dropdown-toggle"
+                                    data-toggle="dropdown" role="button" aria-expanded="false">Exam Management <span
+                                        class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a ui-sref="culling">Culling</a></li>
+
+                                </ul>
+                            </li>
+                            <li><a href="#">Exam Paper</a></li>
+                            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                    role="button" aria-expanded="false">Reports <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">One more separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                <!--   <div style=" float: right;">
+                    <button class="btn btn-success">+ Create Exam Paper</button>
+                </div> -->
+        </header>
+        <!-- header section -->
+
+        <!-- Main Body section -->
+        <div class="container">
+            <div class="row ">
+                <!-- <div class="col-md-6"> <h3 class="common_heading">Question Paper ID: <span>QPN20170001</span> &nbsp; |  &nbsp;  Exam Name: <span>JAIIB Nov 2017</span> </h3></div> -->
+
+                <!-- <div class="col-md-6 text-right mTop15">
+                <a class="btn btn-white" onclick="showPreview()" href="#">Preview</a>
+                <a class="btn btn-darkgreen" href="">Submit</a>
+               </div> -->
+
+            </div>
+
+            </h3>
+
+
+
+
+            <div class="row">
+                <div class="topmargin">
+
+
+                    <div class="col-md-12">
+
+                        <div class="col-md-12 searchbar mTop18">
+                            <div class="row">
+
+                                <div class="col-md-3 pull-right smmargin-topbottomright" style="padding-right: 30px;">
+                                    <div class="right-inner-addon">
+                                        <i class="fa fa-search"></i>
+                                        <input type="text" name="" class="form-control mBottom0 pull-right"
+                                            placeholder="Search Content">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="row-eq-height">
+
+                            <div class="col-xs-8 col-sm-8 col-md-12 col-lg-12 rightPan noPadding">
+
+                                <div class="col-sm-6" style="margin-top: 20px;">
+                                    <table class="table table-bordered ">
+                                        <tr>
+                                            <th>Exam</th>
+                                            <th>Date</th>
+                                            <th>Module</th>
+                                        </tr>
+                                        <tr ng-repeat="details in vetterDetails">
+                                            <td>{{details.exam_master.exam_name}}</td>
+                                            <td>
+                                                <span
+                                                    ng-bind="formatDate(details.audit_dt) | date:'yyyy/MM/dd'">{{details.audit_dt}}</span>
+                                            </td>
+                                            <td ng-click="gotoModule(details);" style="cursor:pointer;">
+                                                {{details.module_ids}}</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Body section -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main Body section -->
+    </div>
+    <div class="push"></div>
+    </div>
+
+
+    <!-- footer section -->
+    <div class="footer">
+        <footer>
+            <div class="container ">
+                <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+        </footer>
+    </div>
+    <!-- footer section -->
+    <!-- cooling page end start here -->
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <!-- <script src="../../js/bootstrap.min.js"></script> -->
+    <script type="text/javascript">
+        $('.message a').click(function () {
+            $('form').animate({
+                height: "toggle",
+                opacity: "toggle"
+            }, "slow");
+        });
+
+
+        $(document).ready(function () {
+            $('#tab1').click(function () {
+                $('#tabDetails1').toggle();
+                $('#tabDetails2').hide();
+                $('#tabDetails3').hide();
+            });
+            $('#tab2').click(function () {
+                $('#tabDetails2').toggle();
+                $('#tabDetails1').hide();
+                $('#tabDetails3').hide();
+            });
+            $('#tab3').click(function () {
+                $('#tabDetails3').toggle();
+                $('#tabDetails2').hide();
+                $('#tabDetails1').hide();
+            });
+
+        });
+
+    </script>
+
+
+</body>

@@ -1,0 +1,126 @@
+<style>
+  .radiochecked {
+    background-color: #ffb3b3 !important;
+  }
+</style>
+
+<div class="background_image_div"></div>
+
+<div style="padding-bottom: 10px;padding-top: 10px;" ng-repeat="repoQues in trackQuestions | filter:searchText"
+  class="qSummery" repeat-end="onload()">
+  <div ng-if="repoQues.qst_request_status == 'Replacement request approved'">
+    <a class="btn btn-approved">
+      Click here for selecting replacement question</a>
+  </div>
+  <!--{{repoQues.qst_request_status}}-->
+  <div ng-if="repoQues.qst_request_status == 'Deletion request approved'">
+    <button class="btn redbtn-approved">Click here for selecting replacement question</button>
+  </div>
+  <div class="col-sm-12">
+    <div style="display:none; margin-bottom: 10px;"
+      ng-class="{'div_qstreplaced':repoQues.qst_request_remarks !== 'null' && repoQues.qst_request_remarks !== null && repoQues.qst_request_remarks!== ''}">
+
+      {{repoQues.qst_request_remarks}} done by {{repoQues.qst_audit_by}}
+
+    </div>
+  </div>
+  <div ng-if="repoQues.qst_type == 'CS' && repoQues.qst_pid == '0'">
+    <div class="col-sm-9">
+      <button class="btnSmall">QB ID {{repoQues.qb_id}}</button>
+      <button ng-if="repoQues.qst_type == 'M'" class="btnSmall">Multiple Choice</button>
+      <button ng-if="repoQues.qst_type == 'CS'" class="btnSmall">Case Question</button>
+      <button class="btnSmall">{{repoQues.qba_topic_master.qba_topic_code}} -
+        {{repoQues.qba_topic_master.topic_name}}</button>
+      <button class="btnSmall">Mod {{repoQues.qba_module_mstr.module_name}}</button>
+      <button class="btnSmall">Marks {{repoQues.total_marks}}</button>
+      <button ng-if="repoQues.qst_pid != '0'" class="btnSmall">Parent ID {{repoQues.qst_pid}}</button>
+      <button class="btnSmall">No. of Child questions {{repoQues.no_of_question}}</button>
+
+      <span class="checkbox quecheckbox" ng-if="repoQues.qst_type == 'CS' && repoQues.qst_pid == '0'">
+
+        <p style="display:inline;text-align:justify;margin-left: -40px;" class="editable" id="{{repoQues.qb_id}}"
+          contenteditable="false" ng-if="repoQues.qst_body != ''" ng-model="repoQues.qst_body">{{repoQues.qst_body}}</p>
+
+      </span>
+    </div>
+
+  </div>
+  <div ng-if="(repoQues.qst_type == 'CS' && repoQues.qst_pid != '0') || repoQues.qst_type == 'M'" class="qDetails">
+    <div>
+      <div class="col-sm-9">
+        <button class="btnSmall">QB ID {{repoQues.qb_id}}</button>
+        <button ng-if="repoQues.qst_type == 'M'" class="btnSmall">Multiple Choice</button>
+        <button ng-if="repoQues.qst_type == 'CS'" class="btnSmall">Case Question</button>
+        <button class="btnSmall">{{repoQues.qba_topic_master.qba_topic_code}} -
+          {{repoQues.qba_topic_master.topic_name}}</button>
+        <button class="btnSmall">Mod {{repoQues.qba_module_mstr.module_name}}</button>
+        <button class="btnSmall">Marks {{repoQues.qst_marks | number:1}}</button>
+        <button ng-if="repoQues.qst_pid != '0'" class="btnSmall">Parent ID {{repoQues.qst_pid}}</button>
+
+        <div class="checkbox quecheckbox" ng-if="repoQues.qst_type == 'M'">
+
+          <p style="display:inline;margin-left: -40px;" class="editable" id="{{repoQues.qb_id}}" contenteditable="false"
+            ng-if="repoQues.qst_body != ''" ng-model="repoQues.qst_body"></p>
+        </div>
+        <div class="checkbox quecheckbox" ng-if="repoQues.qst_type == 'CS'">
+
+          <p style="display:inline;margin-left: -40px;" class="editable" id="{{repoQues.qb_id}}" contenteditable="false"
+            ng-if="repoQues.qst_body != ''" ng-model="repoQues.qst_body"></p>
+        </div>
+        <ul class="options optionvetter">
+          <li ng-repeat="alternative in repoQues.qstn_alternatives">
+
+            <div ng-if="alternative.qta_alt_desc !=null" class="radiobtn">
+              <span ng-if="repoQues.log_count == alternative.qta_pk"
+                style="color: #FF0000;font-size: 15px;"><b>*</b></span> {{$index + 1}}.
+            </div>
+            <div ng-if="alternative.qta_alt_desc !=null" class="previewanswer">
+
+              <p style="width: 100%; margin-bottom: 0px;" class="editable" id="{{alternative.qta_pk}}"
+                contenteditable="false" ng-model="alternative.qta_alt_desc"
+                ng-class="{'boldCorrect' : alternative.qta_is_corr_alt=='Y', 'radiochecked' : repoQues.log_count !== null && alternative.qta_is_corr_alt=='Y' }">
+              </p>
+              <!-- <p class="correct editable" id="{{alternative.qta_pk}}" contenteditable="true" ng-model="alternative.qta_alt_desc" ng-class="{'boldCorrect' : alternative.qta_is_corr_alt=='Y', 'radiochecked' : repoQues.log_count !== null && alternative.qta_is_corr_alt=='Y' }" ></p> -->
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-sm-6">
+      <div class="updatedBy">
+        updated {{repoQues.qst_audit_dt | date: "MMMM dd, y h:mm a"}}, by {{repoQues.qst_audit_by}}
+      </div>
+
+    </div>
+
+
+  </div>
+  <div style="display:inline;text-align:justify;" style="margin-left: 10px;"
+    ng-if="repoQues.qst_remarks!=0 && repoQues.qst_remarks !='' && repoQues.qst_remarks != null">
+    <h5>Remarks -</h5>
+    <p class="editable" contenteditable="false" ng-model="repoQues.qst_remarks" ng-bind-html="renderAsHtml(repoQues.qst_remarks)"></p>
+  </div>
+  <br>
+  <div style="display:inline;text-align:justify;" style="margin-left: 10px;"
+    ng-if="repoQues.reference_info!='' && repoQues.reference_info !='' && repoQues.reference_info !=null">
+    <h5>Reference - </h5>
+    <p class="editable" contenteditable="false" ng-model="repoQues.reference_info" ng-bind-html="renderAsHtml(repoQues.reference_info)"></p>
+    <!-- Reference - {{repoQues.reference_info}} -->
+  </div>
+  <br>
+  <div style="display:inline;text-align:justify;" style="margin-left: 10px;"
+    ng-if="repoQues.calculation_info!=0 && repoQues.calculation_info !='' && repoQues.calculation_info !=null">
+    <h5>Calculation - </h5>
+    <p class="editable" contenteditable="false" ng-model="repoQues.calculation_info" ng-bind-html="renderAsHtml(repoQues.calculation_info)"></p>
+    <!-- Calculation - {{repoQues.calculation_info}} -->
+  </div>
+  <div ng-repeat="log in  repoQues.culled_qstn_alternatives_log">
+    <samp ng-bind-html="renderAsHtml(log)"></samp>
+    <br>
+  </div>
+
+
+</div>

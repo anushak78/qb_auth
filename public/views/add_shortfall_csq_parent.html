@@ -1,0 +1,251 @@
+<style>
+  .wrapper {
+
+    height: 100% !important;
+    overflow-y: scroll;
+  }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>QB Authoring Tool</title>
+
+
+  </script>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body>
+  <!-- cooling page code start here -->
+  <div class="wrapper">
+    <!-- header section -->
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <!-- Logo -->
+          <div class="logo">
+            <a href="#" class=""><img src="assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <!-- #logo end -->
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <!-- <li><a href="#">Another action</a></li> -->
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active" ng-if="loginUser.role == 'ADM'"><a ui-sref="adminDashboard">Dashboard</a></li>
+              <li class="active"><a ui-sref="qp_repository" class="active">Question Bank</a></li>
+              <li><a ui-sref="publishedExams">Published Exam</a></li>
+              <li class="dropdown"> <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown"
+                  role="button" aria-expanded="false">Exam Management <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Masters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="courseMaster">Course Master</a></li>
+                  <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                  <li><a ui-sref="moduleMaster">Module Master</a></li>
+                  <li><a ui-sref="topicMaster">Unit Master</a></li>
+                  <li><a ui-sref="examMaster">Exam Master</a></li>
+                  <li><a ui-sref="userMaster">User Master</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!--   <div style=" float: right;">
+                    <button class="btn btn-success">+ Create Exam Paper</button>
+                </div> -->
+    </header>
+    <!-- header section -->
+
+    <!-- Main Body section -->
+    <div class="container ">
+
+      <div class="bodycontainer">
+        <ul ng-show="error_msg.length > 0" class="errormesg">
+          <li ng-repeat="err in error_msg">{{err}}</li>
+        </ul>
+
+
+        <div class="row addUpadateRow">
+          <div class="col-md-6">
+            <h4>Add Case Study Question</h4>
+          </div>
+          <div class="col-md-6 text-right">
+            <!--<button id="back" ui-sref="vetterReviewQuestion" class="btnBordered">Back</button>-->
+            <button id="back" ng-click="goBack()" class="btnBordered">Back</button>
+          </div>
+
+        </div>
+
+
+
+        <div class="row" id="addQues">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 rightPan">
+            <div class="row">
+              <div class="col-md-3">
+                <b>Course<span style="color: red">*</span></b>
+
+                <b>{{course_code}} - {{course_name}}</b>
+              </div>
+
+              <div class="col-md-3">
+                <b>Subject<span style="color: red">*</span></b>
+                <b>{{subject_code}} - {{subject_name}}</b>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-3">
+                <b>Module<span style="color: red">*</span></b>
+                <b>{{module_name}}</b>
+              </div>
+
+              <div class="col-md-3"> <b>Unit<span style="color: red">*</span></b>
+                <b>{{topic_code}} - {{topic_name}}</b>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <b>Case Text<span style="color: red">*</span></b>
+                <textarea class="form-control" id="editor1" name="editor1"></textarea>
+              </div>
+
+            </div><br>
+
+            <div class="row">
+              <div class="col-md-3">
+                <button ng-click="prepareAddChildQuestionData()" class="btnBordered"
+                  ng-hide="adminCaseEditFlag == true">Add Child Question</button>
+              </div>
+            </div><br>
+
+            <div ng-show="childQuestionList.length > 0" class="row">
+              <div class="col-md-12">
+                <b>Child Questions</b>
+                <ul style="list-style: none;">
+                  <li ng-repeat="childQuestion in childQuestionList">
+                    Q{{$index+1}}: <p ng-bind-html="renderAsHtml(childQuestion.question)"
+                      style="word-wrap: break-word;"></p>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-10">
+                <button ng-click="saveCSQParentShortfall()" data-toggle="modal" class="btn btnGreen">Save</button>&nbsp;
+
+                <button id="showModal" style="display: none" data-toggle="modal" data-target="#confirmationId"
+                  class="btn btnGreen">Hidden Save</button>&nbsp;
+
+                <button class="btn btn-default" ng-if="loginUser.role == 'ADM'" ui-sref="qp_repository">Cancel</button>
+              </div>
+            </div><br>
+
+
+
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3">
+
+              <div id="confirmationId" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content popUpbox">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">IIBF</h4>
+                    </div>
+                    <div class="modal-body">
+                      Data Saved Successfully.
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btnGreen" data-dismiss="modal">Ok</button>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
+
+          </div>
+
+
+        </div>
+      </div>
+      <!-- Main Body section -->
+    </div><br><br>
+    <div class="push"></div>
+  </div>
+  <!-- footer section -->
+  <div class="footer">
+    <footer>
+      <div class="container ">
+        <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+    </footer>
+  </div>
+  <!-- footer section -->
+  <!-- cooling page end start here -->
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <!-- <script src="../../js/bootstrap.min.js"></script> -->
+  <script type="text/javascript">
+    $('.message a').click(function () {
+      $('form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, "slow");
+    });
+
+
+
+
+  </script>
+
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <!--<script src="http://pivot.mediumra.re/js/scripts.js"></script>-->
+  <!--<script type="text/javascript" src="../../assets/ckeditor/filter.js"></script>-->
+  <script type="text/javascript" src="../scripts/addCSQParent.js"></script>
+
+
+</body>
+
+</html>

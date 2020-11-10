@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>QB Authoring Tool</title>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <style type="text/css">
+    .cke_editable {
+      display: block;
+      width: 100%;
+      min-height: 34px;
+      padding: 6px 12px;
+      font-size: 14px;
+      line-height: 1.42857143;
+      color: #555;
+      background-color: #fff;
+      background-image: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+      -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+      -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      margin-bottom: 15px;
+    }
+
+    .wrapper {
+
+      height: 100% !important;
+      overflow-y: scroll;
+    }
+  </style>
+
+</head>
+
+<body>
+  <!-- cooling page code start here -->
+  <div class="wrapper">
+    <!-- header section -->
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <!-- Logo -->
+          <div class="logo">
+            <a href="#" class=""><img src="assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <!-- #logo end -->
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <!-- <li><a href="#">Another action</a></li> -->
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <!-- <li><a ui-sref="adminDashboard">Dashboard</a></li> -->
+              <li><a ng-if="role == 'SUADM'" ui-sref="SuperAdminDashboard">Dashboard</a></li>
+              <li><a ng-if="role == 'ADM'" ui-sref="adminDashboard">Dashboard</a></li>
+              <li class="active"><a ui-sref="qp_repository">Question Bank</a></li>
+              <li><a ui-sref="publishedExams" ng-hide="role == 'ADM'">Published Exam</a></li>
+              <li class="dropdown"> <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown"
+                  role="button" aria-expanded="false">Exam Management <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+                </ul>
+              </li>
+              <li class="dropdown" ng-hide="role == 'ADM'">
+                <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Masters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="courseMaster">Course Master</a></li>
+                  <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                  <li><a ui-sref="moduleMaster">Module Master</a></li>
+                  <li><a ui-sref="topicMaster">Unit Master</a></li>
+                  <li><a ui-sref="examMaster">Exam Master</a></li>
+                  <li><a ui-sref="userMaster">User Master</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </header>
+    <!-- header section -->
+
+    <!-- Main Body section -->
+    <div class="container ">
+
+      <div class="bodycontainer">
+
+        <div class="row addUpadateRow">
+          <div class="col-md-6">
+            <h4>Add Child Question</h4>
+          </div>
+          <div class="col-md-6 text-right">
+            <button id="back" ui-sref="add_csq_admin" class="btnBordered">Back</button>
+          </div>
+        </div>
+
+        <div class="row" id="addQues">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 rightPan">
+            <div class="row">
+              <div class="col-md-3">
+                <b>Course name</b>
+                <b> {{courser_code}} {{Coursename}} </b>
+              </div>
+
+              <div class="col-md-3">
+                <b>Subject</b>
+                <b> {{subject_code}} {{subject_name}} </b>
+              </div>
+            </div><br>
+
+            <div class="row">
+              <div class="col-md-3">
+                <b>Module</b>
+                <b>{{module_name}}</b>
+              </div>
+              <div class="col-md-3"> <b>Unit</b>
+                <b> {{topic_code}} - {{topic_name}} </b>
+              </div>
+              <div class="col-md-1"> <b>Marks</b><input ng-model="marks" type="number" class="form-control" name=""
+                  min="0" step="0.5" onkeyup="limit(this,3);" style="width:120%;">
+              </div>
+              <div class="col-md-2"> <b>Negative Marks</b><input ng-model="negativeMarks" type="number"
+                  class="form-control smalltb" name="" min="0" step="0.5">
+              </div>
+
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <b>Case Text</b>
+                <p ng-bind-html="renderAsHtml(parentQuestion.question)"></p>
+              </div>
+
+            </div><br><br>
+
+            <div class="row">
+              <div class="col-md-12">
+                <b>Question<span style="color: red">*</span></b>
+                <textarea class="form-control" id="editor1" name="editor1"></textarea>
+              </div>
+
+            </div><br><br>
+
+            <div class="row">
+              <div class="col-md-2">
+                <b>Number of options:<span style="color: red">*</span></b>
+                <select id="selectOptions" ng-model="numOfOptions" class="form-control smalltb"
+                  ng-change="addOrRemoveOptions()" ng-options="option.value for option in numOfOptionsList">
+                </select>
+              </div>
+
+            </div>
+
+            <div id="top"></div>
+
+            <div class="row">
+              <div class="col-md-10">&nbsp;</div>
+              <div class="col-md-2 text-right textCorrectAns">Correct Answer</div>
+            </div>
+
+            <div class="row" ng-repeat="alternative in newChildQuestion.alternatives">
+              <div class="col-md-11 options">
+
+                <textarea id="editor{{$index+2}}" class="form-control" name="editor{{$index+2}}">
+                         </textarea>
+              </div>
+              <div class="col-md-1 text-center">
+                <input type="radio" ng-model="$parent.selectedOption" name="correctAnswer" ng-value="{{$index}}">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12"><br>
+                <b>Remark</b>
+                <textarea ng-model="remark" class="form-control txtHeight" id="editorremarks"
+                  name="editorremarks"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <b>Reference</b>
+                <textarea ng-model="reference" class="form-control txtHeight" id="editorreference"
+                  name="editorreference"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12"><br>
+                <b>Calculations</b>
+                <textarea ng-model="calculations" class="form-control txtHeight" id="editorcalculation"
+                  name="editorcalculation"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10">
+                <button ng-click="saveCSQChild()" class="btn btnGreen">Save</button> &nbsp; <button
+                  ui-sref="add_csq_admin" class="btn btn-default">Cancel</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3">
+
+              <div id="confirmationId" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content popUpbox">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">IIBF</h4>
+                    </div>
+                    <div class="modal-body">
+                      Data Saved Successfully.
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" ng-click="gotoParent()" class="btn btnGreen"
+                        data-dismiss="modal">Ok</button>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
+
+          </div>
+
+
+        </div>
+      </div>
+      <!-- Main Body section -->
+    </div><br><br>
+    <div class="push"></div>
+  </div>
+  <!-- footer section -->
+  <div class="footer">
+    <footer>
+      <div class="container ">
+        <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+    </footer>
+  </div>
+
+  <!-- footer section -->
+  <!-- cooling page end start here -->
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <!-- <script src="../../js/bootstrap.min.js"></script> -->
+  <script type="text/javascript">
+    $('.message a').click(function () {
+      $('form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, "slow");
+    });
+
+    function limit(element, max) {
+      var max_chars = max;
+      if (element.value.length > max_chars) {
+        element.value = element.value.substr(0, max_chars);
+      }
+    }
+
+
+  </script>
+  <!--<script src="http://pivot.mediumra.re/js/scripts.js"></script>-->
+  <!--<script type="text/javascript" src="../../assets/ckeditor/filter.js"></script>-->
+  <script type="text/javascript" src="../scripts/addCSQChild.js"></script>
+
+</body>
+
+</html>

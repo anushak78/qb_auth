@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>QB Authoring Tool</title>
+
+
+  <script src="/js/select2.min.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/datepicker.js"></script>
+  <link href="css/core.css" rel="stylesheet">
+  <link href="css/datepicker.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- cooling page code start here -->
+  <div class="wrapper">
+    <!-- header section -->
+
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <!-- Logo -->
+          <div class="logo">
+            <a class=""><img src="/assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <!-- #logo end -->
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <!-- <li><a href="#">Another action</a></li> -->
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a ng-if="role == 'SUADM'" ui-sref="SuperAdminDashboard">Dashboard</a></li>
+              <li><a ng-if="role == 'ADM'" ui-sref="adminDashboard">Dashboard</a></li>
+              <li><a ng-hide="role == 'ADM'" ui-sref="qp_repository">Question Bank</a></li>
+              <li><a ui-sref="publishedExams" class="active">Published Exam</a></li>
+              <li class="dropdown">
+                <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Exam Management <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+
+                </ul>
+              </li>
+              <li class="dropdown" ng-hide="role == 'ADM'">
+                <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Masters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="courseMaster">Course Master</a></li>
+                  <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                  <li><a ui-sref="moduleMaster">Module Master</a></li>
+                  <li><a ui-sref="topicMaster">Unit Master</a></li>
+                  <li><a ui-sref="examMaster">Exam Master</a></li>
+                  <li><a ui-sref="userMaster">User Master</a></li>
+                </ul>
+              </li>
+              <!-- <li><a href="#">Exam Paper</a></li>
+                  <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Action</a></li>
+                      <li><a href="#">Another action</a></li>
+                      <li><a href="#">Something else here</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li><a href="#">Separated link</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li><a href="#">One more separated link</a></li>
+                    </ul>
+                  </li> -->
+            </ul>
+          </div>
+        </div>
+        <!-- <div style=" float: right;">
+                    <button class="btn btn-success">+ Create Exam Paper</button>
+                  </div>-->
+    </header>
+    <!-- header section -->
+
+    <!-- Main Body section -->
+
+
+
+    <div class="modal fade" id="examUploadDialog" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Manually upload exam</h4>
+          </div>
+
+          <div class="modal-body">
+            <p style="color: red">
+            Note: <br />
+            1. QB ID of data should contain even the QB ID of the child questions present in the paper<br />
+            2. In the input data enter QB IDs together separated with a comma 
+            </p>
+            <div class="row">
+              <div class="col-sm-6">
+                <select class="form-control" id="exam" ng-model="exam_name"
+                  ng-options="exam.exam_name for exam in examList">
+                  <option value="" disabled selected>Select exam name</option>
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="QB_ID(MCQ and CSQ with child qb_ids)"
+                ng-model="qb_id">
+              </div>
+              <div class="col-sm-6">
+                <input placeholder="History date" type="text" id="datepicker" class="form-control datepicker"
+                ng-model="datepicker" datepicker="{format: 'dd-mm-yyyy'}">
+              </div>
+              <div class="col-sm-6">
+                <button class="btnBlue" ng-click="uploadExamManually()">Manually upload exam</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <button button class="btnBlue" data-toggle="modal" data-target="#examUploadDialog" ng-click="callJquery()">Manually upload
+        exams</button>
+    </div>
+
+    <div class="container">
+
+
+
+
+      <div class="topmargin">
+
+
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Sr.No</th>
+              <th>Question Paper ID</th>
+              <th>Exam Period</th>
+              <th>Status</th>
+              <th>Create Exam Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="data in loadExamPaperList">
+
+              <td>{{$index+1}}</td>
+              <td><a class="admin_dashboard_link"
+                  ng-click="showExamPaper(data.exam_qb_pk,data.exam_name,data.qstnpaper_id,data.qba_subject_fk,data.qba_course_name,data.subject_name,data.exam_fk,data.exampaper_pk,data.module_ids,data.status,data.qba_course_fk)">{{data.qstnpaper_id}}</a>
+              </td>
+              <td>{{data.exam_name}}</td>
+              <td>{{data.progress_detail}}</td>
+              <td>{{data.created_dt | date : "dd.MM.y h:mm:ss a"}}</td>
+            </tr>
+            <tr ng-if="loadExamPaperList.length == 0">
+              <td colspan="5">No records found.</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <!-- Main Body section -->
+    </div>
+
+    <!-- Main Body section -->
+  </div>
+
+  </div>
+
+
+
+
+
+
+
+  <div class="footer">
+    <footer>
+      <div class="container ">
+        <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+    </footer>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QB Authoring Tool</title>
+
+  <script src="/js/select2.min.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <div class="logo">
+            <a class=""><img src="/assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a ng-if="role == 'SUADM'" ui-sref="SuperAdminDashboard">Dashboard</a></li>
+              <li><a ng-if="role == 'ADM'" ui-sref="adminDashboard">Dashboard</a></li>
+              <li><a ui-sref="qp_repository">Question Bank</a></li>
+              <li><a ui-sref="publishedExams">Published Exam</a></li>
+              <li class="dropdown">
+                <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Exam Management <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="active" style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Masters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="courseMaster">Course Master</a></li>
+                  <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                  <li><a ui-sref="moduleMaster">Module Master</a></li>
+                  <li><a ui-sref="topicMaster">Unit Master</a></li>
+                  <li><a ui-sref="examMaster">Exam Master</a></li>
+                  <li><a ui-sref="userMaster">User Master</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <div class="container">
+      <h3 class="common_heading">Unit Master</h3>
+      <div class="topmargin" style="min-height: 450px;">
+        <div class="well">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label>Course</label>
+                <select
+                  ng-options="course.qba_course_code + ' - ' + course.qba_course_name for course in courseList track by course.qba_course_pk"
+                  ng-model="selectedCourse" ng-change="getSubjectList()" class="form-control selectpicker">
+                  <option value="">Select Course</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label>Subject</label>
+                <select ng-model="selectedSubject" class="form-control selectpicker"
+                  ng-options="subject.qba_subject_code + ' - ' + subject.subject_name for subject in subjectList"
+                  ng-change="getModuleList()">
+                  <option value="">Select Subject</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label>Module</label>
+                <select ng-model="selectedModule" style="display: block;"
+                  ng-options="module.module_name for module in moduleList" class="form-control selectpicker">
+                  <option value="">Select Module</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label>Unit Code</label>
+                <input type="number" class="form-control" ng-model="topicCode" style="display: block;"
+                  ng-pattern="/^[0-9]*$/">
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label>Unit Name</label>
+                <input type="text" class="form-control" ng-model="topicName" style="display: block;">
+              </div>
+            </div>
+          </div>
+          <div class="row addUpadateRow">
+            <div class="col-md-6" style="margin-top: 10px;">
+              <input type="submit" value="Search" ng-model="topicName" class="btn btn-success" ng-click="searchTopic()">
+              <input type="submit" value="Add" class="btn btn-success" data-toggle="modal" ng-click="resetTopic()"
+                data-target="#addTopic">
+              <input type="submit" value="Reset" class="btn btn-success" ng-click="resetTopic()">
+            </div>
+          </div>
+        </div>
+
+        <div ng-show="topicList.length > 0">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Sr.No</th>
+                <th>Course</th>
+                <th>Subject Name</th>
+                <th>Module</th>
+                <th>Unit Code</th>
+                <th>Unit Name</th>
+                <th>Is Active</th>
+                <th>Created By</th>
+                <th>Created Date</th>
+                <th>Updated By</th>
+                <th>Updated Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="topic in topicList">
+                <td>{{$index+1}}</td>
+                <td>{{topic.qba_course_code}} - {{topic.qba_course_name}}</td>
+                <td>{{topic.qba_subject_code}} - {{topic.subject_name}}</td>
+                <td>{{topic.module_name}}</td>
+                <td>{{topic.qba_topic_code}}</td>
+                <td>{{topic.topic_name}}</td>
+                <td>{{topic.is_active}}</td>
+                <td>{{topic.audit_by}}</td>
+                <td>{{topic.qba_audit_dt | date : "dd.MM.y h:mm:ss a"}} </td>
+                <td>{{topic.updated_by}}</td>
+                <td>{{topic.updated_dt | date:"dd/MM/yyyy h:mm:ss a"}}</td>
+                <td><button type="button" data-toggle="modal" data-target="#updateTopic" class="btn btn-default btn-sm"
+                    ng-click="editTopic(topic)" aria-label="Left Align">
+                    <a class="glyphicon glyphicon-pencil" aria-hidden="true" href=""
+                      style="color: #666 !important; width: 7px !important; padding: 1px 0px !important;"></a>
+                  </button>
+                  <button type="button" data-toggle="modal" data-target="#deleteTopic" class="btn btn-default btn-sm"
+                    ng-click="deleteTopic(topic)" aria-label="Left Align">
+                    <a class="glyphicon glyphicon-trash" aria-hidden="true" href=""
+                      style="color: #666 !important; width: 7px !important; padding: 1px 0px !important;"></a>
+                  </button>
+                </td>
+              </tr>
+              <tr ng-if="topicList.length == 0">
+                <td colspan="10">No records found.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="addTopic" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content popUpbox">
+            <div class="modal-header">
+              <button type="button" class="close" ng-click="resetTopic()" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add Unit</h4>
+            </div>
+            <form name="form1">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Course Name</label><span style="color: red">*</span>
+                  <select
+                    ng-options="course.qba_course_code + ' - ' + course.qba_course_name for course in courseList track by course.qba_course_pk"
+                    ng-model="selectedCourse" ng-change="getSubjectList()" class="form-control selectpicker">
+                    <option value="">Select Course</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Subject Name</label><span style="color: red">*</span>
+                  <select ng-model="selectedSubject" class="form-control selectpicker"
+                    ng-options="subject.qba_subject_code + ' - ' + subject.subject_name for subject in subjectList track by subject.qba_subject_pk"
+                    ng-change="getModuleList()">
+                    <option value="">Select Subject</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Module</label><span style="color: red">*</span>
+                  <select ng-model="selectedModule" style="display: block;"
+                    ng-options="module.module_name for module in moduleList track by module.qba_module_pk"
+                    class="form-control selectpicker">
+                    <option value="">Select Module</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Unit Code</label><span style="color: red">*</span>
+                  <input type="number" name="topic1" class="form-control" ng-model="topicCode" style="display: block;"
+                    ng-pattern="/^[0-9]*$/">
+                  <span ng-show="form1.topic1.$error.number" style="color: red">enter valid topic</span>
+                </div>
+                <div class="form-group">
+                  <label>Unit Name</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="topicName" style="display: block;">
+                </div>
+                <div class="form-group">
+                  <button type="button" class="btn btnGreen" id="savebtn" ng-click="saveTopic()">Save</button>
+                  <button type="button" class="btn btn-default" ng-click="resetTopic()">Reset</button>
+                  <ul class="errmsg redcolor" ng-show="error_msg.length > 0">
+                    <li ng-repeat="err in error_msg">{{err}}</li>
+                  </ul>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="updateTopic" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content popUpbox">
+            <div class="modal-header">
+              <button type="button" class="close" ng-click="resetFields()" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Edit Unit</h4>
+            </div>
+            <form name="form2">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Course Name</label><span style="color: red">*</span>
+                  <select ng-options="course.qba_course_name for course in courseList track by course.qba_course_pk"
+                    ng-model="selectedCourse" ng-change="getSubjectList()" ng-disabled="true"
+                    class="form-control selectpicker">
+                    <option value="">Select Course</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Subject Name</label><span style="color: red">*</span>
+                  <select ng-model="selectedSubject" class="form-control selectpicker"
+                    ng-options="subject.subject_name for subject in subjectList track by subject.qba_subject_pk"
+                    ng-change="getModuleList()" ng-disabled="true">
+                    <option value="">Select Subject</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Module</label><span style="color: red">*</span>
+                  <select ng-model="selectedModule" style="display: block;"
+                    ng-options="module.module_name for module in moduleList track by module.qba_module_pk"
+                    class="form-control selectpicker">
+                    <option value="">Select Module</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Unit Code</label><span style="color: red">*</span>
+                  <input type="number" name="topic2" class="form-control" ng-model="topicCode" style="display: block;"
+                    ng-pattern="/^[0-9]*$/">
+                  <span style="color: red" ng-show="form2.topic2.$error.number">enter valid topic</span>
+                </div>
+                <div class="form-group">
+                  <label>Unit Name</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="topicName" style="display: block;">
+                </div>
+                <div class="form-group">
+                  <button type="button" class="btn btnGreen" id="updatebtn" ng-click="updateTopic()">Update</button>
+                  <button type="button" class="btn btn-default" ng-click="resetFields()"
+                    data-dismiss="modal">Cancel</button>
+                  <ul class="errmsg redcolor" ng-show="error_msg.length > 0">
+                    <li ng-repeat="err in error_msg">{{err}}</li>
+                  </ul>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+  <div id="deleteTopic" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content popUpbox">
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="resetTopic()" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete Unit</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Do you want to Delete the selected Unit?</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btnGreen" ng-click="removeTopic()" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Main Body section -->
+
+  <div class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+      <div style="height: 50px; background: #40403d; "> </div>
+      <p ng-bind="successMsg"></p>
+      <div style="padding: 10px;">
+        <button type="button" class="btn btn-success" style="width: 100px;" ng-click="closeFunction()">Ok</button>
+      </div>
+      <a style="cursor: pointer" ng-click="closeFunction()" class="cd-popup-close img-replace">Close</a>
+    </div>
+  </div>
+  <div class="footer">
+    <footer>
+      <div class="container ">
+        <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+    </footer>
+  </div>
+
+</body>
+
+</html>

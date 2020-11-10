@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>QB Authoring Tool</title>
+
+</head>
+
+<body>
+
+
+  <div class="wrapper">
+    <!-- header section -->
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <!-- Logo -->
+          <div class="logo">
+            <a class=""><img src="/assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <!-- #logo end -->
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <!-- <li><a href="#">Another action</a></li> -->
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a ng-if="role == 'SUADM'" ui-sref="SuperAdminDashboard">Dashboard</a></li>
+              <li><a ng-if="role == 'ADM'" ui-sref="adminDashboard">Dashboard</a></li>
+              <li><a ui-sref="qp_repository">Question Bank</a></li>
+              <li><a ui-sref="publishedExams">Published Exam</a></li>
+              <li class="dropdown"> <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown"
+                  role="button" aria-expanded="false">Exam Management <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a style="cursor: pointer;" class="active dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Masters <span class="caret"></span></a>
+
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="courseMaster">Course Master</a></li>
+                  <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                  <li><a ui-sref="moduleMaster">Module Master</a></li>
+                  <li><a ui-sref="topicMaster">Unit Master</a></li>
+                  <li><a ui-sref="examMaster">Exam Master</a></li>
+                  <li><a ui-sref="userMaster">User Master</a></li>
+                </ul>
+
+
+
+              </li>
+            </ul>
+          </div>
+        </div>
+
+    </header>
+
+    <div class="container">
+      <div class="row">
+
+
+        <div class="container">
+          <div class="col-md-12">
+            <h3 class="common_heading">Exam Master</h3>
+          </div>
+
+          <div class="col-sm-12">
+            <div class="well">
+              <div class="row">
+                <form>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Exam Period</label>
+                      <input type="text" class="form-control" ng-model="examName" maxlength="100" />
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Course</label>
+                      <!--course.qba_course_name for course in courseList-->
+                      <select
+                        ng-options="course.qba_course_code + ' - ' + course.qba_course_name for course in courseList track by course.qba_course_pk"
+                        ng-model="selectedCourse" ng-change="getSubjectList()" class="form-control selectpicker">
+                        <option value="">Select Course</option>
+                      </select>
+
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Subject</label>
+                      <select ng-model="selectedSubject" class="form-control selectpicker"
+                        ng-options="subject.qba_subject_code + ' - ' + subject.subject_name for subject in subjectList track by subject.qba_subject_pk"
+                        ng-change="getModuleList()">
+                        <option value="">Select Subject</option>
+                      </select>
+
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Total Question</label>
+                          <input type="number" class="form-control" min="1" ng-model="totalQstn" />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Total Marks</label>
+                          <input type="number" class="form-control" min="1" ng-model="totalMarks" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label>&nbsp;&nbsp;</label>
+                    <div class="form-group">
+                      <button class="btn btn-success" ng-click="searchBtn()">Search</button>
+                      <button ng-click="resetFields()" class="btn btn-success">Reset</button>
+                      <button class="btn btn-success" data-toggle="modal" ng-click="resetFields()"
+                        data-target="#AddExamMaster">Add</button>
+                    </div>
+
+                  </div>
+
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+          <div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <!-- <div class="row">
+                <div class="col-sm-4">
+                  <input type="text" class="form-control ng-model="searchExamname">
+                </div>
+                <div class="col-sm-3">
+                  <select       
+                    ng-options="course.qba_course_name for course in courseList track by course.qba_course_pk"
+                    ng-model="selectedCourse" 
+                    ng-change = "getSubjectList()"  
+                    class="form-control selectpicker">
+                    <option value="">Select Course</option>
+                  </select>
+                </div>
+                <div class="col-sm-3">
+                 <select ng-model="selectedSubject"
+                            class="form-control selectpicker"
+                            ng-options="subject.subject_name for subject in subjectList track by subject.qba_subject_pk" 
+                            ng-change = "getModuleList()">
+                            <option value="">Select Subject</option>
+                          </select>
+                </div>
+                <div class="col-sm-2">
+                <button class="btn btn-success">Search</button>
+                  <button class="btn btn-success" data-toggle="modal" data-target="#AddExamMaster">Add</button> 
+                </div>
+
+              </div>-->
+        <div ng-show="loadExamMasterList.length > 0">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Sr.No</th>
+                <th>Exam Period</th>
+                <th>Course</th>
+                <th>Subject</th>
+                <th>Subject Abbreviation</th>
+                <!--Added by Chintan-->
+                <th>Total Questions</th>
+                <th>Total Marks</th>
+                <th>Case Questions</th>
+                <th>Case Marks</th>
+                <th>Created By</th>
+                <th>Created Date</th>
+                <th>Updated By</th>
+                <th>Updated Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="data in loadExamMasterList">
+                <td>{{$index+1}}</td>
+                <td>{{data.exam_name}}</td>
+                <td>{{data.qba_course_code}} - {{data.qba_course_name}}</td>
+                <td>{{data.qba_subject_code}} - {{data.subject_name}}</td>
+                <td>{{data.subject_abbreviation}}</td>
+                <!--Added by Chintan-->
+                <td>{{data.total_qts}}</td>
+                <td>{{data.total_marks}}</td>
+                <td>{{data.case_question}}</td>
+                <td>{{data.case_marks}}</td>
+                <td>{{data.audit_by}}</td>
+                <td>{{data.audit_dt | date:"dd/MM/yyyy h:mm:ss a"}}</td>
+                <td>{{data.updated_by}}</td>
+                <td>{{data.updated_dt | date:"dd/MM/yyyy h:mm:ss a"}}</td>
+                <td>
+                  <button title="Edit Exam" class="btn btn-default btn-sm" ng-click="selectedExam(data)"
+                    data-toggle="modal" data-target="#updateExamMaster"><span
+                      class="glyphicon glyphicon-pencil"></span></button>
+                  <button title="Delete Exam" class="btn btn-default btn-sm" ng-click="selectedExam(data)"
+                    data-toggle="modal" data-target="#deleteModule">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </td>
+              </tr>
+              <tr ng-if="loadExamMasterList.length == 0">
+                <td colspan="7">No records found.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div id="updateExamMaster" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" ng-click="resetFields()" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Update Exam Master</h4>
+          </div>
+          <div class="modal-body overflowhidden">
+            <form>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Exam Period</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="examName" maxlength="100" />
+                </div>
+              </div>
+
+              <div class="col-md-6 clearboth">
+                <div class="form-group">
+                  <label>Course</label><span style="color: red">*</span>
+                  <!--course.qba_course_name for course in courseList-->
+                  <select ng-options="course.qba_course_name for course in courseList track by course.qba_course_pk"
+                    ng-model="selectedCourse" ng-change="getSubjectList()" class="form-control selectpicker">
+                    <option value="">Select Course</option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="col-md-6 clearboth">
+                <div class="form-group">
+                  <label>Subject</label><span style="color: red">*</span>
+                  <select ng-model="selectedSubject" class="form-control selectpicker"
+                    ng-options="subject.subject_name for subject in subjectList track by subject.qba_subject_pk"
+                    ng-change="getModuleList()">
+                    <option value="">Select Subject</option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="col-md-6 clearboth">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Total Question</label>
+                      <input type="number" class="form-control" min="1" ng-model="totalQstn" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Total Marks</label>
+                      <input type="number" class="form-control" min="1" ng-model="totalMarks" />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-6 clearboth">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Case Question</label>
+                      <input type="number" class="form-control" min="1" ng-model="case_question" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Case Marks</label>
+                      <input type="number" class="form-control" min="1" ng-model="case_marks" />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-6 clearboth">
+                <div class="form-group">
+                  <button class="btn btn-success" ng-click="updateExam()" id="updatbtn">Update</button>
+                  <button ng-click="resetFields()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+                <span style="color: red;" ng-if="errorMessage">
+                  <ul class="errmsg">
+                    <li ng-repeat="errmsg in responseMessage">
+                      {{errmsg}}
+                    </li>
+                  </ul>
+                </span>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div id="AddExamMaster" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" ng-click="resetFields()" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add Exam</h4>
+          </div>
+          <div class="modal-body overflowhidden">
+            <form>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Exam Period</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="examName" maxlength="100" />
+                </div>
+              </div>
+
+              <div class="col-md-6 clearboth">
+                <div class="form-group">
+                  <label>Course</label><span style="color: red">*</span>
+                  <!--course.qba_course_name for course in courseList-->
+                  <select
+                    ng-options="course.qba_course_code + ' - ' + course.qba_course_name for course in courseList track by course.qba_course_pk"
+                    ng-model="selectedCourse" ng-change="getSubjectList()" class="form-control selectpicker">
+                    <option value="">Select Course</option>
+                  </select>
+
+                </div>
+              </div>
+
+
+              <div class="col-md-6 clearboth">
+                <div class="form-group">
+                  <label>Subject</label><span style="color: red">*</span>
+                  <select ng-model="selectedSubject" class="form-control selectpicker"
+                    ng-options="subject.qba_subject_code + ' - ' + subject.subject_name for subject in subjectList track by subject.qba_subject_pk"
+                    ng-change="getModuleList()">
+                    <option value="">Select Subject</option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Subject Abbreviation</label><span style="color: red">*</span>
+                  <input type="text" class="form-control" ng-model="subject_abbreviation" maxlength="40" />
+                </div>
+              </div>
+              <div class="col-md-6 clearboth">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Total Question</label><span style="color: red">*</span>
+                      <input type="number" class="form-control" min="1" ng-model="totalQstn" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Total Marks</label><span style="color: red">*</span>
+                      <input type="number" class="form-control" min="1" ng-model="totalMarks" />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-6 clearboth">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Case Question</label>
+                      <input type="number" class="form-control" min="1" ng-model="case_question" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Case Marks</label>
+                      <input type="number" class="form-control" min="1" ng-model="case_marks" />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-6 clearboth">
+                <div class="form-group">
+                  <button class="btn btn-success" ng-click="addExam()" id="savebtn">Save</button>
+                  <button ng-click="resetFields()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+                <span style="color: red;" ng-if="errorMessage">
+                  <ul class="errmsg">
+                    <li ng-repeat="errmsg in responseMessage">
+                      {{errmsg}}
+                    </li>
+                  </ul>
+                </span>
+                <span style="color: green;" ng-if="successMessage">
+                  {{responseMessage}}
+                </span>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div id="deleteModule" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content popUpbox">
+          <div class="modal-header">
+            <button type="button" class="close" ng-click="resetFields()" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delete Exam</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Do you want to Delete the selected exam?</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btnGreen" ng-click="deleteExam(data)" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  </div>
+
+  <!-- footer section -->
+  <div class="footer">
+    <footer>
+      <div class="container ">
+        <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Right Reserve </div>
+    </footer>
+  </div>
+  <!--Not allowed special character for exam name-->
+  <!-- <script type="text/javascript">
+    function blockSpecialChar(e){
+      var k;
+      document.all ? k = e.keyCode : k = e.which;
+      return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+    }
+  </script>-->
+</body>
+
+</html>

@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>QB Authoring Tool</title>
+
+  <!-- Bootstrap -->
+  <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/style.css" rel="stylesheet">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <script src="../../../../../bower_components/angular/angular.min.js"></script>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+</head>
+<script>
+
+  var app = angular.module("myApp", []);
+  app.controller("myCtrl", function ($scope) {
+
+    $scope.arr_questions = [
+      { id: 'Q1', question: 'Generally who adopts the Comparative Method for estimating the value of abc? ', option1: 'Goodwill', option2: 'Valuation of specialized buildings ', option3: 'Buildings erected to serve specific purpose such as bars ', option4: 'Land with building because the property is generally sold as a single piece', note: '[Note: The net profit is capitalized by multiplying it by the YP for certain number of years or in perpetuity and therefore, the option  at (d) is the appropriate answer]', remarks: '', status: 'Active' },
+      { id: 'Q2', question: 'Encumbrance factor refers to the -----  because it is the earning capacity of the building that determines the value of the land', option1: 'Location - nearness to schools ', option2: 'The value of land is obtained by subtracting the latter from the capitalised value  ', option3: 'Restaurants etc', option4: 'Useful life of the structure or in perpetuity gives the capitalized value ', note: '[Note: If invested at specified rate of interest for certain number of years and hence option (c) is correct answer to the question]', remarks: '', status: 'Deleted' },
+      { id: 'Q3', question: 'Risks of malicious damage to computerised systems can be from disgruntled employees who wish to disrupt the services or from individuals with malafide intentions to use technology for perpetrating fraud for financial gains?', option1: 'Access to the system and a particular application can be controlled through a mechanism of passwords', option2: 'The accounting controls are introduced in the application software', option3: 'Review of operations to establish if there is a compliance to the established policies, standards & procedures ', option4: 'All this requires a proper change management policy for software', note: '[Note:  The quality of banking services and the efficiency of banking operations have become increasingly dependent upon the application of information technology]', remarks: '', status: 'Replaced' },
+    ];
+
+    $scope.getURLParameter = function (sParam) {
+      var sPageURL = window.location.search.substring(1);
+      var sURLVariables = sPageURL.split('&');
+
+      for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) {
+          return sParameterName[1];
+        }
+      }
+
+    }
+    $scope.username = $scope.getURLParameter('username');
+    $scope.userid = $scope.getURLParameter('userid');
+
+
+    angular.element(document).ready(function () {
+
+      document.addEventListener('contextmenu', event => event.preventDefault());
+
+
+      var editorId1 = 'editor1';
+      var editorId2 = 'editor2';
+      var editorId3 = 'editor3';
+      var editorId4 = 'editor4';
+      var editorId5 = 'editor5';
+      for (var i = 0; i < $scope.arr_questions.length; i++) {
+
+
+        var id = $scope.arr_questions[i].id;
+        var cleanid1 = id + editorId1 + "clean";
+        var cleanid2 = id + editorId2 + "clean";
+        var cleanid3 = id + editorId3 + "clean";
+        var cleanid4 = id + editorId4 + "clean";
+        var cleanid5 = id + editorId5 + "clean";
+        if (typeof (Storage) !== "undefined") {
+
+          if (localStorage.getItem(cleanid1) != null) {
+            var question = localStorage.getItem(cleanid1);
+            $('#' + id + editorId1).html(question);       // Retrieve
+          }
+
+          if (localStorage.getItem(cleanid2) != null) {
+            var option1 = localStorage.getItem(cleanid2);
+            $('#' + id + editorId2).html(option1);        // Retrieve
+          }
+
+          if (localStorage.getItem(cleanid1) != null) {
+            var option2 = localStorage.getItem(cleanid3);
+            $('#' + id + editorId3).html(option2);        // Retrieve
+          }
+
+          if (localStorage.getItem(cleanid1) != null) {
+            var option3 = localStorage.getItem(cleanid4);
+            $('#' + id + editorId4).html(option3);        // Retrieve
+          }
+
+          if (localStorage.getItem(cleanid1) != null) {
+            var option4 = localStorage.getItem(cleanid5);
+            $('#' + id + editorId5).html(option4);        // Retrieve
+          }
+
+
+
+        } else {
+          document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+        }
+      }
+    });
+
+    $scope.getId = function (evt) {
+      alert(evt.target.id);
+    }
+
+    $scope.appliedClass = function (value) {
+
+      if (value.status == "Active") {
+        return "label-success ";
+      }
+      else if (value.status == "Replaced") {
+
+        return "label-replace"; // Or even "", which won't add any additional classes to the element
+      }
+      else {
+        return "label-danger";
+      }
+    }
+
+  });
+</script>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+  <!-- cooling page code start here -->
+  <div class="wrapper">
+    <!-- header section -->
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <!-- Logo -->
+          <div class="logo">
+            <a class=""><img src="../../assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <!-- #logo end -->
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <li><a href="#">Another action</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="userDetails">
+            <div class="btn-group">
+              <button type="button" class="btn login-info"> <span class="glyphicon glyphicon-user"
+                  aria-hidden="true"></span> publisher@gmail.com</button>
+              <button type="button" class="btn login-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="#">Change Password</a></li>
+                <li><a href="#">Another action</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="../loginPage.html">Log Out</a></li>
+              </ul>
+            </div>
+            <!--  <div class="alertCount">
+                  <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+                  <span class="badge">5</span>
+                </div>-->
+          </div>
+        </div>
+
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Question Bank</a></li>
+              <li><a href="#">Exam Paper</a></li>
+              <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Reports <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+    </header>
+    <!-- header section -->
+
+    <!-- Main Body section -->
+
+
+
+    <div class="container">
+      <h3 class="common_heading">Question Paper ID: <span>QPN20170001</span> &nbsp; | &nbsp; Exam Period: <span>JAIIB
+          Nov 2017</span>
+        <div class="pull-right">
+          <a class="btn btn-white"
+            href="questionpaper-preview_common.html?username={{username}}&userid={{userid}}">Preview</a>
+          <!--  <a class="btn btn-white" href="examination-papername-admin.html">Export</a> -->
+          <a id="linkPublish" class="btn btn-darkgreen" href="">Publish</a>
+        </div>
+      </h3>
+
+
+      <div class="row">
+        <div class="topmargin">
+          <div class="col-md-3">
+            <a class="col-sm-2 menu-btn" style="padding-left: 0px" href="#"><img
+                src="../../assets/images/toggle_icon.jpg" alt="toggle icon" /></a>
+            <h3 class="col-sm-4 small_title">Summary</h3>
+
+            <div class="sidebar menushow">
+              <div class="steps steps-publish">
+                <ul>
+                  <li>
+                    <div class="text-left">
+                      Step 1
+                      <p>Edit Exam Paper</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="text-left">
+                      Step 2
+                      <p>Vetting</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="text-left">
+                      Step 3
+                      <p>Publication</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="row">
+                <div class="col-md-12 questiontable margin-topbottom">
+                  <table class="table">
+                    <thead class="tablerow">
+                      <tr>
+                        <th class="text-center">Unit <br>ID</th>
+                        <th class="text-left" width="50%" valign="middle">Unit</th>
+                        <th class="text-center">Total <br>Ques.</th>
+                        <th class="text-center">Total <br>Marks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-center">01</td>
+                        <td class="topicName">Treasury</td>
+                        <td class='text-center'>20</td>
+                        <td class='text-center'>40</td>
+                      </tr>
+
+                      <tr>
+                        <td class="text-center">02</td>
+                        <td class="topicName">Market Risk</td>
+                        <td class='text-center'>20</td>
+                        <td class='text-center'>20</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">03</td>
+                        <td class="topicName">Forex</td>
+                        <td class='text-center'>20</td>
+                        <td class='text-center'>40</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="text-right fontbold">Total</td>
+                        <td class="fontbold text-center">60</td>
+                        <td class="fontbold text-center">100</td>
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+
+
+
+
+                <div class="col-md-12">
+                  <h3 class="small_heading mTop15">Vetters</h3>
+                </div>
+                <div class="col-md-12 tblstyle smmargin-topbottom text-left">
+
+                  <table class="table">
+
+                    <tbody>
+                      <tr>
+                        <td colspan="4">Vetter A<span class="colorgreen pull-right">Done</span></td>
+
+                      </tr>
+
+                      <tr>
+                        <td colspan="4">Vetter B<span class="colorblue pull-right">Active</span></td>
+
+                      </tr>
+                      <!-- <tr>
+               <td colspan="4"> <a class="btn btn-darkgreen" href="examination-papername-admin.html" data-toggle="modal" data-target="#addUserModal">Add Vetter</a> </td>
+             </tr> -->
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-sm-12 mTop15">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">Change Log (2)<div class="down-arrow"> <a data-toggle="collapse"
+                          href="#collapse1">&nbsp;</a></div>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                        <button class="btn btn-white"> <a
+                            href="../pages/ckeditor.html?id=Q1&username={{username}}&userid={{userid}}"> 1 </a>
+                        </button>
+                        <button class="btn btn-white"> <a
+                            href="../pages/ckeditor.html?id=Q2&username={{username}}&userid={{userid}}"> 2 </a>
+                        </button>
+
+
+                      </div>
+
+                      <div class="panel-footer">
+                        <p class="colorred">2 questions modified</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="col-md-12 questiontable mTop5">
+                  <table class="table">
+                    <thead class="tablerow">
+                      <tr>
+                        <th class="text-center">Unit <br>ID</th>
+                        <th class="text-left" width="60%" valign="middle">Unit</th>
+                        <th class="text-center">Total <br>Ques.</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-center">01</td>
+                        <td class="topicName">Treasury</td>
+                        <td class='text-center'>20</td>
+
+                      </tr>
+
+                      <tr>
+                        <td class="text-center">02</td>
+                        <td class="topicName">Market Risk</td>
+                        <td class='text-center'>20</td>
+
+                      </tr>
+                      <tr>
+                        <td class="text-center">03</td>
+                        <td class="topicName">Forex</td>
+                        <td class='text-center'>20</td>
+
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="text-right fontbold">Total</td>
+                        <td class="fontbold text-center">60</td>
+
+                      </tr>
+
+                      <tr>
+                        <td align="left" colspan="3"> <button class="btn btn-green">Publish</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+                </div>
+
+
+                <div>&nbsp;</div>
+                <div class="col-sm-12 mTop5">
+                  <div class="panel-group">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        Vetter / Publisher Request
+                        <div class="down-arrow"> <a data-toggle="collapse" href="#collapse2">&nbsp;</a></div>
+
+                      </div>
+                      <div id="collapse2" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                          <input type="checkbox" id="ch1" class="css-checkbox med" disabled="true" />
+                          <label for="ch1" name="checkbox65_lbl" class="css-label med elegant">
+                            <div class="fontbold">Q1:Replacement
+                              <p>by Prof. Rakesh Kumar | 22 Aug 2017</p>
+                            </div>
+                          </label>
+
+
+                        </div>
+                        <div class="panel-body">
+
+                          <input type="checkbox" id="ch2" class="css-checkbox med" disabled="true" />
+                          <label for="ch2" name="checkbox65_lbl" class="css-label med elegant">
+                            <div class="fontbold">Q2:Replacement
+                              <p>by Prof. Rakesh Kumar | 22 Aug 2017</p>
+                            </div>
+                          </label>
+
+
+                        </div>
+
+                        <!--  <div class="panel-footer"><a class="btn btn-darkgreen" href="examination-papername-admin.html">Approve</a> 
+        <a class="btn btn-white" href="examination-papername-admin.html">Reject</a> 
+      </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="col-md-12 testx">
+            <h3 class="small_heading hdPosition" style=" background: #fff; margin-left: 30px;"><span class="arrowright">
+                All Questions</span></h3>
+            <div class="col-md-12 searchbar mTop18">
+              <div class="row">
+
+                <div class="col-md-3 pull-right smmargin-topbottomright" style="padding-right: 30px;">
+                  <div class="right-inner-addon">
+                    <i class="fa fa-search"></i>
+                    <input type="text" name="" class="form-control mBottom0 pull-right" placeholder="Search Content">
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+
+
+            <div class="row-eq-height">
+
+              <div class="col-xs-8 col-sm-8 col-md-12 col-lg-12 rightPan noPadding">
+
+                <div ng-repeat="x in arr_questions" class="qSummery">
+
+                  <div class="qDetails">
+                    <div>
+                      <input type="checkbox" id="{{x.id}}" class="css-checkbox med" />
+                      <label for="{{x.id}}" class="css-label med elegant">Publish</label>
+                    </div>
+                    <span class="label label-default">Multiple Choice</span>
+                    <span class="label label-default">Treasury</span>
+                    <span class="label" ng-class="appliedClass({{x}})">{{x.status}}</span>
+                    <span class="label label-default">Marks: 2</span>
+
+                    <!--   <div class="itemButtons" ><button type="button" class="btn btn-default" aria-label="Left Align">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+        </button> -->
+
+                    <div class="itemButtons">
+                      <button type="button" class="btn btn-default" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+                      </button>
+                      <button type="button" class="btn btn-default" aria-label="Left Align">
+                        <!--   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> -->
+                        <a id="pageurl" class="glyphicon glyphicon-pencil" aria-hidden="true"
+                          href="../pages/ckeditor.html?id={{x.id}}&username={{username}}&userid={{userid}}"> </a>
+                      </button>
+
+
+                      <!-- 
+        <button type="button" class="btn btn-default" aria-label="Left Align">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button> -->
+
+
+                      <div class="dropdown" style="display: inline-block;">
+                        <button class="btn btn-default dropdown-toggle btn3" type="button" id="dropdownMenu1"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                          <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                          <li><a href="#">Action</a></li>
+                          <li><a href="#">Another action</a></li>
+                          <li><a href="#">Something else here</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a href="#">Separated link</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p id={{x.id}}editor1>{{x.id}} : {{x.question}}</p>
+                  <ul class="options">
+                    <li>
+                      <div class="radiobtn"><input type="radio" disabled="disabled" name="ans"></div>
+                      <div id={{x.id}}editor2 class="correct">{{x.option1}}</div>
+                    </li>
+                    <li>
+                      <div class="radiobtn"><input type="radio" disabled="disabled" name="ans"></div>
+                      <div id={{x.id}}editor3 class="answer">{{x.option2}} </div>
+                    </li>
+                    <li>
+                      <div class="radiobtn"><input type="radio" disabled="disabled" name="ans"></div>
+                      <div id={{x.id}}editor4 class="answer">{{x.option3}}</div>
+                    </li>
+                    <li>
+                      <div class="radiobtn"><input type="radio" disabled="disabled" name="ans"></div>
+                      <div id={{x.id}}editor5 class="answer">{{x.option4}}</div>
+                    </li>
+                  </ul>
+
+                  <div class="updatedBy">updated June 14, 2017 12:29 PM, by NAdmin</div>
+                </div>
+                <!-- <div class="qSummery">
+ <div class="qDetails">
+ 
+  <div> 
+    <input type="checkbox" disabled="disabled" id="questionchk2" class="css-checkbox med" checked="checked"/>
+    <label for="questionchk2" class="css-label med elegant">Publish</label>
+  </div>
+   <label class="label-dark">Question 2</label>
+  <span class="label label-default">Case study</span>
+  <span class="label label-default">Treasury</span>
+  <span class="label label-success">Active</span>
+  <span class="label label-default">Marks: 2</span>
+
+  <div class="itemButtons" ><button type="button" class="btn btn-default" aria-label="Left Align">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+  </button>
+
+  <button type="button" class="btn btn-default" aria-label="Left Align">
+    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+  </button>
+
+
+  <div class="dropdown" style="display: inline-block;">
+    <button class="btn btn-default dropdown-toggle btn3" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+     <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+
+   </button>
+   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div> 
+</div>
+</div>
+<a class="btn btn-darkgreen" href="examination-papername-admin.html">Add Question</a>
+</div>
+<div class="qSummery">
+ <div class="qDetails">
+
+  <div> 
+    <input type="checkbox" disabled="disabled" id="questionchk3" class="css-checkbox med" checked="checked"/>
+    <label for="questionchk3" class="css-label med elegant">Publish</label>
+  </div>
+    <label class="label-dark">Question 3</label>
+  <span class="label label-default">Case study</span>
+  <span class="label label-default">Treasury</span>
+  <span class="label label-primary">Replaced</span>
+  <span class="label label-default">Marks: 2</span>
+
+  <div class="itemButtons" ><button type="button" class="btn btn-default" aria-label="Left Align">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+  </button>
+
+  <button type="button" class="btn btn-default" aria-label="Left Align">
+    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+  </button>
+
+
+  <div class="dropdown" style="display: inline-block;">
+    <button class="btn btn-default dropdown-toggle btn3" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+     <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+
+   </button>
+   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div> 
+</div>
+</div>
+
+<p>Encumbrance factor refers to the -----  because it is the earning capacity of the building that determines the value of the land.  </p>
+<ul class="options">
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer"> Location - nearness to schools </div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer"> The value of land is obtained by subtracting the latter from the capitalised value    </div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">  Restaurants etc.   </div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer"> Useful life of the structure or in perpetuity gives the capitalized value </div></li>
+</ul>
+
+<div class="updatedBy">updated June 14, 2017 12:29 PM, by NAdmin</div>
+</div>
+
+<div class="qSummery">
+ <div class="qDetails"> 
+  <div> 
+    <input type="checkbox" disabled="disabled" id="questionchk4" class="css-checkbox med" checked="checked"/>
+    <label for="questionchk4" class="css-label med elegant">Publish</label>
+  </div>
+   <label class="label-dark">Question 4</label>
+  <span class="label label-default">Case study</span>
+  <span class="label label-default">Treasury</span>
+  <span class="label label-success">Active</span>
+  <span class="label label-default">Marks: 2</span>
+
+  <div class="itemButtons" ><button type="button" class="btn btn-default" aria-label="Left Align">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+  </button>
+
+  <button type="button" class="btn btn-default" aria-label="Left Align">
+    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+  </button>
+
+
+  <div class="dropdown" style="display: inline-block;">
+    <button class="btn btn-default dropdown-toggle btn3" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+     <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+
+   </button>
+   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div> 
+</div>
+</div>
+
+<p>Risks of malicious damage to computerised systems can be from disgruntled employees who wish to disrupt the services or from individuals with malafide intentions to use technology for perpetrating fraud for financial gains?  </p>
+<ul class="options">
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">  Access to the system and a particular application can be controlled through a mechanism of passwords</div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer"> The accounting controls are introduced in the application software  </div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer"> Review of operations to establish if there is a compliance to the established policies, standards & procedures   </div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">  All this requires a proper change management policy for software</div></li>
+</ul>
+
+<div class="updatedBy">updated June 14, 2017 12:29 PM, by NAdmin</div>
+</div>
+
+<div class="qSummery">
+
+ <div class="qDetails"> 
+  <div> 
+    <input type="checkbox" disabled="disabled" id="questionchk5" class="css-checkbox med" checked="checked"/>
+    <label for="questionchk5" class="css-label med elegant">Publish</label>
+  </div>
+  <label class="label-dark">Question 5</label>
+  <span class="label label-default">Case study</span>
+  <span class="label label-default">Treasury</span>
+  <span class="label label-success">Active</span>
+  <span class="label label-default">Marks: 2</span>
+
+  <div class="itemButtons" ><button type="button" class="btn btn-default" aria-label="Left Align">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+  </button>
+
+  <button type="button" class="btn btn-default" aria-label="Left Align">
+    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+  </button>
+
+
+  <div class="dropdown" style="display: inline-block;">
+    <button class="btn btn-default dropdown-toggle btn3" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+     <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+
+   </button>
+   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div> 
+</div>
+</div>
+<a class="btn btn-darkgreen" href="examination-papername-admin.html">Add Question</a>
+</div>
+<div class="qSummery">
+
+  <div class="qDetails">
+  
+    <div> 
+    <input type="checkbox" disabled="disabled" id="questionchk6" class="css-checkbox med" checked="checked"/>
+    <label for="questionchk6" class="css-label med elegant">Publish</label>
+  </div>
+    <label class="label-dark">Question 6</label>
+    <span class="label label-default">Case study</span>
+    <span class="label label-default">Treasury</span>
+    <span class="label label-success">Active</span>
+    <span class="label label-default">Marks: 2</span>
+
+    <div class="itemButtons" ><button type="button" class="btn btn-default" aria-label="Left Align">
+      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+    </button>
+
+    <button type="button" class="btn btn-default" aria-label="Left Align">
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+    </button>
+
+
+    <div class="dropdown" style="display: inline-block;">
+      <button class="btn btn-default dropdown-toggle btn3" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+       <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+
+     </button>
+     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+      <li><a href="#">Action</a></li>
+      <li><a href="#">Another action</a></li>
+      <li><a href="#">Something else here</a></li>
+      <li role="separator" class="divider"></li>
+      <li><a href="#">Separated link</a></li>
+    </ul>
+  </div> 
+</div>
+</div>
+<p>What are mergers and acquisitions?  </p>
+<ul class="options">
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">Assets safeguarding</div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">Explain the new delivery systems of bank services and products  </div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">Understand the impact of IT on organisational behaviour in banks  </div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">Hardware, software and UPS</div></li>
+</ul>
+
+<div class="updatedBy">updated June 14, 2017 12:29 PM, by NAdmin</div>
+</div>
+<div class="qSummery">
+
+ <div class="qDetails"> 
+  <div> 
+    <input type="checkbox" disabled="disabled" id="questionchk7" class="css-checkbox med" checked="checked"/>
+    <label for="questionchk7" class="css-label med elegant">Publish</label>
+  </div>
+   <label class="label-dark">Question 7</label>
+  <span class="label label-default">Case study</span>
+  <span class="label label-default">Treasury</span>
+  <span class="label label-danger">Deleted</span>
+  <span class="label label-default">Marks: 2</span>
+
+  <div class="itemButtons" ><button type="button" class="btn btn-default" aria-label="Left Align">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+  </button>
+
+  <button type="button" class="btn btn-default" aria-label="Left Align">
+    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+  </button>
+
+
+  <div class="dropdown" style="display: inline-block;">
+    <button class="btn btn-default dropdown-toggle btn3" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+     <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+
+   </button>
+   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div> 
+</div>
+</div>
+<p>The transmission of data and messages is one of the fundamental activities of any business system -----. </p>
+<ul class="options">
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">Whereas computers facilitate the processing of data, the communication technology helps in transmission of the data</div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">With the combined application of the two embodied as Information Technology  </div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">The banks are able to reduce the operational time in data and information communications. A personal computer, a telephone line, a modem and an interface software is all that is required for breaking the distance barriers  </div></li>
+  <li><div class="radiobtn"><input type="radio" name="ans"></div><div class="answer">Whereas E-Mail has found its application in sending unstructured free format messages, the newer concept of Electronic Data Interchange refers to the transmission of structured and formatted messages for further analysis and use in business applications</div></li>
+</ul>
+
+<div class="updatedBy">updated June 14, 2017 12:29 PM, by NAdmin</div> 
+
+</div>
+-->
+
+
+                <div class="pull-right rightSpace">
+                  <nav aria-label="Page navigation ">
+                    <ul class="pagination">
+                      <li>
+                        <a href="#" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                      <li class="active"><a href="#">1</a></li>
+                      <li><a href="#">2</a></li>
+                      <li><a href="#">3</a></li>
+                      <li><a href="#">4</a></li>
+                      <li><a href="#">5</a></li>
+                      <li>
+                        <a href="#" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Body section -->
+      </div>
+
+
+
+    </div>
+
+    <!-- Modal -->
+    <div id="addUserModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add Vetter</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <lable>Exam Period</lable>
+                    <select class="form-control">
+                      <option value="IIBF">JAIIB</option>
+                      <option value="CAIIB">CAIIB</option>
+                      <option value="DIBAF">Diploma in Banking and Finance</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-12 clearboth">
+                  <div class="form-group">
+                    <lable>Vetter name</lable>
+                    <input type="text" class="form-control" name="">
+                  </div>
+                  <div class="form-group">
+                    <input type="checkbox" id="checkUser" class="css-checkbox med" checked="checked" />
+                    <label for="checkUser" class="css-label med elegant">As Publisher</label>
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" class="btn btn-yellowgreen" value="Add as Vetter" />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+    <!-- footer section -->
+    <div class="footer">
+      <footer>
+        <div class="container ">
+          <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+      </footer>
+    </div>
+    <!-- footer section -->
+    <!-- cooling page end start here -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../../../../../bower_components/jquery/jquery.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../../js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $('.message a').click(function () {
+        $('form').animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, "slow");
+      });
+      $(document).ready(function () {
+
+        $('#linkPublish').click(function () {
+
+          if (typeof (Storage) !== "undefined") {
+            // Store     
+            localStorage.setItem('publisher', 'published');
+
+          } else {
+            document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+          }
+
+
+        });
+
+        $(".menu-btn").click(function (event) {
+          //  event.preventDefault()
+          var condition = $('.sidebar').hasClass('menushow');
+
+          $(".sidebar").toggleClass('menushow');
+          if ($(".sidebar").hasClass('menushow') == true) {
+            $(".testx").animate({
+              marginLeft: '410px',
+              width: '67%'
+              //left:'0px'
+            });
+          }
+          else {
+            $(".testx").animate({
+              marginLeft: '15px',
+              width: '100%'
+            })
+          }
+          /* if($(".sidebar").hasClass('menushow') == true){
+             $(".testx").animate({
+               width: '100%',
+               left:'250px'
+             });
+           }
+           else
+           {
+             $(".testx") .animate({
+                width: '66.66666667%',
+                left:'-250px'
+             }).addClass('col-sm-8');
+           }*/
+
+
+
+        });
+
+
+
+      });
+
+
+    </script>
+    <!--    <script src="js/script.js"></script>
+              <script src="http://pivot.mediumra.re/js/scripts.js"></script>-->
+
+</body>
+
+</html>

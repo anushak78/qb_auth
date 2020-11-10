@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>QB Authoring Tool</title>
+
+  <!-- Bootstrap -->
+  <!-- <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/css/style.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  <script src="/js/select2.min.js"></script>
+  <script type="text/javascript">
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("Text", ev.target.id);
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("Text");
+      ev.target.appendChild(document.getElementById(data));
+    }
+
+  </script>
+</head>
+
+<body>
+
+  <!-- cooling page code start here -->
+  <div class="wrapper">
+    <!-- header section -->
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <!-- Logo -->
+          <div class="logo">
+            <a class=""><img src="/assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <!-- #logo end -->
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <!-- <li><a href="#">Another action</a></li> -->
+                <li role="separator" class="divider"></li>
+                <li><a ui-sref="login">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a ng-if="role == 'SUADM'" ui-sref="SuperAdminDashboard">Dashboard</a></li>
+              <li><a ng-if="role == 'ADM'" ui-sref="adminDashboard">Dashboard</a></li>
+              <li><a ng-hide="role == 'ADM'" ui-sref="qp_repository">Question Bank</a></li>
+              <li><a ui-sref="publishedExams">Published Exam</a></li>
+              <li class="dropdown"> <a class="active" style="cursor: pointer;" class="dropdown-toggle"
+                  data-toggle="dropdown" role="button" aria-expanded="false">Exam Management <span
+                    class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+                </ul>
+              </li>
+              <li class="dropdown" ng-hide="role == 'ADM'">
+                <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Masters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="courseMaster">Course Master</a></li>
+                  <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                  <li><a ui-sref="moduleMaster">Module Master</a></li>
+                  <li><a ui-sref="topicMaster">Unit Master</a></li>
+                  <li><a ui-sref="examMaster">Exam Master</a></li>
+                  <li><a ui-sref="userMaster">User Master</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </header>
+    <div class="container" style="padding-bottom: 30px;">
+      <div class="row">
+        <ul ng-show="error_msg.length > 0" class="errormesg">
+          <li ng-repeat="err in error_msg">{{err}}</li>
+        </ul>
+        <div class="col-md-12">
+          <h3 class="common_heading">Culling</h3>
+          <div class="row col-sm-3">
+            <div class="form-group">
+              <label>Exam Period</label> <span style="color: red">*</span>
+
+              <select id="selectedExam" ng-model="selectedExam"
+                ng-options="exam.exam_name +' - '+ exam.qba_subject_code  for exam in loadExamNames"
+                ng-change="getalldata()" class="form-control selectpicker">
+                <option value="" selected="selected">Select Exam</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="row" style="clear:both">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label>Course</label><span style="color: red">*</span>
+                <select ng-model="selectedCourse"
+                  ng-options="exam.qba_course_code +' - '+ exam.qba_course_name  for exam in course"
+                  ng-change="getSubjectabbrevi()" class="form-control selectpicker" disabled="true">
+                  <option value="">Select Course</option>
+                </select>
+                <button class="btn btn-darkgreen" style="margin-top: 10px" data-toggle="modal"
+                  data-target="#loadTemplate" ng-disabled="!selectedExam || selectedExam.exam_pk == undefined ">
+                  Load Template</button>
+              </div>
+
+              <div class="form-group">
+                <label>Subject Abbreviation</label><span style="color: red">*</span>
+                <select ng-model="selectedsubjectabbrevi"
+                  ng-options="exam.subject_abbreviation  for exam in subjectabbrevi" ng-change="getSubjectList()"
+                  class="form-control selectpicker" disabled="true">
+                  <option value="">Select Subject Abbreviation</option>
+                </select>
+              </div>
+
+
+              <div class="form-group">
+                <label>Subject</label><span style="color: red">*</span>
+                <select ng-model="selectedSubject" class="form-control selectpicker"
+                  ng-options="subject.qba_subject_code + ' - ' + subject.subject_name for subject in subjectList"
+                  ng-change="getTopicListTable()" disabled="true">
+                  <option value="" selected="selected">Select Subject</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3" clearboth>
+          <div class="form-group">
+            <label>Not Administered in Exams</label>
+            <select id="dates-field3" class="form-control" multiple ng-model="selectedExampaper">
+              <option ng-repeat="a in dataset.schema" value="{{a}}">
+                {{a.module_name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4" clearboth>
+            <div class="form-group" style="margin-top: 32px">
+              <input type="checkbox" ng-model="sortByDateChk" class="med" />
+              Sort by Created Date/ Modified Date (Latest First)
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-sm-3 clearboth">
+          <div class="row">
+            <div class="col-sm-6 clearboth">
+              <div class="form-group">
+                <label>Total Questions</label>
+                <input type="number" ng-model="totalInputQuestions" value="60" class="form-control" name=""
+                  disabled=true>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Total Marks</label>
+                <input type="number" ng-model="totalInputMarks" value="100" class="form-control" name="" disabled=true>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-3 clearboth">
+          <div class="row">
+            <div class="col-sm-6 clearboth">
+              <div class="form-group">
+                <label>Total Case Questions</label>
+                <input type="number" ng-model="totalcaseQuestions" value="60" class="form-control" name=""
+                  disabled=true>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Total Case Marks</label>
+                <input type="number" ng-model="totalcaseMarks" value="100" class="form-control" name="" disabled=true>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12 questiontable">
+          <!-- new table -->
+          <div ng-show="dataList.length > 0">
+            <div class="col-sm-5">
+              <h3 class="small_heading" style="margin-bottom: 10px; margin-left: -15px;">
+                Multichoice Questions Availability<span style="color: red">*</span></h3>
+            </div>
+            <div class="col-sm-6">
+              <div class="availablebox"></div>
+              <div style="float: left; margin-right: 8px;">Available Questions</div>
+              <div class="userbox"></div>
+              <div style="float: left; ">Users Input</div>
+            </div>
+
+            <table class="table marks">
+              <thead>
+                <tr>
+                  <th rowspan="2">Unit
+                  </th>
+                  <th rowspan="1" colspan="{{noOfCol}}">Marks
+                  </th>
+                </tr>
+                <tr>
+                  <th ng-repeat="headermarks in headerList">{{headermarks.marks}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="data in dataList">
+                  <td ng-model="data.topic_name">{{data.qba_topic_code}} - {{data.topic_name}}</td>
+                  <td ng-repeat="count in data.marks_count" align="center">
+                    <input type="text" min="0" max="100" maxlength="3" onpaste="return false;" class="form-control"
+                      pattern="^[0-9]+$"
+                      onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                      ng-model="count.userCount" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <label data-tooltip="Available Questions">{{count.count}}</label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="width:150px;">
+          </div>
+        </div>
+
+        <div style="display: none;" class="col-md-3" ng-show="dataCaseList.length > 0">
+          Max Child Questions per Case: <span style="color: red">*</span>
+          <input type="text" min="0" max="100" class="form-control" pattern="^[0-9]+$"
+            onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+            ng-model="maxCaseChildCount">
+        </div>
+
+        <!-- Case Question Summary -->
+        <div class="col-md-12 questiontable" ng-show="dataCaseList.length > 0" style="margin-top: 15px;">
+
+          <div class="col-sm-5">
+            <h3 class="small_heading" style="margin-bottom: 10px; margin-left: -15px;">
+              Case Study Questions<span style="color: red">*</span></h3>
+          </div>
+          <div class="col-sm-6">
+            <div class="availablebox darkgreen"></div>
+            <div style="float: left; margin-right: 20px;">Available Case Questions</div>
+            <div class="availablebox lightgreen"></div>
+            <div style="float: left; margin-right: 8px;">Available Child Questions</div>
+            <div class="userbox"></div>
+            <div style="float: left; ">Users Input</div>
+          </div>
+
+          <!-- new table -->
+          <table class="table marks" ng-show="dataCaseList.length > 0">
+            <thead>
+              <tr>
+                <th rowspan="2">Module
+                </th>
+                <th rowspan="2">Unit
+                </th>
+                <th rowspan="1" colspan="{{headerCaseList.length}}">Marks
+                </th>
+                <!-- comment by shilpa -->
+                <!--th ng-repeat="headercasemarks in headerCaseList" >{{headercasemarks.marks}}</th-->
+              </tr>
+              <tr>
+                <th ng-repeat="headercasemarks in headerCaseList">{{headercasemarks.marks}}</th>
+              </tr>
+              <!--  display the marks on top -->
+
+            </thead>
+            <tbody>
+
+              <tr ng-repeat="data1 in topic_array ">
+                <td ng-repeat="module in moduleList" ng-if="module.qba_topic_pk==data1.topic_pk">
+                  {{module.module_name}}
+                </td>
+                <td ng-model="data.topic_name"> {{data1.topic_code}} - {{data1.topic_name}}</td>
+
+                <td ng-repeat="headercasemarks in headerCaseList" align="center">
+                  <span ng-repeat="data in dataCaseList">
+                    <!-- {{data}}
+                {{m_ids}} -->
+                    <input ng-change="updateSummary(data.case_marks_count[0],data.case_topic_pk)" type="text" min="0"
+                      max="100" maxlength="3" onpaste="return false;" class="form-control" pattern="^[0-9]+$"
+                      onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                      ng-model="data.case_marks_count[0].parent_userCount" ondrop="drop(event)"
+                      ondragover="allowDrop(event)"
+                      ng-if="data.case_marks_count[0].case_marks == headercasemarks.marks && data.topic_name == data1.topic_name ">&nbsp;
+
+                    <label class="darkgreen"
+                      ng-if="data.case_marks_count[0].case_marks == headercasemarks.marks && data.topic_name == data1.topic_name">{{data.case_marks_count[0].case_count_questions}}</label>
+                    <label class="lightgreen"
+                      ng-if="data.case_marks_count[0].case_marks == headercasemarks.marks && data.topic_name == data1.topic_name">{{data.case_marks_count[0].case_count_child_questions}}</label>
+                    <br
+                      ng-if="data.case_marks_count[0].case_marks == headercasemarks.marks && data.topic_name == data1.topic_name">
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="width:150px;">
+          </div>
+        </div>
+        <!-- End Case Question Summary -->
+
+        <div class="col-md-6 questiontable" ng-show="dataList.length > 0">
+          <h3 class="small_heading">Summary</h3>
+          <table class="table" style="margin-top: 10px">
+            <thead class="tablerow">
+              <tr>
+                <th>Unit ID</th>
+                <!--th>Module</th-->
+                <th width="50%">Unit</th>
+                <th>Total Questions</th>
+                <th>Total Marks</th>
+                <th>Total Short Fall Questions</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr ng-repeat="data in dataList">
+                <td class="text-center">{{$index + 1}}</td>
+                <!--td></td-->
+                <td ng-model="data.topic_name">{{data.qba_topic_code}} - {{data.topic_name}}</td>
+                <td class='number'>{{getSummarycount(data.marks_count)}}</td>
+                <td class='number'>{{getSummaryMarks(data.marks_count)}}</td>
+                <td class='number'>{{getFallShortQuest(data.marks_count)}}</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="text-right fontbold">Total</td>
+                <td class="fontbold number">{{getTotalCount()}}</td>
+                <td class="fontbold number">{{getTotalMarks()}}</td>
+                <td class="fontbold number">{{getTotalShortFallQuestions()}}</td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6 questiontable" ng-show="dataCaseList.length > 0">
+          <h3 class="small_heading">Case Summary</h3>
+          <table class="table" style="margin-top: 10px">
+            <thead class="tablerow">
+              <tr>
+                <th>S.No.</th>
+                <th>Module</th>
+
+                <th width="50%">Unit</th>
+                <th>Total Parent Questions</th>
+                <th>Total Child Questions</th>
+                <th>Total Marks</th>
+                <th>Total Short Fall Questions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="cst in topic_array">
+                <td class="text-center">{{$index + 1}}</td>
+                <td ng-repeat="module in moduleList" ng-if="module.qba_topic_pk==cst.topic_pk">
+                  {{module.module_name}}
+                </td>
+
+                <td ng-model="cst.topic_name">{{cst.topic_code}} - {{cst.topic_name}}</td>
+
+
+                <!-- <td  class='number' ng-repeat="data in dataCaseList" ng-if="data.topic_pk==cst.topic_pk">
+       {{getParentSummaryCount(data.case_marks_count)}}</td> -->
+                <!-- <td></td>
+    <td></td>
+    <td></td> -->
+                <!-- <td  class='number'>{{getChildSummaryCount(cst.case_marks_count)}}</td>
+     <td  class='number'>{{getCaseSummaryMarks(cst.case_marks_count)}}</td>         
+     <td  class='number' >{{getCaseShortFallQuest(cst)}}</td>    -->
+
+              </tr>
+
+              <tr>
+                <td colspan="3" class="text-right fontbold">Total</td>
+                <td class="fontbold number">{{getTotalParentCount()}}</td>
+                <td class="fontbold number">{{getTotalChildCount()}}</td>
+                <td class="fontbold number">{{getTotalCaseMarks()}}</td>
+                <td class="fontbold number">{{getTotalCaseShortFall()}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-2 clearboth">
+          <div class="form-group">
+            <button class="btn btn-block btn-green" data-toggle="modal" data-target="#saveGeneratedTemplate"
+              ng-click="generateExamPaper()">Generate Questions</button>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <button class="btn btn-block btn-green" data-toggle="modal"
+              ng-disabled="(!(getTotalMarks() != '0') && !(getTotalCaseMarks() != '0'))"
+              data-target="#saveTemplate">Save Template</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <div class="push"></div>
+  </div>
+
+  <div id="saveTemplate" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content popUpbox">
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="resetField()" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Save Template</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Template Name*</label>
+            <input type="text" class="form-control" ng-model="templateName">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" ng-click="saveTemplate()" class="btn btnGreen" data-dismiss="modal"
+            ng-disabled="!templateName">Save</button>
+          <span class="redcolor pull-left">{{responseMessage}} </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loadTemplate" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content popUpbox">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Load Template</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Select Template*</label>
+            <select id="loadTemp" ng-model="loadTempDetails" class="form-control selectpicker">
+              <option value="" selected="selected">Select Template Name</option>
+              <option value="{{tempNames.id_pk}}" ng-repeat="tempNames in templateNames">{{tempNames.template_name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" ng-click="loadTemplateDetails()" class="btn btnGreen" data-dismiss="modal"
+            ng-disabled="!loadTempDetails">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div id="saveGeneratedTemplate" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+              <div class="modal-content popUpbox">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Save Generated Template</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="form-group" >
+                          <label>Do You Want to Save this Template?</label>
+                      </div>
+                  </div>
+
+                  <div class="modal-footer">
+                      <button type="button" ng-click="saveTemplate()" class="btn btnGreen" data-dismiss="modal">Save</button>
+                  </div>
+              </div>
+          </div>
+        </div> -->
+
+
+  <!-- footer section -->
+  <div class="footer">
+    <footer>
+      <div class="container ">
+        <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Right Reserve </div>
+    </footer>
+  </div>
+  <!-- footer section -->
+  <!-- cooling page end start here -->
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <!-- <script src="../../js/bootstrap.min.js"></script> -->
+  <script type="text/javascript">
+    $('.message a').click(function () {
+      $('form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, "slow");
+    });
+
+
+
+
+
+
+
+  </script>
+  <!-- <script src="../../../../../bower_components/jquery/jquery.min.js"></script>
+   <script src="../../../../../bower_components/angular/angular.min.js"></script> -->
+
+</body>
+
+
+</html>

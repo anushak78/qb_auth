@@ -1,0 +1,416 @@
+<head>
+
+  <style type="text/css">
+    .cke_editable {
+      display: block;
+      width: 100%;
+      height: 34px;
+      padding: 6px 12px;
+      font-size: 14px;
+      line-height: 1.42857143;
+      color: #555;
+      background-color: #fff;
+      background-image: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+      -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+      -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      margin-bottom: 15px;
+    }
+  </style>
+
+</head>
+
+
+
+
+<body>
+  <!-- cooling page code start here -->
+  <div class="wrapper">
+    <!-- header section -->
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <!-- Logo -->
+          <div class="logo">
+            <a href="#" class=""><img src="assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <!-- #logo end -->
+          <div class="col-sm-2 userDetails">
+            <div class="dropdown">
+              <button class="btn login-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{username}}
+                <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <!-- <li><a href="#">Another action</a></li> -->
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active" ng-if="loginUser.role == 'ADM'"><a ui-sref="adminDashboard">Dashboard</a></li>
+              <li><a ui-sref="qp_repository" class="active">Question Bank</a></li>
+              <li><a ui-sref="publishedExams">Published Exam</a></li>
+              <li class="dropdown"> <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown"
+                  role="button" aria-expanded="false">Exam Management <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Masters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="courseMaster">Course Master</a></li>
+                  <li><a ui-sref="subjectMaster">Subject Master</a></li>
+                  <li><a ui-sref="moduleMaster">Module Master</a></li>
+                  <li><a ui-sref="topicMaster">Unit Master</a></li>
+                  <li><a ui-sref="examMaster">Exam Master</a></li>
+                  <li><a ui-sref="userMaster">User Master</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+    </header>
+    <!-- header section -->
+
+    <!-- Main Body section -->
+    <div class="container ">
+
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" role="dialog">
+
+        <div class="modal-dialog modal-lg" style="width: 700px;">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Search</h4>
+            </div>
+            <div class="modal-body">
+              <script type="text/javascript">
+
+                jQuery(document).ready(function () {
+                  var id = 0;
+                  jQuery("#addrow").click(function () {
+                    id++;
+                    var row = jQuery('.samplerow tr').clone(true);
+                    row.find("input:text").val("");
+                    row.attr('id', id);
+                    row.appendTo('#dynamicTable1');
+                    return false;
+                  });
+
+                  $('.remove').on("click", function () {
+                    $(this).parents("tr").remove();
+                  });
+                });
+
+              </script>
+
+
+              <table id="dynamicTable1" width="100%" cellpadding="3" cellspacing="3">
+                <tr id="0">
+                  <td width="25%"><select class="form-control" id="sel2">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select></td>
+                  <td width="25%"><select class="form-control" id="sel2">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select></td>
+                  <td width="35%"><input type="text" id="fld3" class="form-control" /></td>
+                  <td width="15%">
+                    <a href="#" class="btn btn-default btnGreen " id="addrow">+</a>
+                  </td>
+                </tr>
+              </table>
+
+
+
+              <table class="samplerow" style="display:none" cellpadding="3" cellspacing="3">
+                <tr>
+                  <td width="25%"><select class="form-control" id="sel2">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select></td>
+                  <td width="25%"><select class="form-control" id="sel2">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select></td>
+                  <td width="35%"> <input type="text" id="fld3" class="form-control" /></td>
+                  <td width="15%"><a href="#" class="btn btn-default btn-danger remove" id="addScnt">-</a>
+                  </td>
+                </tr>
+              </table>
+
+            </div>
+            <div class="modal-footer text-left">
+              <button type="button" class="btn btn-default btnGreen" data-dismiss="modal">Search</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Reset</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="bodycontainer">
+        <ul ng-show="error_msg.length > 0" class="errormesg">
+          <li ng-repeat="err in error_msg">{{err}}</li>
+        </ul>
+        <div class="row addUpadateRow">
+          <div class="col-md-6">
+            <h4>Edit Question</h4>
+          </div>
+          <div class="col-md-6 text-right">
+            <button id="back" ng-if="adminEditQuestion.exampaper_fk" ui-sref="examPaperAdmin"
+              class="btnBordered">Back</button>
+            <button id="back" ng-if="!adminEditQuestion.exampaper_fk" ui-sref="qp_repository"
+              class="btnBordered">Back</button>
+          </div>
+        </div>
+
+
+
+        <div class="row" id="addQues">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 rightPan">
+            <div class="row">
+              <div class="col-md-3">
+                <b>Course name</b>
+
+                <select ng-model="selectedCourse"
+                  ng-options="course.qba_course_pk as course.qba_course_name for course in courseList"
+                  ng-change="getSubjectList('N')" class="form-control" disabled>
+                  <option value="">Select Course</option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <b>Subject</b>
+                <select ng-model="selectedSubject" class="form-control"
+                  ng-options="subject.qba_subject_pk as subject.subject_name for subject in subjectList"
+                  ng-change="getModuleList('N')" disabled>
+                  <option value="">Select Subject</option>
+                </select>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <b>Module</b>
+                <select ng-model="selectedModule" class="form-control selectpicker"
+                  ng-options="module.qba_module_pk as module.module_name for module in moduleList"
+                  ng-change="getTopicList('N')" disabled>
+                  <option value="">Select Module</option>
+                </select>
+              </div>
+
+              <div class="col-md-3"> <b>Unit</b>
+                <select ng-model="selectedTopic" class="form-control"
+                  ng-options="topic.qba_topic_pk as topic.topic_name for topic in topicList" disabled>
+                  <option value="">Select Unit</option>
+                </select>
+              </div>
+              <div class="col-md-1"> <b>Marks<span style="color: red"> *</span></b><input ng-model="editquestion.marks"
+                  type="number" class="form-control" name="" min="0.5" step="0.5" max="2">
+              </div>
+              <div class="col-md-2"> <b>Negative Marks</b><input ng-model="editquestion.negativeMarks" type="number"
+                  class="form-control smalltb" name="" max="0" step="0.25">
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <b>Question<span style="color: red"> *</span></b>
+                <textarea class="form-control" id="editor1" name="editor1">
+
+                          </textarea>
+              </div>
+
+            </div><br><br>
+            <!--  <div class="row">
+                          <div class="col-md-2">
+                          <b>Number of options:</b>
+                          <select id="selectOptions" ng-model="numOfOptions" 
+                          class="form-control smalltb"
+                          ng-change="addOrRemoveOptions()"
+                          ng-options="option.value for option in numOfOptionsList">                           
+                          </select>
+                          </div> 
+                       
+                        </div>  -->
+
+            <div id="top"></div>
+
+            <div class="row">
+              <div class="col-md-10">&nbsp;</div>
+              <div class="col-md-1 text-center textCorrectAns">Correct Answer<span style="color: red"> *</span></div>
+              <div class="col-md-1 text-center">
+                <button ng-click="addAlternatives()" class="btn btn-primary btn-success ">+</button>
+              </div>
+            </div>
+            <div id="alt{{$index+2}}" class="row" ng-repeat="alternative in ckEditAlternatives">
+              <div class="col-md-10 options">
+                <!-- <span style="color: red"> * </span>       -->
+                <textarea id="editor{{$index+2}}" class="form-control" name="editor{{$index+2}}">
+                             </textarea>
+              </div>
+              <div class="col-md-1 text-center">
+
+                <input ng-click="changeSelectedOption($index)" type="radio" ng-model="selectedOption"
+                  name="correctAnswer" ng-value="{{$index}}" required>
+              </div>
+
+              <div class="col-md-1 text-center">
+                <button ng-click="removeAlternatives($index+2)" class="btn btn-primary btn-danger ">-</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <b>Remarks</b>
+                <textarea class="form-control" id="editorRemarks" name="editorRemarks">
+
+                                      </textarea>
+              </div>
+            </div><br><br>
+            <div class="row">
+              <div class="col-md-12">
+                <b>Reference</b>
+                <textarea class="form-control" id="editorReference" name="editorReference">
+                                          </textarea>
+              </div>
+            </div><br><br>
+            <div class="row">
+              <div class="col-md-12">
+                <b>Calculations</b>
+                <textarea class="form-control" id="editorCalculations" name="editorCalculations">
+
+                                          </textarea>
+              </div>
+            </div><br><br>
+            <div class="row">
+              <div class="col-md-10">
+                <button ng-click="editQuestion()" class="btn btnGreen">Save</button> &nbsp; <button
+                  ng-click="afterEditSave();" class="btn btn-default">Cancel</button>
+              </div>
+            </div>
+
+          </div>
+
+          <button id="openMessageBox" style="display: none" data-toggle="modal" data-target="#messageBox"
+            class="btn btnGreen">message Box</button>
+
+          <button id="openConfirmationId" style="display: none" data-toggle="modal" data-target="#confirmationId"
+            class="btn btnGreen">ConfimId</button>
+
+
+          <div class="row">
+            <div class="col-sm-3">
+              <div id="messageBox" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content popUpbox">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">IIBF</h4>
+                    </div>
+                    <div class="modal-body">
+                      {{messageBox}}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btnGreen" data-dismiss="modal">Ok</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-sm-3">
+              <div id="confirmationId" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content popUpbox">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">IIBF</h4>
+                    </div>
+                    <div class="modal-body">
+                      Data Saved Successfully.
+                    </div>
+                    <div class="modal-footer">
+                      <button ng-click="afterEditSave();" type="button" class="btn btnGreen"
+                        data-dismiss="modal">Ok</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
+
+          </div>
+
+
+        </div>
+      </div>
+      <!-- Main Body section -->
+    </div><br><br>
+    <div class="push"></div>
+  </div>
+  <!-- footer section -->
+  <div class="footer">
+    <footer>
+      <div class="container ">
+        <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+    </footer>
+  </div>
+  <script type="text/javascript">
+    $('.message a').click(function () {
+      $('form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, "slow");
+    });
+
+
+
+
+  </script>
+  <!--<script src="http://pivot.mediumra.re/js/scripts.js"></script>-->
+  <!--<script type="text/javascript" src="../../assets/ckeditor/filter.js"></script>-->
+  <script type="text/javascript" src="../scripts/editQuestion.js"></script>
+
+</body>
+
+</html>

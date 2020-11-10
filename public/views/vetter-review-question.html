@@ -1,0 +1,336 @@
+<body>
+  <!-- cooling page code start here -->
+  <div class="wrapper">
+    <!-- header section -->
+    <header id="header">
+      <div class="container clearfix">
+        <div class="clearfix">
+          <!-- Logo -->
+          <div class="logo">
+            <a class=""><img src="/assets/images/logo.jpg" alt="Canvas Logo"></a>
+          </div>
+          <!-- #logo end -->
+          <div class="userDetails">
+            <div class="btn-group">
+              <button type="button" class="btn login-info"> <span class="glyphicon glyphicon-user"
+                  aria-hidden="true"></span> admin@gmail.com</button>
+              <button type="button" class="btn login-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a ui-sref="changePassword">Change Password</a></li>
+                <li><a>Another action</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a ng-controller="logOutController" ng-click="logout()">Log Out</a></li>
+              </ul>
+            </div>
+
+          </div>
+
+
+        </div>
+
+        <div class="nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active"><a ui-sref="qp_repository">Question Bank</a></li>
+              <li class="dropdown"> <a style="cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown"
+                  role="button" aria-expanded="false">Exam Management <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="culling">Culling</a></li>
+
+                </ul>
+              </li>
+              <li><a href="#">Exam Paper</a></li>
+              <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Reports <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+        <!--   <div style=" float: right;">
+                    <button class="btn btn-success">+ Create Exam Paper</button>
+                </div> -->
+    </header>
+    <!-- header section -->
+
+    <!-- Main Body section -->
+    <div class="container ">
+      <script src="/scripts/constantMap.js"></script>
+      <script type="text/javascript">
+      </script>
+      <div class="">
+        <div class="row containerPadding">
+          <div class="col-md-12 searchbar">
+            <div class="row">
+              <div class="col-md-3">
+                <span class="records"> Total Records : <b>{{countTopicListQuestions()}}</b></span>
+              </div>
+
+              <div class="col-md-9">
+                <div class="col-md-7"> Show
+                  <select ng-model="selectNoQstn" class="form-control mBottom0"
+                    style="width: 70px; height: 30px; display: inline-block;" ng-change="reloadPage()"
+                    ng-options="page.no_Qstn for page in NoQstnList">
+                  </select> Questions per page
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="containerPadding">
+          <div class="row row-eq-height">
+            <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 leftpan">
+              <ul class="left-nav">
+                <li ng-repeat="topic in topicList"><a ng-click="populateQuestions(topic)">{{topic.topic_name}}
+                    ({{topic.qcount}})</a></li>
+
+              </ul>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-9 col-lg-9 rightPan noPadding">
+
+
+
+              <div class="col-md-12" ng-if="repoQuestions.length > 0">
+                <div class="row paginationTop">
+                  <div class="col-md-6">
+                    <ul class="pagination">
+                      <li>
+                        Showing {{(countQst)>0?showOffset + 1:0}} to
+                        {{(showOffset + showQstn)>countQst?countQst:(showOffset + showQstn) | number}} of {{countQst}}
+                        entries
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pull-right">
+                      <nav aria-label="Page navigation ">
+                        <ul class="pagination">
+                          <li>
+                            <a aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                          </li>
+                          <li ng-repeat="page in pageList"><a ng-click="reloadData(page.id)">{{page.id}}</a></li>
+                          <li>
+                            <a aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+                <br>
+              </div>
+              <!-- Ng Repeat repoQuestions -->
+              <div ng-repeat="repoQues in repoQuestions" class="qSummery">
+
+                <!-- <p ng-show="repoQues.qst_pid==0">{{repoQues.qst_body}}</p> -->
+                <p ng-if="repoQues.qst_type == 'CS' && repoQues.qst_pid == '0'">{{repoQues.qst_body}}</p>
+                <!-- <p ng-if="repoQues.qst_type == 'M' && repoQues.qst_pid == '0'">{{repoQues.qst_body}}</p> -->
+
+                <!-- <div ng-hide="repoQues.qst_pid=0" class="qDetails"> -->
+                {{repoQues.qb_pk}}
+                <div ng-if="(repoQues.qst_type == 'CS' && repoQues.qst_pid != '0') || repoQues.qst_type == 'M'"
+                  class="qDetails">
+
+                  <button class="btnSmall">QB ID {{repoQues.qb_id}}</button>
+                  <button ng-if="repoQues.qst_type == 'M'" class="btnSmall">Multiple Choice</button>
+                  <button ng-if="repoQues.qst_type == 'CS'" class="btnSmall">Case Question</button>
+                  <button class="btnSmall">{{repoQues.qba_topic_master.topic_name}}</button>
+                  <button class="btnSmall">{{repoQues.qba_module_mstr.module_name}}</button>
+                  <button class="btnSmall">Marks {{repoQues.qst_marks | number:1}}</button>
+                  <button class="btnSmall" ng-click="editQuestionForVetter(repoQues);">Edit</button>
+                  <br><br>
+
+                  <p ng-if="repoQues.qst_body != ''" ng-bind-html="renderAsHtml(repoQues.qst_body)"></p>
+                  <img ng-if="repoQues.qbank_image.qbi_image_name != null"
+                    src="static/controllers/output/{{repoQues.qbank_image.qbi_image_name}}"><br>
+                  <ul class="options">
+                    <li ng-repeat="alternative in repoQues.qstn_alternatives">
+                      <div class="radiobtn">
+                        <input type="radio" name="" ng-checked="alternative.qta_is_corr_alt=='Y'" disabled>
+                      </div>
+                      <div class="answer">
+                        <div ng-bind-html="renderAsHtml(alternative.qta_alt_desc)"
+                          ng-class="{'boldCorrect':alternative.qta_is_corr_alt=='Y'}"></div>
+                        <img ng-if="alternative.qbank_image.qbi_image_name != null"
+                          src="static/controllers/output/{{alternative.qbank_image.qbi_image_name}}">
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="updatedBy">updated {{repoQues.qst_audit_dt | date: "MMMM dd, y h:mm a"}}, by
+                  {{repoQues.qst_audit_by}}</div>
+
+                <div class="tabSummery">
+                  <ul class="nav nav-tabs" id="myTab">
+                    <li id="remarkLi{{repoQues.qb_pk}}">
+                      <a data-target="#remark{{repoQues.qb_pk}}" data-toggle="tab"
+                        ng-click="remarkTabClicked(repoQues.qb_pk)">Remarks</a></li>
+                    <li id="referenceLi{{repoQues.qb_pk}}">
+                      <a data-target="#reference{{repoQues.qb_pk}}" ng-click="referenceTabClicked(repoQues.qb_pk)"
+                        data-toggle="tab">Reference</a></li>
+                    <li id="calculationLi{{repoQues.qb_pk}}">
+                      <a data-target="#calculation{{repoQues.qb_pk}}" ng-click="calculationTabClicked(repoQues.qb_pk)"
+                        data-toggle="tab">Calculation</a></li>
+                  </ul>
+
+                </div>
+
+                <div class="tab-content">
+
+                  <div class="tab-pane tabSummerydetails" id="remark{{repoQues.qb_pk}}">
+                    <h5>Remarks</h5>
+                    <p>{{repoQues.qst_remarks}}</p>
+                  </div>
+
+                  <div class="tab-pane tabSummerydetails" id="reference{{repoQues.qb_pk}}">
+                    <h5>Reference</h5>
+                    <p>{{repoQues.reference_info}}</p>
+                  </div>
+
+                  <div class="tab-pane tabSummerydetails" id="calculation{{repoQues.qb_pk}}">
+                    <h5>Calculation</h5>
+                    <p>{{repoQues.calculation_info}}</p>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <ul class="pagination">
+                      <li>
+                        Showing {{(countQst)>0?showOffset + 1:0}} to
+                        {{(showOffset + showQstn)>countQst?countQst:(showOffset + showQstn) | number}} of {{countQst}}
+                        entries
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pull-right">
+                      <nav aria-label="Page navigation ">
+                        <ul class="pagination">
+                          <li>
+                            <a aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                          </li>
+                          <li ng-repeat="page in pageList"><a ng-click="reloadData(page.id)">{{page.id}}</a></li>
+                          <!--  <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li> -->
+                          <!-- <li><a href="#">5</a></li> -->
+                          <li>
+                            <a aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Main Body section -->
+    </div>
+    <div class="push"></div>
+  </div>
+
+  <!--  <div class="row"> 
+                  <div class="col-sm-3">
+
+                   <div id="confirmationId" class="modal fade" role="dialog">
+                      <div class="modal-dialog">
+
+                
+                <div class="modal-content popUpbox">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">QGet</h4> 
+                  </div>
+                  <div class="modal-body">
+                    {{uploadResultMsg}}
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btnGreen" data-dismiss="modal">Ok</button>
+                  </div>
+                 
+                </div>
+
+                    </div>
+                </div>
+              </div>
+
+</div> -->
+
+
+  <!-- footer section -->
+  <div class="footer">
+    <footer>
+      <div class="container ">
+        <div class="fText"> &#169; Copyright 2018 NSEIT LTD All Rights Reserve </div>
+    </footer>
+  </div>
+  <!-- footer section -->
+  <!-- cooling page end start here -->
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+  <!-- <script src="../../js/bootstrap.min.js"></script> -->
+  <script type="text/javascript">
+    $('.message a').click(function () {
+      $('form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, "slow");
+    });
+
+
+    $(document).ready(function () {
+      $('#tab1').click(function () {
+        $('#tabDetails1').toggle();
+        $('#tabDetails2').hide();
+        $('#tabDetails3').hide();
+      });
+      $('#tab2').click(function () {
+        $('#tabDetails2').toggle();
+        $('#tabDetails1').hide();
+        $('#tabDetails3').hide();
+      });
+      $('#tab3').click(function () {
+        $('#tabDetails3').toggle();
+        $('#tabDetails2').hide();
+        $('#tabDetails1').hide();
+      });
+
+    });
+
+  </script>
+
+
+</body>
